@@ -211,14 +211,16 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
 }
 
 .featured-publication-content .publication-category { 
-    font-size: 0.875rem; /* 14px - AUGMENTÉ */
-    font-weight: 700;    /* Gras - AUGMENTÉ */
-    color: var(--color-accent-dark); /* Accent plus foncé - MODIFIÉ */
+    font-size: 0.9rem; 
+    font-weight: 800; 
+    color: var(--color-accent-dark); 
     text-transform: uppercase;
-    letter-spacing: 0.1em; /* Espacement accru - MODIFIÉ */
+    letter-spacing: 0.1em; 
     display: inline-block; 
-    margin-bottom: calc(var(--spacing-unit) * 2.5); /* 20px d'espace en dessous - AUGMENTÉ */
-    padding: calc(var(--spacing-unit) * 0.25) 0; /* Léger padding vertical pour l'assise */
+    margin-bottom: calc(var(--spacing-unit) * 2.5); 
+    padding-top: calc(var(--spacing-unit) * 1); /* Espace pour la ligne */
+    border-top: 2px solid var(--color-accent); /* Ligne d'accent au-dessus */
+    line-height: 1.2; /* Ajuster si besoin avec la bordure */
 }
 
 .featured-publication-content h3.publication-showcase-title { 
