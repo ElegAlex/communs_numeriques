@@ -212,19 +212,32 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
 }
 
 .featured-publication-content .publication-category { 
-    display: block; 
-    width: fit-content; 
-    margin: 0 auto calc(var(--spacing-unit) * 3) auto; 
-    padding: calc(var(--spacing-unit) * 1) calc(var(--spacing-unit) * 2.5); 
-    font-size: 0.9rem;   
-    font-weight: 700;    
-    letter-spacing: 0.1em; 
+    /* === NOUVEAUX STYLES POUR UN IMPACT MAXIMAL === */
+    display: inline-block; /* Ou block si vous voulez qu'il prenne toute la largeur et le centrer */
+    background-color: var(--color-accent-dark); /* Fond bleu foncé (votre accent) */
+    color: var(--color-background); /* Texte blanc pour contraste maximal */
+    
+    padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 3); /* Padding généreux : 12px 24px */
+    
+    font-size: 1.1rem;   /* AUGMENTÉ SIGNIFICATIVEMENT : ex: 17.6px */
+    font-weight: 700;    /* Gras (Bold) ou 800 (ExtraBold) si la police le permet bien */
+    letter-spacing: 0.075em; /* Espacement des lettres pour un look premium */
     text-transform: uppercase;
-    color: var(--color-background);         
-    background-color: var(--color-accent-dark); 
-    border-radius: var(--border-radius-sm); 
-    text-align: center; 
-    line-height: 1.2;
+    
+    border-radius: var(--border-radius-md); /* Coins arrondis : 8px */
+    
+    margin-bottom: calc(var(--spacing-unit) * 4); /* AUGMENTÉ : 32px d'espace en dessous */
+    
+    line-height: 1.2; /* Pour une bonne assise verticale du texte dans le tag */
+    
+    /* Optionnel : légère ombre portée pour le détacher */
+    /* box-shadow: 0 2px 8px rgba(0,0,0,0.1); */
+
+    /* Pour le centrer si display: block; (sur mobile, il sera centré car .featured-publication-content est text-align:center) */
+    /* Si vous le mettez en display: block : */
+    /* width: fit-content; */
+    /* margin-left: auto; */
+    /* margin-right: auto; */
 }
 
 .featured-publication-content h3.publication-showcase-title { 
