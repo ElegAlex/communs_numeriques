@@ -211,24 +211,22 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
     /* text-align: center; est appliqué via media query pour mobile */
 }
 
-/* === MODIFICATION RADICALE POUR LE TAG "Mémoire de Recherche" === */
 .publication-showcase-content .publication-category {
-    display: block; 
-    width: fit-content; 
-    margin: 0 auto calc(var(--spacing-unit) * 4) auto; /* Centré, 32px de marge en bas */
-    padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 3.5); /* Padding TRÈS généreux : 12px vertical, 28px horizontal */
-    background-color: var(--color-text); /* Fond NOIR pour impact maximal */
-    color: var(--color-background); /* Texte BLANC */
-    font-size: 1.1rem;   /* TAILLE AUGMENTÉE : ex: 17.6px (ou 1.25rem si vous osez) */
-    font-weight: 700;    /* GRAS */
-    letter-spacing: 0.1em; 
+    display: block; /* ou inline-block si vous préférez, mais block avec width:fit-content peut être utile */
+    width: fit-content; /* Important si display: block pour ne pas prendre toute la largeur */
+    /* Si display: block et width: fit-content, il faut gérer le centrage sur mobile: */
+    /* Sur mobile, le parent .publication-showcase-content est text-align: center, donc il sera centré */
+    /* Sur desktop, il sera aligné à gauche car le parent est text-align: left */
+    margin-bottom: calc(var(--spacing-unit) * 2); /* Un peu moins de marge */
+    color: var(--color-accent-dark); /* Couleur d'accent un peu plus foncée pour meilleure lisibilité */
+    /* ou simplement var(--color-text-light) pour un gris élégant */
+    font-size: 0.95rem;
+    font-weight: 600; /* ou 700 si la couleur est claire */
+    letter-spacing: 0.1em; /* Augmente l'espacement pour un effet "titre" */
     text-transform: uppercase;
-    border-radius: var(--border-radius-sm); /* Coins légèrement arrondis */
-    text-align: center;
     line-height: 1.2;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.2); /* Ombre pour le détacher */
+    /* Pas de padding, pas de bordure, pas de fond */
 }
-/* === FIN MODIFICATION RADICALE === */
 
 
 .featured-publication-content h3.publication-showcase-title { 
