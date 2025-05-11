@@ -90,14 +90,12 @@ h2.section-title { /* Pour titres de section Hero, About, Contact */
     gap: var(--spacing-unit);
 }
 
-.section-title-icon { /* Icônes à côté des h2.section-title */
+.section-title-icon { 
     width: calc(var(--spacing-unit) * 3.5);
     height: calc(var(--spacing-unit) * 3.5);
     color: var(--color-accent);
     flex-shrink: 0;
 }
-
-/* h3, h4 sont définis plus spécifiquement pour leur contexte plus bas */
 
 p {
     margin-bottom: calc(var(--spacing-unit) * 2.5);
@@ -156,25 +154,24 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
 .about-image-wrapper { flex-shrink: 0; max-width: 400px; width: 100%; }
 .about-image-item { border-radius: var(--border-radius-lg); box-shadow: 0 10px 25px rgba(0,0,0,0.07), 0 5px 10px rgba(0,0,0,0.04); }
 
-/* === SECTION PUBLICATIONS - DESIGN PREMIUM ASYMETRIQUE (NOUVEAU) === */
+/* === SECTION PUBLICATIONS - DESIGN PREMIUM ASYMETRIQUE === */
 #publications {
     background-color: var(--color-background); 
     padding-top: calc(var(--spacing-unit) * 15); 
     padding-bottom: calc(var(--spacing-unit) * 15); 
 }
 
-.section-header-premium { /* Utilisé pour le titre de la section #publications */
+.section-header-premium { 
     margin-bottom: calc(var(--spacing-unit) * 10); 
 }
-.section-header-premium h2 { /* Cible spécifiquement le h2 dans ce header premium */
+.section-header-premium h2 { 
     font-size: clamp(2.25rem, 5vw, 3.5rem); 
     font-weight: 800;
     letter-spacing: -0.03em;
     margin-bottom: calc(var(--spacing-unit) * 2);
-    /* Annuler le flex du .section-title général si la classe est partagée, ou utiliser une classe unique */
     display: block; 
-    text-align: center; /* ou left */
-    gap: 0; /* Annuler le gap du .section-title général */
+    text-align: center; 
+    gap: 0; 
 }
 .section-header-premium .section-subtitle-premium {
     font-size: 1.125rem;
@@ -190,7 +187,7 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
     grid-template-columns: 1fr; 
     gap: calc(var(--spacing-unit) * 5);
     align-items: center;
-    margin-bottom: calc(var(--spacing-unit) * 12); 
+    margin-bottom: calc(var(--spacing-unit) * 16); /* ESPACEMENT AUGMENTÉ */
 }
 
 .featured-publication-image-wrapper {
@@ -214,21 +211,22 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
 }
 
 .featured-publication-content .publication-category { 
-    font-size: 0.8rem; 
-    font-weight: 600; 
-    color: var(--color-accent); 
+    font-size: 0.875rem; /* 14px - AUGMENTÉ */
+    font-weight: 700;    /* Gras - AUGMENTÉ */
+    color: var(--color-accent-dark); /* Accent plus foncé - MODIFIÉ */
     text-transform: uppercase;
-    letter-spacing: 0.08em; 
-    display: block;
-    margin-bottom: calc(var(--spacing-unit) * 2); 
+    letter-spacing: 0.1em; /* Espacement accru - MODIFIÉ */
+    display: inline-block; 
+    margin-bottom: calc(var(--spacing-unit) * 2.5); /* 20px d'espace en dessous - AUGMENTÉ */
+    padding: calc(var(--spacing-unit) * 0.25) 0; /* Léger padding vertical pour l'assise */
 }
 
-.featured-publication-content h3.publication-showcase-title { /* Plus spécifique pour le titre du mémoire */
+.featured-publication-content h3.publication-showcase-title { 
     font-size: clamp(1.75rem, 4.5vw, 2.75rem); 
     font-weight: 800; 
     line-height: 1.2;
     letter-spacing: -0.02em;
-    margin-top: 0; /* Si .publication-category est au-dessus */
+    margin-top: 0; 
     margin-bottom: calc(var(--spacing-unit) * 2.5); 
 }
 .publication-showcase-title a {
@@ -238,7 +236,7 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
 }
 .publication-showcase-title a:hover {
     color: var(--color-accent);
-    text-decoration: none; /* Eviter le soulignement si le titre est déjà un point focal */
+    text-decoration: none; 
 }
 
 .featured-publication-excerpt {
@@ -269,14 +267,14 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
 .cta-link:hover .arrow {
     transform: translateX(5px);
 }
-.cta-button-small { /* Pour le bouton "Lire le mémoire intégral" */
+.cta-button-small { 
     padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 4);
     font-size: 0.9rem;
 }
 
 /* Liste des autres articles récents */
-.other-publications {
-    margin-top: calc(var(--spacing-unit) * 8);
+.recent-articles-list {
+    margin-top: calc(var(--spacing-unit) * 10); /* ESPACEMENT AUGMENTÉ */
 }
 
 .other-publications-title { 
@@ -290,24 +288,30 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
 .recent-articles-list ul {
     list-style: none;
     padding-left: 0;
+    display: flex; 
+    flex-direction: column;
+    gap: calc(var(--spacing-unit) * 1); 
 }
+
 .recent-articles-list li {
-    border-bottom: 1px solid var(--color-border-light);
-    transition: background-color 0.2s ease;
-}
-.recent-articles-list li:last-child {
-    border-bottom: none;
-}
-.recent-articles-list li:hover {
+    transition: background-color 0.25s ease-out, box-shadow 0.25s ease-out, transform 0.2s ease-out;
     background-color: var(--color-neutral-light); 
+    border-radius: var(--border-radius-md); 
+}
+
+.recent-articles-list li:hover {
+    background-color: var(--color-background); 
+    transform: translateY(-2px); 
+    box-shadow: 0 6px 15px rgba(38,50,56,0.07); 
 }
 
 .recent-articles-list li a {
     display: flex; 
     align-items: center; 
-    padding: calc(var(--spacing-unit) * 2.5) calc(var(--spacing-unit) * 1); 
+    padding: calc(var(--spacing-unit) * 2.5) calc(var(--spacing-unit) * 3); 
     text-decoration: none;
     color: var(--color-text);
+    border-radius: inherit; 
 }
 
 .article-item-title {
@@ -413,11 +417,10 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
     body { font-size: 1rem; }
     h1 { font-size: clamp(1.875rem, 7vw, 2.5rem); }
     h2.section-title { font-size: clamp(1.5rem, 6vw, 2rem); margin-bottom: calc(var(--spacing-unit) * 5); }
-    /* Ajustement spécifique pour le titre de section .section-header-premium h2 sur mobile */
     .section-header-premium h2 { font-size: clamp(2rem, 6vw, 2.75rem); }
 
     main > section { padding: calc(var(--spacing-unit) * 8) 0; }
-    #publications { padding-top: calc(var(--spacing-unit) * 10); padding-bottom: calc(var(--spacing-unit) * 10); } /* Moins de padding pour la section publications sur mobile */
+    #publications { padding-top: calc(var(--spacing-unit) * 10); padding-bottom: calc(var(--spacing-unit) * 10); } 
 
     .full-height-section { padding-top: calc(var(--header-height) + var(--spacing-unit) * 2); padding-bottom: calc(var(--spacing-unit) * 4); }
     .article-page-section { padding-top: calc(var(--header-height) + var(--spacing-unit) * 4); padding-bottom: calc(var(--spacing-unit) * 6); }
@@ -433,10 +436,10 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
 
     .featured-publication-content h3.publication-showcase-title { font-size: clamp(1.5rem, 5vw, 2rem); }
     .featured-publication-excerpt { font-size: 0.95rem; }
-    .other-publications-title { text-align: center; } /* Centrer le titre des autres articles sur mobile */
+    .other-publications-title { text-align: center; } 
 }
 
-@media (min-width: 769px) { /* Styles pour desktop et tablettes larges */
+@media (min-width: 769px) { 
     .about-content { flex-direction: row; align-items: flex-start; gap: calc(var(--spacing-unit) * 8); }
     .about-text { flex-basis: 60%; }
     .about-image-wrapper { flex-basis: 40%; position: sticky; top: calc(var(--header-height) + var(--spacing-unit) * 4); }
@@ -469,7 +472,6 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
 @media (min-width: 992px) {
     .article-list {
         grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); 
-        /* Vous pouvez forcer 2 ou 3 colonnes ici si vous préférez, ex: grid-template-columns: repeat(2, 1fr); */
     }
      .article-item-description {
         max-width: 300px; 
@@ -491,7 +493,7 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; transition-delay: 0ms !important; }
   .animate-on-scroll { opacity: 1; transform: none; }
   .featured-publication-image-wrapper:hover { transform: none; }
-  .article-list-item:hover { transform: none; }
+  .recent-articles-list li:hover { transform: none; box-shadow: none; } /* Annuler l'ombre au survol aussi */
   .read-more:hover .read-more-icon, .read-more:focus .read-more-icon { transform: none; }
   .social-links a:hover, .social-links a:focus { transform: none; }
   .cta-button:hover, .cta-button:focus { transform: none; }
