@@ -211,22 +211,24 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
     /* text-align: center; est appliqué via media query pour mobile */
 }
 
-/* STYLE BADGE/ÉTIQUETTE POUR "Mémoire de Recherche" */
+/* === MODIFICATION RADICALE POUR LE TAG "Mémoire de Recherche" === */
 .featured-publication-content .publication-category { 
-    display: inline-block; 
-    background-color: var(--color-accent-dark); 
-    color: var(--color-background);      
-    padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2.5); /* 10px 20px */
-    font-size: 0.9rem;   /* 14.4px */
-    font-weight: 600;    /* Semi-gras */
-    letter-spacing: 0.075em; 
+    display: block; 
+    width: fit-content; 
+    margin: 0 auto calc(var(--spacing-unit) * 4) auto; /* Centré, 32px de marge en bas */
+    padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 3.5); /* Padding TRÈS généreux : 12px vertical, 28px horizontal */
+    background-color: var(--color-text); /* Fond NOIR pour impact maximal */
+    color: var(--color-background); /* Texte BLANC */
+    font-size: 1.1rem;   /* TAILLE AUGMENTÉE : ex: 17.6px (ou 1.25rem si vous osez) */
+    font-weight: 700;    /* GRAS */
+    letter-spacing: 0.1em; 
     text-transform: uppercase;
-    border-radius: var(--border-radius-md); 
-    margin-bottom: calc(var(--spacing-unit) * 3.5); /* 28px */
-    line-height: 1.3;
-    /* Centrage géré par text-align:center sur .featured-publication-content sur mobile */
+    border-radius: var(--border-radius-sm); /* Coins légèrement arrondis */
+    text-align: center;
+    line-height: 1.2;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2); /* Ombre pour le détacher */
 }
-/* FIN STYLE BADGE */
+/* === FIN MODIFICATION RADICALE === */
 
 
 .featured-publication-content h3.publication-showcase-title { 
@@ -501,7 +503,7 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
     }
     .featured-publication-content .publication-category {
         margin-left: 0; 
-        /* margin-right: auto; /* Plus besoin si le parent est text-align: left */
+        /* margin-right: auto; /* Retiré car le parent est text-align: left sur desktop */
     }
     .featured-publication-content h3.publication-showcase-title,
     .featured-publication-excerpt,
