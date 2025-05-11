@@ -208,37 +208,25 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
 
 .featured-publication-content {
     padding: var(--spacing-unit) 0;
-    /* text-align: center; est appliqué via media query pour mobile */
 }
 
+/* MODIFICATION POUR LE TAG "Mémoire de Recherche" - APPROCHE 2 (BADGE) */
 .featured-publication-content .publication-category { 
-    /* === NOUVEAUX STYLES POUR UN IMPACT MAXIMAL === */
-    display: inline-block; /* Ou block si vous voulez qu'il prenne toute la largeur et le centrer */
-    background-color: var(--color-accent-dark); /* Fond bleu foncé (votre accent) */
-    color: var(--color-background); /* Texte blanc pour contraste maximal */
-    
-    padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 3); /* Padding généreux : 12px 24px */
-    
-    font-size: 1.1rem;   /* AUGMENTÉ SIGNIFICATIVEMENT : ex: 17.6px */
-    font-weight: 700;    /* Gras (Bold) ou 800 (ExtraBold) si la police le permet bien */
-    letter-spacing: 0.075em; /* Espacement des lettres pour un look premium */
+    display: inline-block; 
+    background-color: var(--color-accent-dark); /* Fond avec la couleur d'accent foncée */
+    color: var(--color-background);      /* Texte blanc */
+    padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2.5); /* Padding augmenté (ex: 10px 20px) */
+    font-size: 0.9rem;   /* Taille augmentée (ex: 14.4px) */
+    font-weight: 600;    /* Semi-gras (ou 700 si préféré) */
+    letter-spacing: 0.075em; 
     text-transform: uppercase;
-    
-    border-radius: var(--border-radius-md); /* Coins arrondis : 8px */
-    
-    margin-bottom: calc(var(--spacing-unit) * 4); /* AUGMENTÉ : 32px d'espace en dessous */
-    
-    line-height: 1.2; /* Pour une bonne assise verticale du texte dans le tag */
-    
-    /* Optionnel : légère ombre portée pour le détacher */
-    /* box-shadow: 0 2px 8px rgba(0,0,0,0.1); */
-
-    /* Pour le centrer si display: block; (sur mobile, il sera centré car .featured-publication-content est text-align:center) */
-    /* Si vous le mettez en display: block : */
-    /* width: fit-content; */
-    /* margin-left: auto; */
-    /* margin-right: auto; */
+    border-radius: var(--border-radius-md); /* Coins bien arrondis */
+    margin-bottom: calc(var(--spacing-unit) * 3.5); /* Espace en dessous augmenté (28px) */
+    line-height: 1.2;
+    /* Pour le centrer si display: block; et width: fit-content; (géré par text-align:center du parent sur mobile) */
 }
+/* FIN MODIFICATION POUR LE TAG */
+
 
 .featured-publication-content h3.publication-showcase-title { 
     font-size: clamp(2rem, 5vw, 3rem); 
@@ -247,7 +235,7 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
     letter-spacing: -0.025em;
     margin-top: 0; 
     margin-bottom: calc(var(--spacing-unit) * 3); 
-    text-align: center; /* Centré par défaut, ajusté sur desktop si layout asymétrique */
+    text-align: center; 
 }
 .publication-showcase-title a {
     color: var(--color-text);
@@ -267,10 +255,10 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
     margin-right: auto; 
     margin-bottom: calc(var(--spacing-unit) * 4);
     max-width: 60ch; 
-    text-align: center; /* Centré par défaut, ajusté sur desktop */
+    text-align: center; 
 }
 
-.featured-publication-content .cta-link { /* Assurer le centrage du cta-link */
+.featured-publication-content .cta-link { 
     display: flex; 
     justify-content: center; 
     margin-left: auto;
@@ -292,10 +280,17 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
 .cta-link:hover .arrow {
     transform: translateX(5px);
 }
-.cta-button-small { 
-    /* Ce style est déjà dans .cta-button, on peut surcharger si besoin ou utiliser .cta-link pour le mémoire */
-    /* Si .cta-button est utilisé, il sera déjà stylé. Le .cta-link est plus textuel. */
+.cta-button-small { /* Utilisé pour le bouton "Lire le mémoire intégral" */
+    /* Hérite de .cta-button, on peut surcharger ici si besoin */
+    /* Par exemple, pour qu'il soit moins proéminent que le CTA principal du hero : */
+    /* background-color: transparent; */
+    /* color: var(--color-accent); */
+    /* border: 1px solid var(--color-accent); */
+    padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 4);
+    font-size: 0.9rem;
 }
+/* Si .cta-button-small est utilisé comme un .cta-link, s'assurer qu'il est stylé en conséquence */
+/* Ou simplement utiliser .cta-link pour le mémoire si on veut un lien texte */
 
 
 /* Liste des autres articles récents */
@@ -304,10 +299,10 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
 }
 
 .other-publications-title { 
-    font-size: 1.5rem; 
-    font-weight: 700;
+    font-size: 1.25rem; 
+    font-weight: 600;   
     color: var(--color-text);
-    margin-bottom: calc(var(--spacing-unit) * 4);
+    margin-bottom: calc(var(--spacing-unit) * 3); 
     text-align: left; 
 }
 
@@ -316,7 +311,7 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
     padding-left: 0;
     display: flex; 
     flex-direction: column;
-    gap: calc(var(--spacing-unit) * 1); 
+    gap: calc(var(--spacing-unit) * 0.5); 
 }
 
 .recent-articles-list li {
@@ -348,18 +343,21 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
     transition: color 0.2s ease;
 }
 .article-item-description {
-    font-size: 0.85rem;
+    font-size: 0.875rem; /* Légèrement augmenté */
     color: var(--color-text-light);
     flex-shrink: 0; 
-    margin-right: calc(var(--spacing-unit) * 2); 
+    margin-left: auto; /* Pour pousser vers la droite près de la flèche */
+    padding-left: var(--spacing-unit) * 2; /* Espace si le titre est court */
     white-space: nowrap; 
     overflow: hidden; 
     text-overflow: ellipsis; 
-    max-width: 250px; 
+    max-width: 280px; /* Un peu plus de place */
+    text-align: right; 
 }
 .article-item-arrow {
-    font-size: 1.2rem;
+    font-size: 1.2rem; 
     color: var(--color-accent);
+    margin-left: calc(var(--spacing-unit) * 2); 
     transition: transform 0.2s ease;
     flex-shrink: 0;
 }
@@ -369,7 +367,7 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
     text-decoration: none;
 }
 .recent-articles-list li a:hover .article-item-arrow {
-    transform: translateX(5px);
+    transform: translateX(4px);
 }
 /* FIN DES STYLES POUR LA NOUVELLE SECTION PUBLICATIONS */
 
@@ -465,7 +463,7 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
         text-align: center; 
     }
     .featured-publication-content .publication-category {
-        margin-left: auto; /* Assurer le centrage du tag s'il est block/inline-block */
+        margin-left: auto; 
         margin-right: auto;
     }
      .featured-publication-content h3.publication-showcase-title { 
@@ -492,7 +490,7 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
     .featured-publication {
         grid-template-columns: minmax(300px, 1.3fr) 1fr; 
         gap: calc(var(--spacing-unit) * 10); 
-        align-items: flex-start; 
+        align-items: center; /* Changé de flex-start à center pour mieux aligner si le texte est court */ 
         text-align: left; 
     }
     .featured-publication.layout-image-right { 
@@ -506,19 +504,19 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
     }
     .featured-publication-content {
         padding: calc(var(--spacing-unit) * 1) 0; 
-        text-align: left; /* Assurer l'alignement à gauche sur desktop */
+        text-align: left; 
     }
     .featured-publication-content .publication-category {
-        margin-left: 0; /* Réaligner le tag à gauche */
-        margin-right: auto; /* Permet au width:fit-content de fonctionner */
+        margin-left: 0; 
+        margin-right: auto; 
     }
     .featured-publication-content h3.publication-showcase-title,
     .featured-publication-excerpt,
     .featured-publication-content .cta-link {
-        text-align: left; /* Réaligner à gauche */
+        text-align: left; 
         margin-left: 0;
         margin-right: 0;
-        justify-content: flex-start; /* Pour le cta-link */
+        justify-content: flex-start; 
     }
     .other-publications-title {
         text-align: left;
@@ -551,7 +549,6 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
   .animate-on-scroll { opacity: 1; transform: none; }
   .featured-publication-image-wrapper:hover { transform: none; }
   .recent-articles-list li:hover { transform: none; box-shadow: none; } 
-  /* .read-more:hover .read-more-icon (cette classe n'est plus utilisée sur la page d'accueil) */
   .social-links a:hover, .social-links a:focus { transform: none; }
   .cta-button:hover, .cta-button:focus { transform: none; }
   .cta-button-secondary:hover, .cta-button-secondary:focus { transform: none; }
