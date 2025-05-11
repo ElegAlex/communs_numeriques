@@ -209,7 +209,7 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
 
 /* Titre H3 du mémoire */
 .publication-showcase-content h3.publication-showcase-title {
-    font-size: clamp(1.75rem, 4.5vw, 2.75rem);
+    font-size: clamp(1.25rem, 3.2vw, 2rem); /* MODIFIÉ : Taille réduite */
     font-weight: 800;
     line-height: 1.2;
     letter-spacing: -0.025em;
@@ -228,13 +228,13 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
 
 /* Styles pour la zone de l'image, maintenant DANS .publication-showcase-content */
 .publication-showcase-content .publication-showcase-image-area {
-    margin-top: 0; /* La marge est maintenant entre le H3 et cette div */
+    margin-top: 0;
     margin-bottom: calc(var(--spacing-unit) * 4); /* Espace entre l'image et l'extrait */
     border-radius: var(--border-radius-lg);
     overflow: hidden;
     box-shadow: 0 15px 40px rgba(38, 50, 56, 0.1), 0 8px 15px rgba(38, 50, 56, 0.06);
     transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-    /* L'image sera à gauche sur desktop, centrée sur mobile (grâce au text-align du parent et margin auto ci-dessous si max-width < 100%) */
+    max-width: 100%; /* MODIFIÉ : Assure que l'image prend toute la largeur */
 }
 .publication-showcase-content .publication-showcase-image-area:hover {
     transform: translateY(-8px) scale(1.02);
@@ -253,8 +253,6 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
     line-height: 1.8;
     margin-bottom: calc(var(--spacing-unit) * 4);
     max-width: 65ch;
-    /* Sur mobile, margin auto via media query pour centrer si max-width est utilisé. */
-    /* Sur desktop, il sera aligné à gauche par le text-align: left du parent. */
 }
 
 /* Lien CTA */
@@ -285,12 +283,11 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
     margin-top: calc(var(--spacing-unit) * 10);
 }
 
-.recent-articles-title { /* MODIFIÉ: renommage de other-publications-title pour cohérence avec HTML */
+.recent-articles-title {
     font-size: 1.25rem;
     font-weight: 600;
     color: var(--color-text);
     margin-bottom: calc(var(--spacing-unit) * 3);
-    /* text-align est géré par les media queries plus bas (center sur mobile, left sur desktop) */
 }
 
 .recent-articles-list ul {
@@ -450,7 +447,7 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
         text-align: center;
     }
     .publication-showcase-content .publication-showcase-title {
-        font-size: clamp(1.5rem, 5vw, 2.25rem);
+        font-size: clamp(1.1rem, 4vw, 1.6rem); /* MODIFIÉ : Taille mobile réduite */
     }
     .publication-showcase-content .publication-showcase-excerpt {
         font-size: 1rem;
@@ -461,9 +458,9 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
     .publication-showcase-content .publication-showcase-image-area {
         margin-left: auto;
         margin-right: auto;
-        max-width: 95%; /* L'image peut prendre presque toute la largeur sur mobile */
+        max-width: 100%; /* MODIFIÉ : Assure toute la largeur sur mobile */
     }
-    .recent-articles-title { /* ANCIEN: .other-publications-title */
+    .recent-articles-title {
         text-align: center;
     }
 }
@@ -478,24 +475,16 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
         text-align: left;
     }
     .publication-showcase-content .publication-showcase-image-area {
-        max-width: 650px; /* Limite la largeur de l'image sur desktop */
-        /* Elle sera alignée à gauche par text-align:left du parent,
-           si vous la vouliez centrée avec cette max-width, il faudrait margin-left/right: auto; */
-    }
-    .publication-showcase-content .publication-showcase-excerpt {
-        /* max-width: 65ch; /* Déjà défini plus haut, s'applique bien ici */
-        /* Pas besoin de margin auto ici, car text-align:left s'en charge */
+        max-width: 100%; /* MODIFIÉ : Assure toute la largeur sur desktop */
     }
 
-    .recent-articles-title { /* ANCIEN: .other-publications-title */
+    .recent-articles-title {
         text-align: left;
         margin-bottom: calc(var(--spacing-unit) * 4);
     }
 }
 
 @media (min-width: 992px) {
-    /* .article-list était utilisé pour une autre section, pas de changement nécessaire ici
-       si ce n'est pas lié à la mise en page du mémoire. */
      .article-item-description {
         max-width: 300px;
     }
@@ -515,8 +504,7 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; transition-delay: 0ms !important; }
   .animate-on-scroll { opacity: 1; transform: none; }
-  .featured-publication-image-wrapper:hover { transform: none; } /* Note: Cette classe n'existe plus au niveau global */
-  .publication-showcase-content .publication-showcase-image-area:hover { transform: none; } /* Cible corrigée */
+  .publication-showcase-content .publication-showcase-image-area:hover { transform: none; }
   .recent-articles-list li:hover { transform: none; box-shadow: none; }
   .social-links a:hover, .social-links a:focus { transform: none; }
   .cta-button:hover, .cta-button:focus { transform: none; }
