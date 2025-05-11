@@ -187,7 +187,7 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
     grid-template-columns: 1fr; 
     gap: calc(var(--spacing-unit) * 5);
     align-items: center;
-    margin-bottom: calc(var(--spacing-unit) * 16); /* ESPACEMENT AUGMENTÉ */
+    margin-bottom: calc(var(--spacing-unit) * 16); 
 }
 
 .featured-publication-image-wrapper {
@@ -208,28 +208,33 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
 
 .featured-publication-content {
     padding: var(--spacing-unit) 0;
+    /* text-align: center; est appliqué via media query pour mobile */
 }
 
 .featured-publication-content .publication-category { 
-    font-size: 0.9rem; 
-    font-weight: 800; 
-    color: var(--color-accent-dark); 
-    text-transform: uppercase;
+    display: block; 
+    width: fit-content; 
+    margin: 0 auto calc(var(--spacing-unit) * 3) auto; 
+    padding: calc(var(--spacing-unit) * 1) calc(var(--spacing-unit) * 2.5); 
+    font-size: 0.9rem;   
+    font-weight: 700;    
     letter-spacing: 0.1em; 
-    display: inline-block; 
-    margin-bottom: calc(var(--spacing-unit) * 2.5); 
-    padding-top: calc(var(--spacing-unit) * 1); /* Espace pour la ligne */
-    border-top: 2px solid var(--color-accent); /* Ligne d'accent au-dessus */
-    line-height: 1.2; /* Ajuster si besoin avec la bordure */
+    text-transform: uppercase;
+    color: var(--color-background);         
+    background-color: var(--color-accent-dark); 
+    border-radius: var(--border-radius-sm); 
+    text-align: center; 
+    line-height: 1.2;
 }
 
 .featured-publication-content h3.publication-showcase-title { 
-    font-size: clamp(1.75rem, 4.5vw, 2.75rem); 
+    font-size: clamp(2rem, 5vw, 3rem); 
     font-weight: 800; 
-    line-height: 1.2;
-    letter-spacing: -0.02em;
+    line-height: 1.15; 
+    letter-spacing: -0.025em;
     margin-top: 0; 
-    margin-bottom: calc(var(--spacing-unit) * 2.5); 
+    margin-bottom: calc(var(--spacing-unit) * 3); 
+    text-align: center; /* Centré par défaut, ajusté sur desktop si layout asymétrique */
 }
 .publication-showcase-title a {
     color: var(--color-text);
@@ -242,16 +247,21 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
 }
 
 .featured-publication-excerpt {
-    font-size: 1.05rem; 
+    font-size: 1.1rem; 
     color: var(--color-text-light);
-    line-height: 1.75;
+    line-height: 1.8;
+    margin-left: auto;  
+    margin-right: auto; 
     margin-bottom: calc(var(--spacing-unit) * 4);
-    max-width: 55ch; 
+    max-width: 60ch; 
+    text-align: center; /* Centré par défaut, ajusté sur desktop */
 }
 
-.cta-link {
-    display: inline-flex;
-    align-items: center;
+.featured-publication-content .cta-link { /* Assurer le centrage du cta-link */
+    display: flex; 
+    justify-content: center; 
+    margin-left: auto;
+    margin-right: auto;
     font-size: 1rem;
     font-weight: 600;
     color: var(--color-accent);
@@ -270,13 +280,14 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
     transform: translateX(5px);
 }
 .cta-button-small { 
-    padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 4);
-    font-size: 0.9rem;
+    /* Ce style est déjà dans .cta-button, on peut surcharger si besoin ou utiliser .cta-link pour le mémoire */
+    /* Si .cta-button est utilisé, il sera déjà stylé. Le .cta-link est plus textuel. */
 }
+
 
 /* Liste des autres articles récents */
 .recent-articles-list {
-    margin-top: calc(var(--spacing-unit) * 10); /* ESPACEMENT AUGMENTÉ */
+    margin-top: calc(var(--spacing-unit) * 10); 
 }
 
 .other-publications-title { 
@@ -436,9 +447,28 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
     .about-content { flex-direction: column; }
     .about-image-wrapper { order: -1; margin-bottom: calc(var(--spacing-unit) * 4); }
 
-    .featured-publication-content h3.publication-showcase-title { font-size: clamp(1.5rem, 5vw, 2rem); }
-    .featured-publication-excerpt { font-size: 0.95rem; }
-    .other-publications-title { text-align: center; } 
+    /* Responsive pour nouvelle section publications */
+    .featured-publication-content {
+        text-align: center; 
+    }
+    .featured-publication-content .publication-category {
+        margin-left: auto; /* Assurer le centrage du tag s'il est block/inline-block */
+        margin-right: auto;
+    }
+     .featured-publication-content h3.publication-showcase-title { 
+        font-size: clamp(1.5rem, 5vw, 2rem); 
+        text-align: center;
+    }
+    .featured-publication-excerpt { 
+        font-size: 0.95rem; 
+        text-align: center;
+    }
+    .featured-publication-content .cta-link {
+        justify-content: center;
+    }
+    .other-publications-title {
+        text-align: center; 
+    }
 }
 
 @media (min-width: 769px) { 
@@ -463,8 +493,20 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
     }
     .featured-publication-content {
         padding: calc(var(--spacing-unit) * 1) 0; 
+        text-align: left; /* Assurer l'alignement à gauche sur desktop */
     }
-
+    .featured-publication-content .publication-category {
+        margin-left: 0; /* Réaligner le tag à gauche */
+        margin-right: auto; /* Permet au width:fit-content de fonctionner */
+    }
+    .featured-publication-content h3.publication-showcase-title,
+    .featured-publication-excerpt,
+    .featured-publication-content .cta-link {
+        text-align: left; /* Réaligner à gauche */
+        margin-left: 0;
+        margin-right: 0;
+        justify-content: flex-start; /* Pour le cta-link */
+    }
     .other-publications-title {
         text-align: left;
         margin-bottom: calc(var(--spacing-unit) * 4);
@@ -495,8 +537,8 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; transition-delay: 0ms !important; }
   .animate-on-scroll { opacity: 1; transform: none; }
   .featured-publication-image-wrapper:hover { transform: none; }
-  .recent-articles-list li:hover { transform: none; box-shadow: none; } /* Annuler l'ombre au survol aussi */
-  .read-more:hover .read-more-icon, .read-more:focus .read-more-icon { transform: none; }
+  .recent-articles-list li:hover { transform: none; box-shadow: none; } 
+  /* .read-more:hover .read-more-icon (cette classe n'est plus utilisée sur la page d'accueil) */
   .social-links a:hover, .social-links a:focus { transform: none; }
   .cta-button:hover, .cta-button:focus { transform: none; }
   .cta-button-secondary:hover, .cta-button-secondary:focus { transform: none; }
