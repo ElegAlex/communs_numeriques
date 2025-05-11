@@ -208,24 +208,25 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
 
 .featured-publication-content {
     padding: var(--spacing-unit) 0;
+    /* text-align: center; est appliqué via media query pour mobile */
 }
 
-/* MODIFICATION POUR LE TAG "Mémoire de Recherche" - APPROCHE 2 (BADGE) */
+/* STYLE BADGE/ÉTIQUETTE POUR "Mémoire de Recherche" */
 .featured-publication-content .publication-category { 
     display: inline-block; 
-    background-color: var(--color-accent-dark); /* Fond avec la couleur d'accent foncée */
-    color: var(--color-background);      /* Texte blanc */
-    padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2.5); /* Padding augmenté (ex: 10px 20px) */
-    font-size: 0.9rem;   /* Taille augmentée (ex: 14.4px) */
-    font-weight: 600;    /* Semi-gras (ou 700 si préféré) */
+    background-color: var(--color-accent-dark); 
+    color: var(--color-background);      
+    padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2.5); /* 10px 20px */
+    font-size: 0.9rem;   /* 14.4px */
+    font-weight: 600;    /* Semi-gras */
     letter-spacing: 0.075em; 
     text-transform: uppercase;
-    border-radius: var(--border-radius-md); /* Coins bien arrondis */
-    margin-bottom: calc(var(--spacing-unit) * 3.5); /* Espace en dessous augmenté (28px) */
-    line-height: 1.2;
-    /* Pour le centrer si display: block; et width: fit-content; (géré par text-align:center du parent sur mobile) */
+    border-radius: var(--border-radius-md); 
+    margin-bottom: calc(var(--spacing-unit) * 3.5); /* 28px */
+    line-height: 1.3;
+    /* Centrage géré par text-align:center sur .featured-publication-content sur mobile */
 }
-/* FIN MODIFICATION POUR LE TAG */
+/* FIN STYLE BADGE */
 
 
 .featured-publication-content h3.publication-showcase-title { 
@@ -280,18 +281,10 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
 .cta-link:hover .arrow {
     transform: translateX(5px);
 }
-.cta-button-small { /* Utilisé pour le bouton "Lire le mémoire intégral" */
-    /* Hérite de .cta-button, on peut surcharger ici si besoin */
-    /* Par exemple, pour qu'il soit moins proéminent que le CTA principal du hero : */
-    /* background-color: transparent; */
-    /* color: var(--color-accent); */
-    /* border: 1px solid var(--color-accent); */
+.cta-button-small { 
     padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 4);
     font-size: 0.9rem;
 }
-/* Si .cta-button-small est utilisé comme un .cta-link, s'assurer qu'il est stylé en conséquence */
-/* Ou simplement utiliser .cta-link pour le mémoire si on veut un lien texte */
-
 
 /* Liste des autres articles récents */
 .recent-articles-list {
@@ -311,7 +304,7 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
     padding-left: 0;
     display: flex; 
     flex-direction: column;
-    gap: calc(var(--spacing-unit) * 0.5); 
+    gap: calc(var(--spacing-unit) * 1); 
 }
 
 .recent-articles-list li {
@@ -343,15 +336,15 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
     transition: color 0.2s ease;
 }
 .article-item-description {
-    font-size: 0.875rem; /* Légèrement augmenté */
+    font-size: 0.875rem; 
     color: var(--color-text-light);
     flex-shrink: 0; 
-    margin-left: auto; /* Pour pousser vers la droite près de la flèche */
-    padding-left: var(--spacing-unit) * 2; /* Espace si le titre est court */
+    margin-left: auto; 
+    padding-left: var(--spacing-unit) * 2; 
     white-space: nowrap; 
     overflow: hidden; 
     text-overflow: ellipsis; 
-    max-width: 280px; /* Un peu plus de place */
+    max-width: 280px; 
     text-align: right; 
 }
 .article-item-arrow {
@@ -490,7 +483,7 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
     .featured-publication {
         grid-template-columns: minmax(300px, 1.3fr) 1fr; 
         gap: calc(var(--spacing-unit) * 10); 
-        align-items: center; /* Changé de flex-start à center pour mieux aligner si le texte est court */ 
+        align-items: center; 
         text-align: left; 
     }
     .featured-publication.layout-image-right { 
@@ -508,7 +501,7 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
     }
     .featured-publication-content .publication-category {
         margin-left: 0; 
-        margin-right: auto; 
+        /* margin-right: auto; /* Plus besoin si le parent est text-align: left */
     }
     .featured-publication-content h3.publication-showcase-title,
     .featured-publication-excerpt,
