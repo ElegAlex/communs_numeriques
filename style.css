@@ -183,7 +183,7 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
 
 /* Mise en avant du Mémoire - .publication-showcase contient maintenant UNIQUEMENT .publication-showcase-content */
 .publication-showcase {
-    margin-bottom: calc(var(--spacing-unit) * 16); /* Espace après le bloc du mémoire */
+    margin-bottom: calc(var(--spacing-unit) * 11); /* MODIFIÉ : Réduction de la marge inférieure */
 }
 
 /* .publication-showcase-content contient maintenant TOUT : tag, titre, image, extrait, lien */
@@ -209,12 +209,12 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
 
 /* Titre H3 du mémoire */
 .publication-showcase-content h3.publication-showcase-title {
-    font-size: clamp(1.25rem, 3.2vw, 2rem); /* MODIFIÉ : Taille réduite */
+    font-size: clamp(1.25rem, 3.2vw, 2rem);
     font-weight: 800;
     line-height: 1.2;
     letter-spacing: -0.025em;
     margin-top: 0;
-    margin-bottom: calc(var(--spacing-unit) * 3); /* Espace avant l'image */
+    margin-bottom: calc(var(--spacing-unit) * 3);
 }
 .publication-showcase-title a {
     color: var(--color-text);
@@ -229,12 +229,12 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
 /* Styles pour la zone de l'image, maintenant DANS .publication-showcase-content */
 .publication-showcase-content .publication-showcase-image-area {
     margin-top: 0;
-    margin-bottom: calc(var(--spacing-unit) * 4); /* Espace entre l'image et l'extrait */
+    margin-bottom: calc(var(--spacing-unit) * 4);
     border-radius: var(--border-radius-lg);
     overflow: hidden;
     box-shadow: 0 15px 40px rgba(38, 50, 56, 0.1), 0 8px 15px rgba(38, 50, 56, 0.06);
     transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-    max-width: 100%; /* MODIFIÉ : Assure que l'image prend toute la largeur */
+    max-width: 100%;
 }
 .publication-showcase-content .publication-showcase-image-area:hover {
     transform: translateY(-8px) scale(1.02);
@@ -252,19 +252,6 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
     color: var(--color-text-light);
     line-height: 1.8;
     margin-bottom: calc(var(--spacing-unit) * 4);
-    /* Pas de max-width ici par défaut (pour desktop) */
-}
-
-/* Dans la media query pour mobile */
-@media (max-width: 768px) {
-    /* ... autres styles ... */
-    .publication-showcase-content .publication-showcase-excerpt {
-        font-size: 1rem;
-        max-width: 90%; /* Conserve une limite sur mobile pour la lisibilité */
-        margin-left: auto;
-        margin-right: auto;
-    }
-    /* ... autres styles ... */
 }
 
 /* Lien CTA */
@@ -459,18 +446,17 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
         text-align: center;
     }
     .publication-showcase-content .publication-showcase-title {
-        font-size: clamp(1.1rem, 4vw, 1.6rem); /* MODIFIÉ : Taille mobile réduite */
+        font-size: clamp(1.1rem, 4vw, 1.6rem);
     }
     .publication-showcase-content .publication-showcase-excerpt {
         font-size: 1rem;
-        max-width: 90%;
         margin-left: auto;
         margin-right: auto;
     }
     .publication-showcase-content .publication-showcase-image-area {
         margin-left: auto;
         margin-right: auto;
-        max-width: 100%; /* MODIFIÉ : Assure toute la largeur sur mobile */
+        max-width: 100%;
     }
     .recent-articles-title {
         text-align: center;
@@ -487,7 +473,10 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
         text-align: left;
     }
     .publication-showcase-content .publication-showcase-image-area {
-        max-width: 100%; /* MODIFIÉ : Assure toute la largeur sur desktop */
+        max-width: 100%;
+    }
+     .publication-showcase-content .publication-showcase-excerpt {
+        /* Pas de max-width spécifique ici pour qu'il prenne la largeur du parent */
     }
 
     .recent-articles-title {
