@@ -24,7 +24,7 @@
             font-size: 1.25rem;
             margin-top: 0;
             margin-bottom: calc(var(--spacing-unit) * 2);
-            border-bottom: none; padding-bottom: 0; /* Annuler style .memoire-presentation h2 */
+            border-bottom: none; padding-bottom: 0;
         }
         .table-of-contents ul {
             list-style: none;
@@ -45,6 +45,16 @@
             padding-left: calc(var(--spacing-unit) * 3);
             margin-top: var(--spacing-unit);
         }
+        .table-of-contents ul ul li {
+            font-size: 0.95em; /* Un peu plus petit pour les sous-niveaux */
+        }
+        .table-of-contents ul ul ul { /* Sous-sous-niveaux */
+            padding-left: calc(var(--spacing-unit) * 3);
+            margin-top: var(--spacing-unit);
+        }
+        .table-of-contents ul ul ul li {
+            font-size: 0.9em; /* Encore un peu plus petit */
+        }
     </style>
 </head>
 <body>
@@ -56,7 +66,7 @@
                 <ul>
                     <li><a href="../index.html#hero">Accueil Blog</a></li>
                     <li><a href="../index.html#about">À propos</a></li>
-                    <li><a href="../index.html#articles">Articles</a></li>
+                    <li><a href="../index.html#articles">Articles</a></li> <!-- J'ai supposé que "Articles" pointe vers une ancre #articles sur la page d'accueil -->
                     <li><a href="./memoire-institutionnalisation-communs-numeriques.html" class="active">Mémoire</a></li>
                     <li><a href="../index.html#contact">Contact</a></li>
                 </ul>
@@ -68,80 +78,248 @@
     </header>
 
     <main>
-        <section class="article-page-section"> <!-- Nouvelle classe pour styler la page article -->
+        <section class="article-page-section">
             <div class="container article-style-container">
                 <article class="long-form-article">
                     <header class="article-header">
                         <h1>Les facteurs d'institutionnalisation des communs numériques dans l'administration</h1>
-                        <p class="article-meta">Par [Ton Nom] | Publié le [Date de publication/disponibilité]</p>
-                        <!-- Optionnel : un court résumé ici avant la TDM -->
+                        <p class="article-meta">Par Alexandre BERGE | Publié le JJ/MM/AAAA</p>
                         <p class="article-abstract">
                             <em>Ce document présente l'intégralité de mon mémoire de recherche. Vous trouverez ci-dessous une table des matières pour naviguer à travers les différentes sections. Une version PDF est également disponible en téléchargement à la fin du document.</em>
                         </p>
                     </header>
 
                     <div id="table-of-contents" class="table-of-contents">
-                        <!-- La TDM sera générée par JS ou écrite manuellement -->
                         <h2>Table des Matières</h2>
                         <ul>
-                            <li><a href="#introduction">Introduction</a></li>
-                            <li>
-                                <a href="#partie1">Partie 1 : Cadre Théorique et Conceptuel</a>
+                            <li><a href="#introduction-generale">Introduction Générale</a>
                                 <ul>
-                                    <li><a href="#chapitre1-1">Chapitre 1.1 : Définition des Communs Numériques</a></li>
-                                    <li><a href="#chapitre1-2">Chapitre 1.2 : Théories de l'Institutionnalisation</a></li>
+                                    <li><a href="#intro-contexte">1. Contexte : La Transformation Numérique de l'Administration Publique...</a></li>
+                                    <li><a href="#intro-problematisation">2. Problématisation : Limites des Approches Conventionnelles...</a></li>
+                                    <li><a href="#intro-positionnement">3. Positionnement et Objectifs de la Recherche</a></li>
+                                    <li><a href="#intro-structure">4. Annonce de la Structure du Mémoire</a></li>
                                 </ul>
                             </li>
-                            <li>
-                                <a href="#partie2">Partie 2 : Méthodologie de Recherche</a>
+                            <li><a href="#partie1">PARTIE I : L'administration publique face à l'impératif de performance numérique...</a>
                                 <ul>
-                                    <li><a href="#chapitre2-1">Chapitre 2.1 : Approche Qualitative</a></li>
+                                    <li><a href="#partie1-1">1.1. Le diagnostic : performance numérique sous contraintes...</a>
+                                        <ul>
+                                            <li><a href="#partie1-1-1">1.1.1. La recherche de performance et les attentes de création de valeur publique</a></li>
+                                            <li><a href="#partie1-1-2">1.1.2. Les limites structurelles des systèmes d'information publics</a></li>
+                                            <li><a href="#partie1-1-3">1.1.3. Spécificités du contexte administratif</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#partie1-2">1.2. Le paradigme des communs numériques : fondements, mécanismes...</a>
+                                        <ul>
+                                            <li><a href="#partie1-2-1">1.2.1. Fondements théoriques et conceptuels...</a></li>
+                                            <li><a href="#partie1-2-2">1.2.2. Mécanismes de production collaborative et modèles de gouvernance</a></li>
+                                            <li><a href="#partie1-2-3">1.2.3. La pertinence stratégique pour l'administration...</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#partie1-3">1.3. L'institutionnalisation comme enjeu central : analyser l'ancrage des communs...</a>
+                                        <ul>
+                                            <li><a href="#partie1-3-1">1.3.1. Le concept sociologique d'institutionnalisation</a></li>
+                                            <li><a href="#partie1-3-2">1.3.2. Cadres théoriques mobilisés pour l'analyse</a></li>
+                                            <li><a href="#partie1-3-3">1.3.3. Synthèse des facteurs potentiels et identification de la lacune de recherche</a></li>
+                                        </ul>
+                                    </li>
                                 </ul>
                             </li>
-                            <li><a href="#resultats">Partie 3 : Résultats et Analyse</a></li>
-                            <li><a href="#conclusion">Conclusion et Perspectives</a></li>
-                            <li><a href="#bibliographie">Bibliographie</a></li>
-                            <li><a href="#annexes">Annexes</a></li>
+                            <li><a href="#partie2">II. Méthodologie de recherche</a>
+                                <ul>
+                                    <li><a href="#partie2-1">2.1. Design de recherche</a></li>
+                                    <li><a href="#partie2-2">2.2. Collecte des données</a></li>
+                                    <li><a href="#partie2-3">2.3. Méthode d’analyse</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#partie3">III. Résultats empiriques et discussion</a>
+                                <ul>
+                                    <li><a href="#partie3-1">3.1. Caractérisation des initiatives et de leurs contextes</a></li>
+                                    <li><a href="#partie3-2">3.2. Analyse des dynamiques d'institutionnalisation (ou de non-institutionnalisation)</a>
+                                        <ul>
+                                            <li><a href="#partie3-2-3-4">3.2.3.4. Pilotage sans objectifs chiffrés...</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#partie3-3">3.3. Discussion des résultats et implications</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#conclusion-generale">Conclusion générale</a></li>
                         </ul>
                     </div>
 
-                    <section id="introduction" class="article-content-section">
-                        <h2>Introduction</h2>
-                        <p>Texte de votre introduction...</p>
-                        <p>...</p>
+                    <section id="introduction-generale" class="article-content-section">
+                        <h2>Introduction Générale</h2>
+                        
+                        <section id="intro-contexte">
+                            <h3>1. Contexte : La Transformation Numérique de l'Administration Publique, une Nécessité à la Mise en Œuvre Complexe</h3>
+                            <p>1.1. L'impératif global de la transformation numérique pour les États modernes : enjeux d'efficacité, de réactivité et de nouvelles attentes citoyennes.</p>
+                            <p>1.2. Le cadre européen et national : politiques publiques incitatives (ex: Tallinn Declaration, Stratégies Cloud, Loi Rép. num.) et objectifs affichés (modernisation, souveraineté numérique).</p>
+                            <p>1.3. La complexité inhérente au secteur public : défis spécifiques liés à la culture administrative, aux structures héritées ("legacy systems"), aux contraintes réglementaires et budgétaires.</p>
+                            <p>1.4. Le rôle croissant de la donnée et du logiciel comme actifs stratégiques et infrastructures critiques.</p>
+                        </section>
+
+                        <section id="intro-problematisation">
+                            <h3>2. Problématisation : Limites des Approches Conventionnelles et Exploration d'une Alternative</h3>
+                            <p>2.1. Les écueils des modèles traditionnels de développement et d'acquisition SI dans le public : coûts élevés, dépendance aux fournisseurs ("vendor lock-in"), faible interopérabilité, silos persistants, manque de réutilisation.</p>
+                            <p>2.2. L'émergence des "communs numériques" (logiciels libres, données ouvertes, standards, plateformes collaboratives) comme paradigme alternatif potentiel. Promesses associées : mutualisation des coûts, innovation ouverte, transparence accrue, souveraineté technologique, alignement avec les valeurs du service public.</p>
+                            <p>2.3. Le paradoxe observé : malgré ce potentiel et des initiatives notables, l'adoption et surtout l'intégration profonde (institutionnalisation) des communs numériques dans l'administration restent limitées, fragmentées et souvent fragiles.</p>
+                            <p>2.4. La lacune de recherche : nécessité de comprendre les facteurs spécifiques qui facilitent ou entravent l'ancrage durable de ces pratiques collaboratives au sein des structures administratives.</p>
+                        </section>
+
+                        <section id="intro-positionnement">
+                            <h3>3. Positionnement et Objectifs de la Recherche</h3>
+                            <p>3.1. Positionnement théorique : Mobilisation de la Théorie Néo-Institutionnelle (TNI) et du concept de Travail Institutionnel (TI) pour analyser l'institutionnalisation comme un processus social, politique et culturel.</p>
+                            <p>3.2. Articulation avec la Théorie des Communs (numériques) pour comprendre la nature spécifique de l'objet (gouvernance, communauté, ressource partagée).</p>
+                            <p>3.3. Question centrale de recherche : Quels sont les facteurs d'institutionnalisation des communs numériques au sein de l'administration publique ?</p>
+                            <p>3.4. Objectifs spécifiques : Identifier les facteurs clés, analyser les mécanismes, comprendre les spécificités françaises, proposer des pistes de réflexion.</p>
+                        </section>
+
+                        <section id="intro-structure">
+                            <h3>4. Annonce de la Structure du Mémoire</h3>
+                            <p>Partie I : Revue de la littérature et cadre conceptuel (diagnostic des défis, potentiel des communs, théorie de l'institutionnalisation).</p>
+                            <p>Partie II : Méthodologie de recherche (approche qualitative, études de cas).</p>
+                            <p>Partie III : Présentation et analyse des résultats empiriques.</p>
+                            <p>Partie IV : Discussion des résultats, implications théoriques et managériales, limites et perspectives.</p>
+                        </section>
                     </section>
 
                     <section id="partie1" class="article-content-section">
-                        <h2>Partie 1 : Cadre Théorique et Conceptuel</h2>
+                        <h2>PARTIE I : L'administration publique face à l'impératif de performance numérique : potentiel et institutionnalisation des communs numériques</h2>
                         
-                        <section id="chapitre1-1">
-                            <h3>Chapitre 1.1 : Définition des Communs Numériques</h3>
-                            <p>Texte...</p>
+                        <section id="partie1-1">
+                            <h3>1.1. Le diagnostic : performance numérique sous contraintes et nécessité d'optimisation</h3>
+                            <section id="partie1-1-1">
+                                <h4>1.1.1. La recherche de performance et les attentes de création de valeur publique</h4>
+                                <p>1.1.1.1. L'injonction à la modernisation continue : pression politique, budgétaire et citoyenne pour des services publics plus efficaces et réactifs.</p>
+                                <p>1.1.1.2. Le cadre normatif exigeant de la "valeur publique" : au-delà de l'efficience économique, intégrer équité, transparence, participation, durabilité.</p>
+                                <p>1.1.1.3. L'adéquation limitée des modèles managériaux antérieurs (NPM, etc.) face aux spécificités du numérique (complexité, interdépendance, innovation rapide).</p>
+                            </section>
+                            <section id="partie1-1-2">
+                                <h4>1.1.2. Les limites structurelles des systèmes d'information publics</h4>
+                                <p>1.1.2.1. Interopérabilité limitée et persistance de silos informationnels et organisationnels : freins à la collaboration inter-services et à la vision intégrée.</p>
+                                <p>1.1.2.2. Dépendances technologiques ("vendor lock-in") et contraintes héritées ("legacy systems") : coûts élevés, rigidité, manque de contrôle.</p>
+                                <p>1.1.2.3. Faible capitalisation des actifs logiciels et des savoirs : duplication des efforts, perte de connaissances, sous-exploitation des ressources existantes.</p>
+                                <p>1.1.2.4. Difficultés d'adaptation des méthodes de développement : inertie des cycles longs vs besoin d'agilité et de collaboration.</p>
+                            </section>
+                            <section id="partie1-1-3">
+                                <h4>1.1.3. Spécificités du contexte administratif</h4>
+                                <p>1.1.3.1. Facteurs organisationnels et culturels : poids de la hiérarchie, culture bureaucratique (règles, procédures, silos), aversion au risque, résistance au changement.</p>
+                                <p>1.1.3.2. Cadre juridique et réglementaire contraignant : règles des marchés publics, protection des données (RGPD), statuts de la fonction publique, complexité normative.</p>
+                                <p>1.1.3.3. Complexité de la gouvernance multi-niveaux et enjeux de souveraineté : articulation État/collectivités/opérateurs, influence politique, nécessité de garantir la souveraineté numérique nationale/européenne.</p>
+                            </section>
                         </section>
-                        <section id="chapitre1-2">
-                            <h3>Chapitre 1.2 : Théories de l'Institutionnalisation</h3>
-                            <p>Texte...</p>
+
+                        <section id="partie1-2">
+                            <h3>1.2. Le paradigme des communs numériques : fondements, mécanismes et pertinence pour l'action publique</h3>
+                            <section id="partie1-2-1">
+                                <h4>1.2.1. Fondements théoriques et conceptuels : des ressources partagées à la gouvernance collective</h4>
+                                <p>1.2.1.1. Les apports fondateurs d'Elinor Ostrom : critique de la "tragédie des communs", principes de conception institutionnelle pour l'auto-gouvernance.</p>
+                                <p>1.2.1.2. Les spécificités de l'immatériel : non-rivalité, coût marginal nul, mais enjeux de maintenance, de contribution ("tragédie des communs numériques" revisitée) et de qualité.</p>
+                                <p>1.2.1.3. Définition et typologie des communs numériques : logiciels, données, connaissances, standards, infrastructures.</p>
+                                <p>1.2.1.4. Le rôle structurant des licences libres et ouvertes (GPL, Creative Commons, ODbL...) comme institutions formelles définissant les règles de partage et de contribution.</p>
+                            </section>
+                            <section id="partie1-2-2">
+                                <h4>1.2.2. Mécanismes de production collaborative et modèles de gouvernance</h4>
+                                <p>1.2.2.1. La production par les pairs ("commons-based peer production") : motivations (intrinsèques/extrinsèques), coordination décentralisée, modularité. Rôle des incitations.</p>
+                                <p>1.2.2.2. La diversité des formes de gouvernance : des communautés informelles aux fondations structurées (ex: Apache, Wikimedia) et aux modèles hybrides.</p>
+                                <p>1.2.2.3. Principes de conception institutionnelle adaptés au numérique : comment assurer la durabilité via des règles claires, une participation effective, des mécanismes de surveillance et de résolution de conflits. Importance de la confiance.</p>
+                                <p>1.2.2.4. L'importance de l'animation et de l'orchestration des écosystèmes : rôle des "community managers", des OSPOs, des plateformes techniques.</p>
+                            </section>
+                            <section id="partie1-2-3">
+                                <h4>1.2.3. La pertinence stratégique pour l'administration : une réponse potentielle aux écueils identifiés</h4>
+                                <p>1.2.3.1. Potentiel d'efficience par la mutualisation : partage des coûts de développement et de maintenance, réutilisation des solutions, standardisation.</p>
+                                <p>1.2.3.2. Catalyseur d'innovation ouverte et d'agilité : mobilisation de l'intelligence collective (interne/externe), adaptation plus rapide aux besoins, expérimentation.</p>
+                                <p>1.2.3.3. Levier de souveraineté et de maîtrise technologique : réduction de la dépendance, transparence du code, contrôle des infrastructures critiques.</p>
+                                <p>1.2.3.4. Alignement avec les valeurs publiques : transparence, participation citoyenne, accès équitable à l'information et aux services.</p>
+                                <p>1.2.3.5. Distinction conceptuelle majeure : les communs comme allant au-delà de l'Open Source/Open Data par l'intégration de la communauté et de la gouvernance partagée.</p>
+                            </section>
+                        </section>
+
+                        <section id="partie1-3">
+                            <h3>1.3. L'institutionnalisation comme enjeu central : analyser l'ancrage des communs dans les pratiques administratives</h3>
+                            <section id="partie1-3-1">
+                                <h4>1.3.1. Le concept sociologique d'institutionnalisation.</h4>
+                                <p>1.3.1.1. Définition : processus par lequel une pratique sociale (innovation, règle, structure) devient légitime, stable, reproduite et "prise pour acquise" (taken-for-granted).</p>
+                                <p>1.3.1.2. La nécessité pour la durabilité des communs publics : dépasser l'expérimentation ou l'adoption ponctuelle pour intégrer les communs dans les routines, les budgets, les compétences et la culture organisationnelle.</p>
+                                <p>1.3.1.3. Le constat empirique d'une intégration limitée : reconnaissance du potentiel mais difficultés d'ancrage durable dans le secteur public.</p>
+                            </section>
+                            <section id="partie1-3-2">
+                                <h4>1.3.2. Cadres théoriques mobilisés pour l'analyse.</h4>
+                                <p>1.3.2.1. Théorie Néo-Institutionnelle (TNI) : Concepts clés, Utilité.</p>
+                                <p>1.3.2.2. Théorie du Travail Institutionnel (TI) : Concepts clés, Utilité.</p>
+                                <p>1.3.2.3. Approche discursive et des mythes : Concepts clés, Utilité.</p>
+                                <p>1.3.2.4. Théorie de la Gouvernance des Communs Numériques : Concepts clés, Utilité.</p>
+                                <p>1.3.2.5. Lecture croisée : les principes d’Ostrom comme « institutional maintenance work ».</p>
+                            </section>
+                            <section id="partie1-3-3">
+                                <h4>1.3.3. Synthèse des facteurs potentiels et identification de la lacune de recherche</h4>
+                                <p>1.3.3.1. Inventaire des facteurs potentiels issus de la littérature : Politiques/Stratégiques, Organisationnels/Culturels, Juridiques/Réglementaires, Économiques/Ressources, Techniques, Communautaires/Relationnels.</p>
+                                <p>1.3.3.2. La lacune de recherche à combler : Absence d'une analyse systématique et intégrée de ces facteurs spécifiquement pour les communs numériques au sein de l'administration publique...</p>
+                                <p>1.3.3.3. Question de recherche centrale : Quels sont les facteurs d'institutionnalisation des communs numériques au sein de l'administration publique ? Sous-questions potentielles.</p>
+                            </section>
                         </section>
                     </section>
 
                     <section id="partie2" class="article-content-section">
-                        <h2>Partie 2 : Méthodologie de Recherche</h2>
-                        <section id="chapitre2-1">
-                             <h3>Chapitre 2.1 : Approche Qualitative</h3>
-                             <p>Texte...</p>
+                        <h2>II. Méthodologie de recherche</h2>
+                        <section id="partie2-1">
+                            <h3>2.1. Design de recherche</h3>
+                            <p>2.1.1. Positionnement épistémologique et approche méthodologique. Texte...</p>
+                            <p>2.1.2. Stratégie d'échantillonnage et unité d'analyse. Texte...</p>
+                            <p>2.1.3. Considérations éthiques et accès au terrain. Texte...</p>
+                        </section>
+                        <section id="partie2-2">
+                            <h3>2.2. Collecte des données</h3>
+                            <p>2.2.1. Sélection du terrain et protocole de collecte. Texte...</p>
+                            <p>2.2.2. Guide d'entretien. Texte...</p>
+                            <p>2.2.3. Observations complémentaires et éthique. Texte...</p>
+                        </section>
+                        <section id="partie2-3">
+                            <h3>2.3. Méthode d’analyse</h3>
+                            <p>2.3.1. Cadre analytique et démarche itérative. Texte...</p>
+                            <p>2.3.2. Techniques d'analyse qualitative. Texte...</p>
+                            <p>2.3.3. Critères de rigueur et de validité. Texte...</p>
                         </section>
                     </section>
 
-                    <section id="resultats" class="article-content-section">
-                        <h2>Partie 3 : Résultats et Analyse</h2>
-                        <p>Texte...</p>
-                    </section>
-
-                    <section id="conclusion" class="article-content-section">
-                        <h2>Conclusion et Perspectives</h2>
-                        <p>Texte...</p>
+                    <section id="partie3" class="article-content-section">
+                        <h2>III. Résultats empiriques et discussion</h2>
+                        <section id="partie3-1">
+                            <h3>3.1. Caractérisation des initiatives et de leurs contextes</h3>
+                            <p>3.1.1. Présentation comparée des cas étudiés. Texte...</p>
+                            <p>3.1.2. Analyse des configurations de gouvernance et des écosystèmes d'acteurs. Texte...</p>
+                            <p>3.1.3. Genèse des initiatives et facteurs contextuels initiaux. Texte...</p>
+                        </section>
+                        <section id="partie3-2">
+                            <h3>3.2. Analyse des dynamiques d'institutionnalisation (ou de non-institutionnalisation)</h3>
+                            <p>3.2.1. Description des processus et trajectoires observés. Texte...</p>
+                            <p>3.2.2. Identification des facteurs d'influence et des résistances. Texte...</p>
+                            <section id="partie3-2-3-4"> <!-- Note: Numérotation un peu étrange ici dans votre plan, j'ai suivi -->
+                                <h4>3.2.3.4. Pilotage sans objectifs chiffrés : une stratégie émergente d’institutionnalisation</h4>
+                                <p>Analyse du choix stratégique opéré à Échirolles d’exclure les objectifs datés/chiffrés dans la mise en œuvre des communs numériques. Texte...</p>
+                                <p>Mise en regard avec les travaux de Jérôme Serre sur la stratégie émergente de pilotage dans les contextes incertains. Texte...</p>
+                                <p>Hypothèse : ce type de pilotage "non-programmatique" favorise un enracinement progressif, légitime et durable des pratiques liées aux communs. Texte...</p>
+                            </section>
+                        </section>
+                        <section id="partie3-3">
+                            <h3>3.3. Discussion des résultats et implications</h3>
+                            <p>3.3.1. Analyse des conséquences et de la contribution à la valeur publique. Texte...</p>
+                            <p>3.3.2. Discussion des résultats empiriques au regard du cadre théorique. Texte...</p>
+                            <p>3.3.3. Préconisations managériales et stratégiques issues de l'analyse. Texte...</p>
+                        </section>
                     </section>
                     
+                    <section id="conclusion-generale" class="article-content-section">
+                        <h2>Conclusion générale</h2>
+                        <p>Synthèse des résultats et réponse à la question de recherche. Texte...</p>
+                        <p>Apports théoriques. Texte...</p>
+                        <p>Implications pratiques et managériales. Texte...</p>
+                        <p>Limites de la recherche. Texte...</p>
+                        <p>Perspectives de recherche futures. Texte...</p>
+                    </section>
+
+                    <!-- Optionnel: Bibliographie et Annexes pourraient être ici ou seulement dans le PDF -->
+                    <!--
                     <section id="bibliographie" class="article-content-section">
                         <h2>Bibliographie</h2>
                         <ul>
@@ -154,19 +332,20 @@
                         <h2>Annexes</h2>
                         <p>Contenu des annexes...</p>
                     </section>
+                    -->
 
                     <hr style="margin: 40px 0;">
 
                     <div class="citation-info">
                         <h3>Comment citer ce travail :</h3>
                         <p>
-                            [Ton Nom]. ([Année]). <em>Les facteurs d'institutionnalisation des communs numériques dans l'administration</em>. Disponible sur : [URL de cette page]
+                            Alexandre BERGE. (AAAA). <em>Les facteurs d'institutionnalisation des communs numériques dans l'administration</em>. Disponible sur : [URL de cette page de mémoire]
                         </p>
                         
                         <h3>Version complète (PDF) :</h3>
                         <p>
                             Pour une lecture approfondie et l'intégralité des références, vous pouvez télécharger la version PDF du mémoire :
-                            <a href="../memoire/votre-fichier-memoire.pdf" download="Memoire_Communs_Numeriques_VotreNom.pdf" class="cta-button-secondary"> <!-- PDF dans un dossier 'memoire' à la racine -->
+                            <a href="../memoire/memoire-berge-alexandre-communs-numeriques.pdf" download="Memoire_Communs_Numeriques_BERGE_Alexandre.pdf" class="cta-button-secondary">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px; vertical-align: text-bottom;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                                 Télécharger le mémoire (PDF)
                             </a>
@@ -180,37 +359,15 @@
 
     <footer id="main-footer">
         <div class="container">
-            <p>© <span id="current-year"></span> Votre Nom. Contenu sous licence <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.fr" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>.</p>
+            <p>© <span id="current-year"></span> Alexandre BERGE. Contenu sous licence <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.fr" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>.</p>
             <p><a href="../index.html#contact">Contact</a> | <a href="../mentions-legales.html">Mentions Légales</a> | <a href="../politique-confidentialite.html">Politique de confidentialité</a></p>
         </div>
     </footer>
 
     <script src="../script.js"></script>
     <script>
-        // Optionnel : Script pour générer la TDM dynamiquement ou pour la rendre sticky
-        // Pour une version simple, la TDM manuelle suffit.
-        // Si TDM dynamique :
-        // document.addEventListener('DOMContentLoaded', () => {
-        //     const tocContainer = document.getElementById('table-of-contents');
-        //     const contentSections = document.querySelectorAll('.long-form-article > section[id]'); // Cible les sections avec ID directes
-        //     if (tocContainer && contentSections.length > 0) {
-        //         const tocList = tocContainer.querySelector('ul');
-        //         tocList.innerHTML = ''; // Vider la TDM manuelle si présente
-
-        //         contentSections.forEach(section => {
-        //             const titleElement = section.querySelector('h2');
-        //             if (titleElement) {
-        //                 const listItem = document.createElement('li');
-        //                 const link = document.createElement('a');
-        //                 link.href = `#${section.id}`;
-        //                 link.textContent = titleElement.textContent;
-        //                 listItem.appendChild(link);
-        //                 tocList.appendChild(listItem);
-        //                 // Gérer les sous-niveaux (h3) serait plus complexe
-        //             }
-        //         });
-        //     }
-        // });
+        // Script pour l'année et le menu hamburger (déjà dans script.js)
+        // La TDM manuelle est en place.
     </script>
 </body>
 </html>
