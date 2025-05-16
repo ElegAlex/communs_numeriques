@@ -390,8 +390,17 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
 .article-abstract { font-size: 1.1rem; color: var(--color-text-light); font-style: italic; max-width: 750px; margin: 0 auto calc(var(--spacing-unit) * 4) auto; line-height: 1.7; }
 .article-style-container { max-width: 800px; margin-left: auto; margin-right: auto; }
 .long-form-article > section[id] { margin-bottom: calc(var(--spacing-unit) * 5); padding-top: calc(var(--spacing-unit) * 3); }
-.long-form-article h2 { font-size: clamp(1.625rem, 3.5vw, 2rem); margin-top: calc(var(--spacing-unit) * 6); margin-bottom: calc(var(--spacing-unit) * 2.5); border-bottom: 1px solid var(--color-border); padding-bottom: var(--spacing-unit); display: block; text-align: left; }
-.long-form-article h2:first-child { margin-top: calc(var(--spacing-unit) * 2); }
+/* Cible les h2 DANS .long-form-article pour éviter les conflits avec la table des matières */
+.long-form-article > section[id] > h2 {
+    font-size: clamp(1.625rem, 3.5vw, 2rem);
+    margin-top: calc(var(--spacing-unit) * 6);
+    margin-bottom: calc(var(--spacing-unit) * 2.5);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--spacing-unit);
+    display: block; /* Assure qu'il prend toute la largeur avant la bordure */
+    text-align: left; /* Assure l'alignement à gauche pour les titres de section */
+}
+.long-form-article > section[id] > h2:first-child { margin-top: calc(var(--spacing-unit) * 2); }
 .long-form-article h3 { font-size: clamp(1.375rem, 3vw, 1.625rem); margin-top: calc(var(--spacing-unit) * 4); margin-bottom: calc(var(--spacing-unit) * 2); color: var(--color-text); }
 .long-form-article h4 { font-size: 1.2rem; margin-top: calc(var(--spacing-unit) * 3); margin-bottom: calc(var(--spacing-unit) * 1.5); color: var(--color-text-light); font-weight: 600; }
 .long-form-article p, .long-form-article ul, .long-form-article ol { margin-bottom: calc(var(--spacing-unit) * 2.5); line-height: 1.8; }
@@ -414,6 +423,104 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
 .citation-info p { font-size: inherit; margin-bottom: calc(var(--spacing-unit) * 1.5); }
 .cta-button-secondary { display: inline-flex; align-items: center; justify-content: center; background-color: transparent; color: var(--color-accent); padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 3.5); border: 1px solid var(--color-accent); border-radius: var(--border-radius-md); font-weight: 500; text-decoration: none; transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease; }
 .cta-button-secondary:hover, .cta-button-secondary:focus { background-color: var(--color-accent); color: #fff; text-decoration: none; transform: translateY(-1px); box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2); }
+
+
+/* === STYLES POUR LES TABLEAUX DANS LES ARTICLES === */
+.article-content-section .table-responsive-wrapper, /* S'applique si le wrapper est dans une section de contenu */
+.long-form-article .table-responsive-wrapper { /* S'applique si le wrapper est directement dans long-form-article */
+    overflow-x: auto; /* Permet le défilement horizontal sur petits écrans */
+    margin-top: calc(var(--spacing-unit) * 3);
+    margin-bottom: calc(var(--spacing-unit) * 3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-md);
+    background-color: var(--color-background); /* Pour s'assurer qu'il a un fond propre */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.03), 0 1px 2px rgba(0,0,0,0.02);
+}
+
+.article-content-section .styled-table,
+.long-form-article .styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem; /* Légèrement plus petit que le texte de paragraphe pour densité */
+    color: var(--color-text);
+    min-width: 600px; /* Ajustez selon votre contenu pour le point de scroll */
+}
+
+.article-content-section .styled-table th,
+.article-content-section .styled-table td,
+.long-form-article .styled-table th,
+.long-form-article .styled-table td {
+    border: 1px solid var(--color-border-light); /* Utilise une bordure plus légère pour l'intérieur */
+    padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 2); /* Espacement basé sur votre unité */
+    text-align: left;
+    vertical-align: top; /* Important pour les cellules avec beaucoup de contenu */
+    line-height: 1.6; /* Cohérent avec le reste, ou ajustez */
+}
+
+.article-content-section .styled-table thead th,
+.long-form-article .styled-table thead th {
+    background-color: var(--color-neutral-light); /* Fond clair pour l'en-tête */
+    font-weight: 600; /* Un peu moins fort que les h1-h6, mais distinct */
+    color: var(--color-text); /* Pas nécessairement la couleur d'accent, pour la lisibilité */
+    border-bottom: 2px solid var(--color-border); /* Ligne plus marquée sous l'en-tête */
+    position: sticky; /* Pour que l'en-tête reste visible */
+    top: 0;
+    z-index: 1; /* Pour s'assurer qu'il est au-dessus du contenu de la table en cas de scroll */
+}
+
+/* Enlève la bordure supérieure de la première ligne de l'en-tête si elle est doublée par le wrapper */
+.article-content-section .styled-table thead tr:first-child th,
+.long-form-article .styled-table thead tr:first-child th {
+    border-top: none;
+}
+
+
+.article-content-section .styled-table tbody tr:nth-child(even),
+.long-form-article .styled-table tbody tr:nth-child(even) {
+    background-color: var(--color-neutral-medium); /* Ligne alternée très subtile */
+}
+
+.article-content-section .styled-table tbody tr:hover,
+.long-form-article .styled-table tbody tr:hover {
+    background-color: var(--color-neutral-light); /* Effet au survol un peu plus prononcé */
+}
+
+.article-content-section .styled-table strong,
+.long-form-article .styled-table strong {
+    font-weight: 600; /* ou 700 si vous préférez plus marqué */
+    color: var(--color-text); /* Peut-être pas besoin de le changer si le texte par défaut est déjà bon */
+}
+
+.article-content-section .styled-table em,
+.long-form-article .styled-table em {
+    color: var(--color-text-light); /* Pour l'italique, un gris plus clair peut être bien */
+    font-style: italic;
+}
+
+/* Spécifique pour les listes à puces simulées avec • dans les cellules */
+.article-content-section .styled-table td ul,
+.long-form-article .styled-table td ul { /* Si vous utilisez de vraies balises <ul> */
+    list-style-type: disc; /* Ou '• ' avec un ::before si vous voulez le caractère exact */
+    padding-left: calc(var(--spacing-unit) * 2.5);
+    margin-top: calc(var(--spacing-unit) * 0.5);
+    margin-bottom: calc(var(--spacing-unit) * 0.5);
+}
+.article-content-section .styled-table td ul li,
+.long-form-article .styled-table td ul li {
+    margin-bottom: calc(var(--spacing-unit) * 0.5);
+    padding-left: calc(var(--spacing-unit) * 0.5);
+}
+
+/* Si vous gardez les • manuels avec <br> */
+.article-content-section .styled-table td br + strong, /* Pour réinitialiser le style des "titres" de sous-listes */
+.article-content-section .styled-table td br + em,
+.long-form-article .styled-table td br + strong,
+.long-form-article .styled-table td br + em {
+    display: block;
+    margin-top: calc(var(--spacing-unit) * 0.5); /* Petit espace avant le début d'une "sous-partie" */
+}
+/* === FIN DES STYLES POUR LES TABLEAUX === */
+
 
 /* === RESPONSIVE DESIGN === */
 @media (max-width: 992px) {
