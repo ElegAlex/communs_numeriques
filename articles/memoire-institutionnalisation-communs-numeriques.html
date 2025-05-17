@@ -16,101 +16,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../style.css">
-    <style>
-        .table-of-contents {
-            background-color: var(--color-neutral-light);
-            padding: calc(var(--spacing-unit) * 3); /* Correction: multiplication explicite */
-            border-radius: var(--border-radius-md);
-            margin-bottom: calc(var(--spacing-unit) * 5); /* Correction: multiplication explicite */
-            border: 1px solid var(--color-border);
-        }
-        .table-of-contents h2 {
-            font-size: 1.25rem;
-            margin-top: 0;
-            margin-bottom: calc(var(--spacing-unit) * 2); /* Correction: multiplication explicite */
-            border-bottom: none; padding-bottom: 0;
-        }
-        .table-of-contents ul {
-            list-style: none;
-            padding-left: 0;
-        }
-        .table-of-contents ul li {
-            margin-bottom: var(--spacing-unit);
-        }
-        .table-of-contents ul li a {
-            text-decoration: none;
-            color: var(--color-text-light);
-        }
-        .table-of-contents ul li a:hover {
-            color: var(--color-accent);
-            text-decoration: underline;
-        }
-        .table-of-contents ul ul {
-            padding-left: calc(var(--spacing-unit) * 3); /* Correction: multiplication explicite */
-            margin-top: var(--spacing-unit);
-        }
-        .table-of-contents ul ul li {
-            font-size: 0.95em;
-        }
-        .table-of-contents ul ul ul {
-            padding-left: calc(var(--spacing-unit) * 3); /* Correction: multiplication explicite */
-            margin-top: var(--spacing-unit);
-        }
-        .table-of-contents ul ul ul li {
-            font-size: 0.9em;
-        }
-       
-        .article-content-section p {
-            margin-bottom: 1em; /* Augmenté pour une meilleure lisibilité entre paragraphes */
-            line-height: 1.6; /* Amélioration de la lisibilité */
-        }
-
-        .article-content-section ul, .article-content-section ol {
-            margin-bottom: 1em;
-            padding-left: 2em;
-        }
-        .article-content-section li {
-            margin-bottom: 0.5em;
-        }
-       
-        h1[id], h2[id], h3[id], h4[id] { /* Ajout de H1 pour la cohérence */
-             scroll-margin-top: 80px; /* Espace pour le header fixe lors de la navigation par ancre */
-        }
-
-        /* Styles pour les admonitions (TIP, NOTE) */
-        .admonition {
-            padding: calc(var(--spacing-unit) * 2);
-            margin-bottom: calc(var(--spacing-unit) * 3);
-            border-left: 5px solid;
-            border-radius: var(--border-radius-sm);
-        }
-        .admonition-title {
-            font-weight: bold;
-            margin-bottom: calc(var(--spacing-unit) * 1);
-            display: block; /* Pour que le margin-bottom s'applique bien */
-        }
-        .admonition.tip {
-            background-color: #e6ffed; /* Vert clair */
-            border-left-color: #48bb78; /* Vert */
-        }
-        .admonition.tip .admonition-title {
-            color: #2f855a; /* Vert foncé */
-        }
-        .admonition.note {
-            background-color: #ebf8ff; /* Bleu clair */
-            border-left-color: #4299e1; /* Bleu */
-        }
-        .admonition.note .admonition-title {
-            color: #2b6cb0; /* Bleu foncé */
-        }
-        .article-content-section hr.section-divider {
-            margin: calc(var(--spacing-unit) * 6) 0;
-            border: 0;
-            border-top: 1px solid var(--color-border-light);
-        }
-    </style>
 </head>
 <body>
+    <div id="reading-progress"></div>
 
     <header id="main-header">
     <div class="container">
@@ -129,6 +37,7 @@
         </button>
     </div>
 </header>
+
 
     <main>
         <section class="article-page-section">
@@ -1702,25 +1611,9 @@
     </div>
 </footer>
 
-    <script>
-        document.getElementById('current-year').textContent = new Date().getFullYear();
 
-        // Script pour générer les IDs et la TDM (si besoin de le faire dynamiquement côté client)
-        // Pour cet exercice, j'ai généré les IDs manuellement dans le HTML.
-        // Si vous voulez une génération dynamique, il faudrait un script plus complexe ici.
-        // Exemple simple pour le menu burger (si vous l'utilisez)
-        const navToggle = document.querySelector('.nav-toggle');
-        const mainNav = document.querySelector('.main-nav');
-
-        if (navToggle && mainNav) {
-            navToggle.addEventListener('click', () => {
-                const isExpanded = navToggle.getAttribute('aria-expanded') === 'true' || false;
-                navToggle.setAttribute('aria-expanded', !isExpanded);
-                mainNav.classList.toggle('active');
-                document.body.classList.toggle('nav-open');
-            });
-        }
-    </script>
+    <button id="back-to-top" aria-label="Retour en haut">↑</button>
+    <script src="../script.js"></script>
 </body>
 </html>
 
