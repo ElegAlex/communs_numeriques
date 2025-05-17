@@ -179,7 +179,7 @@ Le contenu textuel et les images (sauf mention contraire) sont publiés sous la 
 
 *   **BERGE ALEXANDRE**
 *   **Email :** [contact@alexandre-berge.fr](mailto:contact@alexandre-berge.fr)
-*   **LinkedIn :** (https://www.linkedin.com/in/bergealexandre/)
+*   **LinkedIn :** https://www.linkedin.com/in/bergealexandre/
 *   **Twitter / Mastodon :** [@votreHandle](https://twitter.com/votreHandle) <!-- Adaptez -->
 
 ---
