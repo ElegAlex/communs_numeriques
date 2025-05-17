@@ -132,7 +132,7 @@ Les modifications apportées aux fichiers HTML, CSS ou JS seront visibles en raf
 Ce site statique peut être déployé sur une multitude de plateformes :
 
 *   **GitHub Pages:** Gratuit et simple pour les projets hébergés sur GitHub.
-*   **Netlify:** Offre un déploiement continu, des formulaires, des fonctions serverless, etc.
+*   **Netlify:** Offre un déploiement continu, des formulaires, des fonctions serverless, etc. Le formulaire de la section `Contact` fonctionne directement avec Netlify Forms grâce à l'attribut `data-netlify="true"`; les messages sont consultables dans votre tableau de bord Netlify sans configuration supplémentaire.
 *   **Vercel:** Similaire à Netlify, très performant pour les sites statiques et les applications front-end.
 *   **Firebase Hosting:** Solution de Google.
 *   **Serveur web classique (Apache, Nginx):** Copiez simplement les fichiers sur votre serveur.
