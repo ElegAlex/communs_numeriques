@@ -176,7 +176,7 @@ Pour contribuer :
 
 ## Licence
 
-Le code source de ce site est distribué sous la licence [MIT](./LICENSE.txt) (ou une autre licence de votre choix, à créer).
+Le code source de ce site est distribué sous la licence [MIT](./LICENSE.md) (ou une autre licence de votre choix, à créer).
 
 Le contenu textuel et les images (sauf mention contraire) sont publiés sous la licence [Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)](https://creativecommons.org/licenses/by-sa/4.0/deed.fr).
 
