@@ -177,9 +177,9 @@ Le contenu textuel et les images (sauf mention contraire) sont publiés sous la 
 
 ## Contact
 
-*   **[Votre Nom]**
-*   **Email :** [votre.email@example.com](mailto:votre.email@example.com)
-*   **LinkedIn :** [https://linkedin.com/in/votreprofil](https://linkedin.com/in/votreprofil) <!-- Adaptez -->
+*   **BERGE ALEXANDRE**
+*   **Email :** [contact@alexandre-berge.fr](mailto:contact@alexandre-berge.fr)
+*   **LinkedIn :** (https://www.linkedin.com/in/bergealexandre/)
 *   **Twitter / Mastodon :** [@votreHandle](https://twitter.com/votreHandle) <!-- Adaptez -->
 
 ---
