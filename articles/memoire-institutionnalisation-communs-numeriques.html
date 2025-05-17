@@ -8,11 +8,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../style.css"> <!-- Assurez-vous que ce chemin est correct -->
-    <link rel="icon" href="../favicon.ico" type="image/x-icon"> <!-- Assurez-vous que ce chemin est correct -->
-    <link rel="apple-touch-icon" href="../apple-touch-icon.png"> <!-- Assurez-vous que ce chemin est correct -->
     <style>
-        / Styles spécifiques pour la TDM (repris de votre version) /
+       
         .table-of-contents {
             background-color: var(--color-neutral-light);
             padding: calc(var(--spacing-unit)  3);
@@ -35,33 +32,33 @@
         }
         .table-of-contents ul li a {
             text-decoration: none;
-            color: var(--color-text-light); / Ajusté pour utiliser variable CSS /
+            color: var(--color-text-light);
         }
         .table-of-contents ul li a:hover {
             color: var(--color-accent);
             text-decoration: underline;
         }
-        .table-of-contents ul ul { / Sous-niveaux /
+        .table-of-contents ul ul {
             padding-left: calc(var(--spacing-unit)  3);
             margin-top: var(--spacing-unit);
         }
         .table-of-contents ul ul li {
-            font-size: 0.95em; / Un peu plus petit pour les sous-niveaux /
+            font-size: 0.95em;
         }
-        .table-of-contents ul ul ul { / Sous-sous-niveaux /
+        .table-of-contents ul ul ul {
             padding-left: calc(var(--spacing-unit)  3);
             margin-top: var(--spacing-unit);
         }
         .table-of-contents ul ul ul li {
-            font-size: 0.9em; / Encore un peu plus petit /
+            font-size: 0.9em;
         }
-        / Style pour que les p ressemblent aux li du markdown /
+       
         .article-content-section p {
-            margin-bottom: 0.5em; / Espace entre les points /
+            margin-bottom: 0.5em;
         }
-        / S'assurer que les h2, h3, h4 ont des ID pour la TDM /
+       
         h2[id], h3[id], h4[id] {
-             scroll-margin-top: 80px; / Ajustez cette valeur pour décaler l'ancre sous le header fixe /
+             scroll-margin-top: 80px;
         }
     </style>
 </head>
@@ -90,15 +87,12 @@
             <div class="container article-style-container">
                 <article class="long-form-article">
                     <header class="article-header">
-                        <!-- Le H1 vient du titre Markdown principal -->
                         <h1>Mémoire : Les facteurs d'institutionnalisation des communs numériques dans l'administration.</h1>
-                        <p class="article-meta">Par Alexandre BERGE | Publié le JJ/MM/AAAA</p> <!-- Date à mettre à jour -->
                          <p class="article-abstract">
                             <em>Ce document est une version web du mémoire de recherche. Vous trouverez ci-dessous une table des matières pour naviguer. Une version PDF complète est disponible en téléchargement.</em>
                         </p>
                     </header>
 
-                    <!-- Table des matières générée à partir de la structure -->
                     <div id="table-of-contents" class="table-of-contents">
                         <h2>Table des Matières</h2>
                         <ul>
@@ -156,7 +150,6 @@
                         </ul>
                     </div>
 
-                    <!-- Contenu du mémoire transposé du Markdown -->
 
                     <section id="introduction-generale" class="article-content-section">
                         <h2 id="introduction-generale-heading">Introduction Générale</h2>
@@ -178,7 +171,6 @@
                         <p>3.2. Articulation avec la Théorie des Communs (numériques) pour comprendre la nature spécifique de l'objet (gouvernance, communauté, ressource partagée).</p>
                         <p>3.3. Question centrale de recherche : Quels sont les facteurs d'institutionnalisation des communs numériques au sein de l'administration publique ?</p>
                         <p>3.4. Objectifs spécifiques :</p>
-                        <!-- Sous-liste convertie en paragraphes indentés ou séparés -->
                         <p style="padding-left: 2em;">- Identifier les facteurs clés (organisationnels, culturels, juridiques, politiques, techniques, communautaires) influençant l'institutionnalisation.</p>
                         <p style="padding-left: 2em;">- Analyser les mécanismes par lesquels ces facteurs opèrent (pressions isomorphiques, travail institutionnel, légitimation, traduction...).</p>
                         <p style="padding-left: 2em;">- Comprendre les spécificités de ce processus dans le contexte de l'administration publique française.</p>
@@ -321,11 +313,9 @@
                         <p>- Perspectives de recherche futures</p> 
                     </section>
 
-                    <!-- Section Bibliographie et Annexes non incluse ici car non demandée explicitement dans le Markdown (et l'instruction était de supprimer les réfs) -->
 
                     <hr style="margin: 40px 0;">
 
-                    <!-- Reprise de la section citation / PDF de votre version initiale -->
                     <div class="citation-info">
                         <h3>Comment citer ce travail :</h3>
                         <p>
@@ -354,11 +344,8 @@
         </div>
     </footer>
 
-    <script src="../script.js"></script> <!-- Assurez-vous que ce chemin est correct -->
     <script>
-        // Script pour l'année (peut être dans script.js)
         document.getElementById('current-year').textContent = new Date().getFullYear();
-        // Le reste de la logique (menu hamburger) est supposé être dans script.js
     </script>
 </body>
 </html>
