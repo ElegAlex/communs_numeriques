@@ -28,6 +28,7 @@ Le contenu principal du blog s'articule autour de mon mémoire de recherche : «
 - [Personnalisation](#personnalisation)
   - [Design System](#design-system)
   - [Ajout de Contenu](#ajout-de-contenu)
+  - [Mise à jour du sitemap](#mise-à-jour-du-sitemap)
 - [Contribution](#contribution) <!-- Si pertinent -->
 - [Licence](#licence)
 - [Contact](#contact)
@@ -159,6 +160,16 @@ Les principaux éléments du design system sont définis comme des variables CSS
     5.  Ajoutez une carte pour ce nouvel article dans `index.html` (section `#articles`) et sur la page `articles/index.html` si vous en avez une.
 *   **Images :** Placez vos images optimisées dans le dossier `images/` et référencez-les avec des chemins relatifs. Pensez à l'attribut `alt` pour l'accessibilité.
 *   **Icônes :** Pour de nouvelles icônes, trouvez des SVG optimisés et intégrez-les directement dans le HTML ou via une balise `<img>` si c'est plus simple pour vous.
+
+### Mise à jour du sitemap
+
+Après l'ajout de nouvelles pages HTML, regénérez la liste des URLs pour les moteurs de recherche :
+
+```bash
+node generate-sitemap.js
+```
+
+Cette commande crée ou met à jour le fichier `sitemap.xml` à la racine du projet.
 
 ## Contribution
 
