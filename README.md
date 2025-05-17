@@ -102,7 +102,7 @@ L'arborescence du projet est organisée comme suit :
 
 ## Installation et Développement Local
 
-Ce projet étant un site statique, il ne nécessite pas de processus de build complexe pour le développement de base.
+Ce projet reste un site statique. Un petit script Node.js (`build.js`) permet toutefois de générer automatiquement l'en‑tête et le pied de page communs à partir des fichiers du dossier `partials/`.
 
 ### Prérequis
 
@@ -117,7 +117,12 @@ Ce projet étant un site statique, il ne nécessite pas de processus de build co
     git clone https://github.com/votre-utilisateur/votre-repo.git # Adaptez l'URL
     cd votre-repo
     ```
-2.  **Ouvrez `index.html` directement dans votre navigateur.**
+2.  **Générez les pages HTML à partir des partials :**
+    ```bash
+    node build.js
+    ```
+    Cette commande met à jour toutes les pages avec le contenu de `partials/header.html` et `partials/footer.html`.
+3.  **Ouvrez `index.html` directement dans votre navigateur.**
     *   Alternativement, si vous utilisez une extension comme "Live Server" dans VS Code, faites un clic droit sur `index.html` et choisissez "Open with Live Server".
 
 Les modifications apportées aux fichiers HTML, CSS ou JS seront visibles en rafraîchissant la page dans le navigateur (ou automatiquement avec Live Server).
