@@ -358,6 +358,14 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
 /* === SECTION CONTACT === */
 #contact { background-color: var(--color-neutral-light); }
 #contact p { max-width: 650px; margin-left: auto; margin-right: auto; margin-bottom: calc(var(--spacing-unit) * 5); }
+.contact-form { max-width: 520px; margin: calc(var(--spacing-unit) * 5) auto 0; display: flex; flex-direction: column; gap: calc(var(--spacing-unit) * 3); }
+.contact-form .form-group { display: flex; flex-direction: column; text-align: left; }
+.contact-form label { margin-bottom: calc(var(--spacing-unit) * 1); font-weight: 500; color: var(--color-text); }
+.contact-form input,
+.contact-form textarea { padding: calc(var(--spacing-unit) * 1.5); border: 1px solid var(--color-border); border-radius: var(--border-radius-sm); font: inherit; }
+.contact-form input:focus,
+.contact-form textarea:focus { outline: 2px solid var(--color-accent); }
+.contact-form button[type="submit"] { align-self: flex-start; }
 .social-links { margin-top: calc(var(--spacing-unit) * 5); }
 .social-links a { display: inline-block; margin: 0 calc(var(--spacing-unit) * 1.25); color: var(--color-text-light); transition: color 0.2s ease, transform 0.2s ease; }
 .social-links a svg { width: 28px; height: 28px; vertical-align: middle; }
