@@ -13,7 +13,7 @@ Ce projet est codé manuellement en **HTML, CSS et JavaScript natifs**, sans fra
 
 Le contenu principal du blog s'articule autour de mon mémoire de recherche : « **Les facteurs d'institutionnalisation des communs numériques dans l'administration** ».
 
-**URL du site en production :** [https://votre-domaine.com](https://votre-domaine.com) <!-- Mettez votre URL réelle -->
+**URL du site en production :** [https://alexandre-berge.fr](https://alexandre-berge.fr)
 
 ## Table des Matières
 
@@ -185,8 +185,8 @@ Le contenu textuel et les images (sauf mention contraire) sont publiés sous la 
 *   **BERGE ALEXANDRE**
 *   **Email :** [contact@alexandre-berge.fr](mailto:contact@alexandre-berge.fr)
 *   **LinkedIn :** https://www.linkedin.com/in/bergealexandre/
-*   **Twitter / Mastodon :** [@votreHandle](https://twitter.com/votreHandle) <!-- Adaptez -->
+*   **Twitter / Mastodon :** [@bergealexandre](https://twitter.com/bergealexandre)
 
 ---
 
-_Ce README a été mis à jour pour la dernière fois le [Date Actuelle]._
+_Ce README a été mis à jour pour la dernière fois le 2025-05-17._
