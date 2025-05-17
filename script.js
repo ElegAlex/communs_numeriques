@@ -174,5 +174,36 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+    // --- Reading progress bar ---
+    const progressBar = document.getElementById("reading-progress");
+    if (progressBar) {
+        const updateProgress = () => {
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+            progressBar.style.width = progress + "%";
+        };
+        window.addEventListener("scroll", updateProgress);
+        window.addEventListener("resize", updateProgress);
+        updateProgress();
+    }
+
+    // --- Back to top button ---
+    const backToTop = document.getElementById("back-to-top");
+    if (backToTop) {
+        const toggleBackToTop = () => {
+            if (window.scrollY > 300) {
+                backToTop.classList.add("visible");
+            } else {
+                backToTop.classList.remove("visible");
+            }
+        };
+        window.addEventListener("scroll", toggleBackToTop);
+        backToTop.addEventListener("click", () => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+        toggleBackToTop();
+    }
+
 
 });
