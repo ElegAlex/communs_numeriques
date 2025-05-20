@@ -433,6 +433,9 @@ main > section { padding: calc(var(--spacing-unit) * 12) 0; }
 .table-of-contents ul li a:hover { color: var(--color-accent); }
 .table-of-contents ul ul { padding-left: calc(var(--spacing-unit) * 3); margin-top: var(--spacing-unit); border-left: 1px solid var(--color-border); }
 .table-of-contents ul ul li { font-size: 0.9rem; }
+.table-of-contents a.active { font-weight: 600; color: var(--color-accent); }
+.toc-toggle { background:none; border:none; cursor:pointer; font-size:0.8rem; margin-left:0.25rem; }
+.toc-toggle:focus { outline: 2px solid var(--color-accent); }
 .citation-info { margin-top: calc(var(--spacing-unit) * 8); padding: calc(var(--spacing-unit) * 4); background-color: var(--color-neutral-medium); border-radius: var(--border-radius-md); border-top: 3px solid var(--color-accent); font-size: 0.95rem; }
 .citation-info h3 { font-size: 1.125rem; margin-top: 0; margin-bottom: calc(var(--spacing-unit) * 1.5); color: var(--color-text); border-bottom: none; padding-bottom: 0; }
 .citation-info p { font-size: inherit; margin-bottom: calc(var(--spacing-unit) * 1.5); }
