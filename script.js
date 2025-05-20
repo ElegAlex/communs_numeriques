@@ -174,6 +174,65 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // --- Table of contents interactions ---
+    const toc = document.getElementById('table-of-contents');
+    if (toc) {
+        const tocLinks = toc.querySelectorAll('a.toc-link');
+        const headingMap = {};
+        tocLinks.forEach(link => {
+            const id = link.getAttribute('href').slice(1);
+            const heading = document.getElementById(id);
+            if (heading) {
+                headingMap[id] = link;
+            }
+        });
+
+        if ('IntersectionObserver' in window) {
+            let currentActive = null;
+            const io = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const link = headingMap[entry.target.id];
+                        if (link && currentActive !== link) {
+                            if (currentActive) currentActive.classList.remove('active');
+                            link.classList.add('active');
+                            currentActive = link;
+                        }
+                    }
+                });
+            }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
+
+            Object.keys(headingMap).forEach(id => io.observe(document.getElementById(id)));
+        }
+
+        const sublists = toc.querySelectorAll('li > ul.toc-list');
+        sublists.forEach((ul, idx) => {
+            ul.id = ul.id || `toc-sublist-${idx}`;
+            const li = ul.parentElement;
+            const toggle = document.createElement('button');
+            toggle.className = 'toc-toggle';
+            toggle.setAttribute('aria-controls', ul.id);
+            toggle.setAttribute('aria-expanded', 'true');
+            toggle.innerHTML = '▾';
+            li.insertBefore(toggle, ul);
+
+            const toggleAction = () => {
+                const expanded = toggle.getAttribute('aria-expanded') === 'true';
+                toggle.setAttribute('aria-expanded', String(!expanded));
+                ul.hidden = expanded;
+                toggle.innerHTML = expanded ? '▸' : '▾';
+            };
+
+            toggle.addEventListener('click', toggleAction);
+            toggle.addEventListener('keydown', e => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleAction();
+                }
+            });
+        });
+    }
     // --- Reading progress bar ---
     const progressBar = document.getElementById("reading-progress");
     if (progressBar) {
