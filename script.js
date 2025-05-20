@@ -247,6 +247,26 @@ document.addEventListener('DOMContentLoaded', () => {
         updateProgress();
     }
 
+    // --- Scrolly visuals in the mémoire page ---
+    document.body.classList.add('js-enabled');
+    const steps = document.querySelectorAll('.interactive-overview .step');
+    const visuals = document.querySelectorAll('.interactive-overview .visual-pane .visual');
+
+    if (steps.length && visuals.length && 'IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const index = entry.target.dataset.step;
+                    visuals.forEach(v => {
+                        v.classList.toggle('active', v.dataset.step === index);
+                    });
+                }
+            });
+        }, { threshold: 0.5 });
+
+        steps.forEach(step => observer.observe(step));
+    }
+
     // --- Back to top button ---
     const backToTop = document.getElementById("back-to-top");
     if (backToTop) {
