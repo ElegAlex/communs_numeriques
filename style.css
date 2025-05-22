@@ -691,27 +691,20 @@ h1[id], h2[id], h3[id], h4[id] {
     display: flex;
     gap: calc(var(--spacing-unit) * 6);
 }
-.interactive-overview .visual-pane {
+
+.sticky-visual {
     flex-basis: 40%;
     position: sticky;
-    top: calc(var(--header-height) + var(--spacing-unit) * 4);
+    top: calc(var(--header-height) + var(--spacing-unit) * 2);
     height: 40vh;
     min-height: 300px;
-}
-.interactive-overview .visual-pane .visual {
-    position: absolute;
-    inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--color-neutral-light);
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius-md);
-    opacity: 0;
-    transition: opacity 0.4s ease;
 }
-.interactive-overview .visual-pane .visual.active {
-    opacity: 1;
+.sticky-visual img {
+    max-width: 100%;
+    height: auto;
 }
 .interactive-overview .steps {
     flex-basis: 60%;
@@ -1107,16 +1100,8 @@ h1[id], h2[id], h3[id], h4[id] {
     display: flex;
     gap: calc(var(--spacing-unit) * 6);
 }
-.interactive-overview .visual-pane {
-    flex-basis: 40%;
-    position: sticky;
-    top: calc(var(--header-height) + var(--spacing-unit) * 4);
-    height: 45vh; 
-    min-height: 320px;
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-}
+
+
 .interactive-overview .visual-pane .visual {
     position: absolute;
     inset: 0;
