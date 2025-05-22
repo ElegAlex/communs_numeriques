@@ -20,6 +20,7 @@
     <link rel="apple-touch-icon" href="../images/apple-touch-icon.png">
 </head>
 <body>
+    <div id="reading-progress"></div>
 
     <header id="main-header">
     <div class="container">
@@ -52,8 +53,9 @@
                             <em>Les ressources numériques partagées, données, connaissances, logiciels, plateformes; posent la question de leur gouvernance : comment une communauté peut-elle gérer et faire durer un « commun numérique » de manière collective ? Cet article dresse un panorama des grands modèles théoriques de gouvernance partagée (polycentrisme, gouvernance distribuée, communs par conception), illustrés par des exemples concrets comme Wikipédia, OpenStreetMap, Mastodon ou des projets open source. Il met en lumière les enjeux, tensions et enseignements de ces expériences, et ouvre des pistes pour l’action publique face à ces nouvelles formes d’organisation collective.</em>
                         </p>
                     </header>
+                    <button id="toc-toggle-button" class="toc-toggle-button" aria-expanded="false" aria-controls="table-of-contents">Table des Matières</button>
 
-                    <div id="table-of-contents" class="table-of-contents">
+                    <nav id="table-of-contents" role="navigation" aria-label="Table des matières" class="table-of-contents">
                         <h2>Table des Matières</h2>
                         <ul>
                             <li><a href="#comprehension-communs">Comprendre la notion de « communs » numériques</a></li>
@@ -70,7 +72,7 @@
                             <li><a href="#perspectives-alliance">Perspectives : vers une alliance entre communs et action publique</a></li>
                             <li><a href="#sources-article">Bibliographie et sources</a></li>
                         </ul>
-                    </div>
+                    </nav>
 
                     <section id="comprehension-communs" class="article-content-section">
                         <h2>Comprendre la notion de « communs » numériques</h2>
@@ -206,6 +208,7 @@
 
 
 
+    <button id="back-to-top" aria-label="Retour en haut">↑</button>
     <script src="../script.js"></script>
 </body>
 </html>
