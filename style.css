@@ -768,9 +768,13 @@ h1[id], h2[id], h3[id], h4[id] {
         display: flex;
         gap: calc(var(--spacing-unit) * 6);
         align-items: flex-start; /* Align items to the top */
+        width: 100%; /* Span full viewport width */
+        max-width: none; /* Override previous max-width */
     }
 
     .long-form-article {
+        padding-left: calc(var(--spacing-unit) * 4); /* Horizontal padding */
+        padding-right: calc(var(--spacing-unit) * 4); /* Horizontal padding */
         flex-grow: 1;
         flex-basis: 0; /* Allow it to grow and shrink */
         min-width: 0; /* Prevent overflow issues with flex children */
