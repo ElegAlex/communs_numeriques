@@ -20,6 +20,7 @@
     <link rel="apple-touch-icon" href="../images/apple-touch-icon.png">
 </head>
 <body>
+    <div id="reading-progress"></div>
 
     <header id="main-header">
     <div class="container">
@@ -52,8 +53,9 @@
                             <em>Au cœur des administrations, là où les rouages de l'État et des collectivités territoriales impriment leur rythme, des figures singulières émergent. Ce sont les <strong>“champions internes”</strong>, les <strong>entrepreneurs institutionnels</strong> du numérique public. Avec une détermination sans faille, ils œuvrent à l'introduction et à l'ancrage des <strong>communs numériques</strong> : logiciels libres partagés, données ouvertes accessibles à tous, plateformes collaboratives co-construites. Ces pionniers sont les véritables moteurs d'une transformation silencieuse mais profonde de l'action publique. Cependant, cette dynamique, si précieuse soit-elle, porte en elle une vulnérabilité : que se passe-t-il lorsque ces porteurs de flambeau, souvent surinvestis, quittent la scène ou s'épuisent ? Cet article plonge au cœur de ce rôle ambivalent, explorant les mécanismes de leur action, les risques inhérents à une trop forte personnalisation, et les stratégies pour bâtir des communs numériques résilients, capables de prospérer au-delà de leurs instigateurs.</em>
                         </p>
                     </header>
+                    <button id="toc-toggle-button" class="toc-toggle-button" aria-expanded="false" aria-controls="table-of-contents">Table des Matières</button>
 
-                    <div id="table-of-contents" class="table-of-contents">
+                    <nav id="table-of-contents" role="navigation" aria-label="Table des matières" class="table-of-contents">
                         <h2>Table des Matières</h2>
                         <ul>
                             <li><a href="#batisseurs-interieur">Ces Bâtisseurs de l'Intérieur : Les Entrepreneurs Institutionnels en Action</a>
@@ -66,7 +68,7 @@
                             <li><a href="#conclusion-article">Conclusion : Des Champions aux Collectifs, la Promesse d'une Administration Réinventée</a></li>
                             <li><a href="#bibliographie-sources">Bibliographie et sources</a></li>
                         </ul>
-                    </div>
+                    </nav>
 
                     <section id="batisseurs-interieur" class="article-content-section">
                         <h2>Ces Bâtisseurs de l'Intérieur : Les Entrepreneurs Institutionnels en Action</h2>
@@ -203,6 +205,7 @@
 
 
 
+    <button id="back-to-top" aria-label="Retour en haut">↑</button>
     <script src="../script.js"></script>
 </body>
 </html>

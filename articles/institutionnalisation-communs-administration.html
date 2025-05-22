@@ -17,6 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../style.css"> <link rel="icon" href="../images/favicon.ico" type="image/x-icon"> <link rel="apple-touch-icon" href="../images/apple-touch-icon.png"> </head>
 <body>
+    <div id="reading-progress"></div>
 
     <header id="main-header">
     <div class="container">
@@ -48,8 +49,9 @@
                             <em>Logiciels libres, données ouvertes, plateformes collaboratives… Ces <strong>communs numériques</strong> suscitent un vif intérêt dans les administrations publiques pour leurs promesses de souveraineté et d’innovation. Mais comment passer de l’expérimentation à l’<strong>institutionnalisation</strong> ? L’article analyse comment ces ressources partagées peuvent s’ancrer durablement dans les pratiques administratives (c'est à dire devenir légitimes, stables, routinières et « allant de soi ») malgré les freins culturels, techniques et économiques. Il explore aussi quelles conditions favorisent leur succès.</em>
                         </p>
                     </header>
+                    <button id="toc-toggle-button" class="toc-toggle-button" aria-expanded="false" aria-controls="table-of-contents">Table des Matières</button>
 
-                    <div id="table-of-contents" class="table-of-contents">
+                    <nav id="table-of-contents" role="navigation" aria-label="Table des matières" class="table-of-contents">
                         <h2>Table des Matières</h2>
                         <ul>
                             <li><a href="#communs-numeriques-definition">Les communs numériques : de quoi parle-t-on ?</a></li>
@@ -59,7 +61,7 @@
                             <li><a href="#conclusion-article">Conclusion : vers des administrations “communs-compatibles”</a></li>
                             <li><a href="#bibliographie-article">Bibliographie et sources</a></li>
                         </ul>
-                    </div>
+                    </nav>
 
                     <section id="communs-numeriques-definition" class="article-content-section">
                         <h2>Les communs numériques : de quoi parle-t-on ?</h2>
@@ -178,9 +180,7 @@
 
 
 
-    <script src="../script.js"></script> <script>
-        // Petit script pour mettre à jour l'année automatiquement dans le footer
-        document.getElementById('current-year').textContent = new Date().getFullYear();
-    </script>
+    <button id="back-to-top" aria-label="Retour en haut">↑</button>
+    <script src="../script.js"></script>
 </body>
 </html>
