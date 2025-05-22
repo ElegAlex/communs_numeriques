@@ -176,7 +176,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Table of contents interactions ---
+    const tocToggleButton = document.getElementById('toc-toggle-button');
     const toc = document.getElementById('table-of-contents');
+
+    if (tocToggleButton && toc) {
+        tocToggleButton.addEventListener('click', () => {
+            const isExpanded = tocToggleButton.getAttribute('aria-expanded') === 'true';
+            tocToggleButton.setAttribute('aria-expanded', !isExpanded);
+            toc.classList.toggle('toc-visible');
+        });
+    }
+
     if (toc) {
         const tocLinks = toc.querySelectorAll('a.toc-link');
         const headingMap = {};
@@ -190,20 +200,87 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if ('IntersectionObserver' in window) {
             let currentActive = null;
+            // Adjusting rootMargin:
+            // - Top margin: Negative of header height + some offset. This ensures a heading isn't highlighted
+            //   if it's mostly hidden behind the fixed header.
+            // - Bottom margin: Negative to ensure highlighting happens when the heading is well within view,
+            //   not just barely peeking from the bottom. e.g., -60% means the bottom 60% of the viewport
+            //   is ignored for the "bottom" of the intersection calculation.
+            //   A heading is active if its top is between (headerHeight + offset) and (viewportHeight * 0.4).
+            const headerHeightForToc = varHeaderHeight + 20; // main header height + some breathing room
+            const rootMarginValue = `-${headerHeightForToc}px 0px -${window.innerHeight - headerHeightForToc - 150}px 0px`;
+            // This rootMargin means:
+            // top: don't consider active if it's above "headerHeightForToc" from the top of viewport
+            // bottom: don't consider active if it's below (viewport_height - (headerHeightForToc + 150px)) from the top of viewport
+            // This creates a "band" of about 150px high below the header where a heading's top must be to be active.
+
             const io = new IntersectionObserver(entries => {
                 entries.forEach(entry => {
+                    const link = headingMap[entry.target.id];
+                    if (!link) return;
+
                     if (entry.isIntersecting) {
-                        const link = headingMap[entry.target.id];
-                        if (link && currentActive !== link) {
-                            if (currentActive) currentActive.classList.remove('active');
-                            link.classList.add('active');
-                            currentActive = link;
+                        // When a heading enters the target "band"
+                        if (currentActive) currentActive.classList.remove('active');
+                        link.classList.add('active');
+                        currentActive = link;
+                         // Optional: Scroll TOC to keep active link visible
+                        if (toc.classList.contains('sticky') || toc.classList.contains('toc-visible')) { // Check if TOC is visible
+                            const activeLinkRect = link.getBoundingClientRect();
+                            const tocRect = toc.getBoundingClientRect();
+                            if (activeLinkRect.top < tocRect.top || activeLinkRect.bottom > tocRect.bottom) {
+                                link.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+                            }
+                        }
+
+                    } else {
+                        // Potentially remove active class if it scrolls out of the "band" upwards
+                        // This logic might need refinement based on desired behavior for multiple intersecting entries
+                        // For now, the new intersecting entry will correctly set 'currentActive'
+                    }
+                });
+            }, {
+                rootMargin: rootMarginValue,
+                threshold: 0 // Trigger as soon as the element enters/leaves the intersection area
+            });
+
+            const observedElements = [];
+            Object.keys(headingMap).forEach(id => {
+                const headingElement = document.getElementById(id);
+                if (headingElement) {
+                    io.observe(headingElement);
+                    observedElements.push(headingElement);
+                }
+            });
+
+            // Fallback or initial active link setting for when page loads or if no intersection is detected
+            // (e.g. if already scrolled to a section)
+            function updateActiveLinkFallback() {
+                let bestMatch = null;
+                let smallestDistance = Infinity;
+
+                observedElements.forEach(heading => {
+                    const rect = heading.getBoundingClientRect();
+                    // Check if the heading is reasonably visible (top part of it is below the header and above bottom of viewport)
+                    if (rect.top >= headerHeightForToc && rect.top < window.innerHeight) {
+                        const distanceToActivationLine = Math.abs(rect.top - headerHeightForToc);
+                        if (distanceToActivationLine < smallestDistance) {
+                            smallestDistance = distanceToActivationLine;
+                            bestMatch = headingMap[heading.id];
                         }
                     }
                 });
-            }, { rootMargin: '0px 0px -70% 0px', threshold: 0 });
 
-            Object.keys(headingMap).forEach(id => io.observe(document.getElementById(id)));
+                if (bestMatch && currentActive !== bestMatch) {
+                    if (currentActive) currentActive.classList.remove('active');
+                    bestMatch.classList.add('active');
+                    currentActive = bestMatch;
+                }
+            }
+            window.addEventListener('scroll', updateActiveLinkFallback, { passive: true });
+            document.addEventListener('DOMContentLoaded', updateActiveLinkFallback);
+
+
         }
 
         const sublists = toc.querySelectorAll('li > ul.toc-list');
@@ -235,16 +312,57 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     // --- Reading progress bar ---
     const progressBar = document.getElementById("reading-progress");
-    if (progressBar) {
+    const longFormArticle = document.querySelector(".long-form-article");
+
+    if (progressBar && longFormArticle) {
         const updateProgress = () => {
-            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
-            progressBar.style.width = progress + "%";
+            const articleRect = longFormArticle.getBoundingClientRect();
+            const viewportHeight = window.innerHeight;
+            const headerHeight = varHeaderHeight; // Using the already calculated header height
+
+            // Calculate how much of the article is visible or has been scrolled past,
+            // starting from when the top of the article reaches below the header,
+            // until the bottom of the article leaves the bottom of the viewport.
+
+            // Scrollable height of the article itself
+            const articleScrollableHeight = articleRect.height - (viewportHeight - headerHeight);
+
+            // Current scroll position relative to the article's start (when its top is just below the header)
+            // articleRect.top is the distance from the viewport top to the article top.
+            // When articleRect.top is headerHeight, we are at the beginning of the readable content.
+            // Scrolled distance within the article's "readable" zone:
+            let scrolledDistanceInArticle = (headerHeight - articleRect.top);
+
+            let progress = 0;
+            if (articleScrollableHeight > 0) {
+                // Ensure progress starts at 0 when top of article is at/below header, and caps at 100
+                // when bottom of article is at/above viewport bottom.
+                if (scrolledDistanceInArticle < 0) { // Before article content starts scrolling into view below header
+                    progress = 0;
+                } else if (scrolledDistanceInArticle > articleScrollableHeight) { // After article content has scrolled past
+                    progress = 100;
+                } else {
+                    progress = (scrolledDistanceInArticle / articleScrollableHeight) * 100;
+                }
+            } else {
+                // If article is shorter than viewport height (minus header),
+                // progress can be 0 if top is below header, 100 if top is above.
+                if (articleRect.top < headerHeight && articleRect.bottom > viewportHeight) {
+                    progress = 100; // Article fills and exceeds visible area
+                } else if (articleRect.top < headerHeight) {
+                     progress = 100; // Top of short article is above header
+                } else {
+                    progress = 0; // Top of short article is below header
+                }
+            }
+            
+            progressBar.style.width = Math.min(Math.max(progress, 0), 100) + "%";
         };
-        window.addEventListener("scroll", updateProgress);
+        window.addEventListener("scroll", updateProgress, { passive: true });
         window.addEventListener("resize", updateProgress);
-        updateProgress();
+        // Call it once to set initial state, perhaps after other layout-affecting JS.
+        // Using a small timeout if other scripts might affect layout.
+        setTimeout(updateProgress, 50);
     }
 
     // --- Scrolly visuals in the mémoire page ---
@@ -255,14 +373,25 @@ document.addEventListener('DOMContentLoaded', () => {
     if (steps.length && visuals.length && 'IntersectionObserver' in window) {
         const observer = new IntersectionObserver(entries => {
             entries.forEach(entry => {
+                const currentStepElement = entry.target;
+                const stepIndex = currentStepElement.dataset.step;
+
                 if (entry.isIntersecting) {
-                    const index = entry.target.dataset.step;
+                    // Activate the visual
                     visuals.forEach(v => {
-                        v.classList.toggle('active', v.dataset.step === index);
+                        v.classList.toggle('active', v.dataset.step === stepIndex);
                     });
+                    // Activate the step
+                    steps.forEach(s => {
+                        s.classList.toggle('step-active', s.dataset.step === stepIndex);
+                    });
+                } else {
+                    // Optional: Deactivate step if not intersecting,
+                    // but usually another step will become active and handle it.
+                    // currentStepElement.classList.remove('step-active');
                 }
             });
-        }, { threshold: 0.5 });
+        }, { threshold: 0.5 }); // Trigger when 50% of the step is visible
 
         steps.forEach(step => observer.observe(step));
     }
