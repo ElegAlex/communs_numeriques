@@ -776,14 +776,16 @@ h1[id], h2[id], h3[id], h4[id] {
         padding-left: calc(var(--spacing-unit) * 4); /* Horizontal padding */
         padding-right: calc(var(--spacing-unit) * 4); /* Horizontal padding */
         flex-grow: 1;
-        flex-basis: 0; /* Allow it to grow and shrink */
+        flex-basis: 70%; /* Occupies about 70% of the container */
+        max-width: 70%;
         min-width: 0; /* Prevent overflow issues with flex children */
     }
 
     .table-of-contents {
         position: sticky;
         top: calc(var(--header-height) + var(--spacing-unit) * 4); /* Below fixed header */
-        flex-basis: 300px; /* Fixed width for TOC sidebar */
+        flex-basis: 30%; /* Sidebar takes roughly 30% of width */
+        max-width: 30%;
         flex-shrink: 0; /* Prevent sidebar from shrinking */
         order: -1; /* Place TOC on the left */
         max-height: calc(100vh - var(--header-height) - var(--spacing-unit) * 8); /* Adjust max-height for viewport */
