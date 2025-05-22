@@ -368,30 +368,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Scrolly visuals in the mémoire page ---
     document.body.classList.add('js-enabled');
     const steps = document.querySelectorAll('.interactive-overview .step');
-    const visuals = document.querySelectorAll('.interactive-overview .visual-pane .visual');
+    const stickyVisual = document.querySelector('#sticky-visual img');
 
-    if (steps.length && visuals.length && 'IntersectionObserver' in window) {
+    if (steps.length && stickyVisual && 'IntersectionObserver' in window) {
         const observer = new IntersectionObserver(entries => {
             entries.forEach(entry => {
-                const currentStepElement = entry.target;
-                const stepIndex = currentStepElement.dataset.step;
-
                 if (entry.isIntersecting) {
-                    // Activate the visual
-                    visuals.forEach(v => {
-                        v.classList.toggle('active', v.dataset.step === stepIndex);
-                    });
-                    // Activate the step
+                    stickyVisual.src = entry.target.dataset.image;
+                    stickyVisual.alt = entry.target.dataset.alt || '';
                     steps.forEach(s => {
-                        s.classList.toggle('step-active', s.dataset.step === stepIndex);
+                        s.classList.toggle('step-active', s === entry.target);
                     });
-                } else {
-                    // Optional: Deactivate step if not intersecting,
-                    // but usually another step will become active and handle it.
-                    // currentStepElement.classList.remove('step-active');
                 }
             });
-        }, { threshold: 0.5 }); // Trigger when 50% of the step is visible
+        }, { threshold: 0.5 });
 
         steps.forEach(step => observer.observe(step));
     }
