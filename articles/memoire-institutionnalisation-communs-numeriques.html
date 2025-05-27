@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
     <style>
         :root {
             --primary-color: #2563eb;
@@ -349,27 +350,27 @@
             padding: 1.5rem;
             border-radius: 0.75rem;
             border-left: 4px solid var(--primary-color);
-            background: var(--bg-secondary); /* General admonition background */
+            background: var(--bg-secondary); 
         }
         .admonition p:first-child { margin-top: 0; }
         .admonition p:last-child { margin-bottom: 0; }
 
 
         .admonition.warning {
-            background: rgba(245, 158, 11, 0.1); /* More specific for warning */
+            background: rgba(245, 158, 11, 0.1); 
             border-left-color: var(--warning-color);
         }
         
-        .admonition.warning .admonition-title { /* Title color for warning */
+        .admonition.warning .admonition-title { 
              color: var(--warning-color);
         }
 
         .admonition-title {
             font-family: 'Inter', sans-serif;
             font-weight: 600;
-            color: var(--primary-color); /* Default title color */
+            color: var(--primary-color); 
             margin-bottom: 0.5rem;
-            display: block; /* Make it block for spacing */
+            display: block; 
         }
         
 
@@ -398,10 +399,10 @@
             text-align: left;
             border-bottom: 1px solid var(--border-color);
             font-size: 0.95rem;
-            font-family: 'Inter', sans-serif; /* Ensure table content uses Inter */
+            font-family: 'Inter', sans-serif; 
         }
         .styled-table td ul {
-            padding-left: 1rem; /* Indent lists within table cells */
+            padding-left: 1rem; 
             margin: 0.5rem 0;
         }
         .styled-table td ul li {
@@ -416,20 +417,19 @@
             background: var(--bg-tertiary);
         }
         
-        /* Mermaid diagrams placeholder */
+        /* Mermaid diagrams container */
         .mermaid-diagram-container {
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
             padding: 1rem;
             margin: 2rem 0;
             border-radius: 0.5rem;
-            overflow-x: auto;
+            overflow-x: auto; /* For wide diagrams */
+            text-align: center; /* Center the diagram */
         }
-        .mermaid-diagram-container pre {
-            background: transparent;
-            padding: 0;
-            margin:0;
-            font-size: 0.9em;
+        .mermaid {
+            text-align: left; /* Reset text-align for the diagram code if needed */
+            display: inline-block; /* Allows centering */
         }
 
 
@@ -510,9 +510,9 @@
             }
             
             .nav-sidebar {
-                left: -350px; /* Ensure it's hidden by default */
+                left: -350px; 
             }
-             .nav-sidebar.open { /* Ensure it appears when open */
+             .nav-sidebar.open { 
                 left:0;
             }
         }
@@ -589,8 +589,8 @@
             .styled-table thead {
                 background-color: #eee !important;
                 color: black !important;
-                -webkit-print-color-adjust: exact; /* Chrome, Safari */
-                print-color-adjust: exact; /* Firefox, Edge */
+                -webkit-print-color-adjust: exact; 
+                print-color-adjust: exact; 
             }
             .styled-table tbody tr:nth-child(even) {
                 background-color: #f9f9f9 !important;
@@ -612,7 +612,7 @@
              .admonition.warning .admonition-title {
                  color: #f59e0b !important;
              }
-             .mermaid-diagram-container { display: none; } /* Hide mermaid code blocks in print */
+             .mermaid-diagram-container { display: none; } 
         }
     </style>
 </head>
@@ -658,14 +658,14 @@
                     <strong>Résumé :</strong> Ce mémoire explore les facteurs déterminants de l'institutionnalisation des communs numériques au sein de l'administration publique. Face aux impératifs de transformation numérique et aux limites des approches conventionnelles, les communs numériques émergent comme une alternative prometteuse. Toutefois, leur ancrage durable soulève des défis complexes. En mobilisant la théorie néo-institutionnelle, la théorie du travail institutionnel et les principes d'Ostrom, cette recherche analyse, à travers une étude de cas multiples, les dynamiques contextuelles, organisationnelles et stratégiques qui favorisent ou entravent l'intégration pérenne de ces initiatives collaboratives dans les pratiques administratives.
                 </div>
             </header>
-            
-            <article class="article-content-section">
 
+            <article class="article-content-section">
+    
                 <blockquote class="admonition warning">
                     <p class="admonition-title">Attention</p>
                     <p>Ce mémoire est actuellement en cours de réalisation et les différentes parties qui le constituent sont susceptibles d'évoluer d'ici à sa finalisation.</p>
                 </blockquote>
-                
+                            
             <article class="article-content-section" id="article-content-container">
                 <!-- Le contenu du mémoire sera injecté ici par JavaScript -->
             </article>
@@ -738,15 +738,21 @@
                 themeToggle.innerHTML = moonIcon;
             }
         }
-        updateThemeIcon();
+        updateThemeIcon(); // Call it once at load
 
 
-        themeToggle.addEventListener('click', () => {
-            const theme = document.documentElement.getAttribute('data-theme');
-            const newTheme = theme === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            storage.setItem('theme', newTheme);
+        themeToggle.addEventListener('click', async () => { // Make async for mermaid update
+            const currentDocTheme = document.documentElement.getAttribute('data-theme');
+            const newDocTheme = currentDocTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newDocTheme);
+            storage.setItem('theme', newDocTheme);
             updateThemeIcon();
+
+            // Dispatch event for Mermaid theme update
+            if (typeof mermaid !== 'undefined') {
+                const event = new CustomEvent('mermaidThemeUpdate', { detail: { theme: newDocTheme } });
+                themeToggle.dispatchEvent(event);
+            }
         });
 
         // Table of Contents Toggle
@@ -757,14 +763,14 @@
 
         tocToggle.addEventListener('click', () => {
             navSidebar.classList.toggle('open');
-            if (window.innerWidth > 1200) { // Only adjust margin on larger screens
+            if (window.innerWidth > 1200) { 
                 mainContent.classList.toggle('with-sidebar', navSidebar.classList.contains('open'));
             }
         });
         
         // Reading Progress
         const readingProgress = document.getElementById('reading-progress');
-        let articleContentSectionForProgress; // Will be set after content injection
+        let articleContentSectionForProgress; 
         
         function updateReadingProgress() {
             if (!articleContentSectionForProgress) return;
@@ -772,12 +778,9 @@
             const contentHeight = articleContentSectionForProgress.offsetHeight;
             const articleHeaderHeight = document.querySelector('.article-header')?.offsetHeight || 0;
             
-            // Calculate scrollable height: total content height minus viewport height available for content
             const viewportHeight = window.innerHeight - HEADER_HEIGHT;
             const scrollableHeight = contentHeight - viewportHeight;
             
-            // Calculate current scroll position relative to the start of the article content section
-            // (after the main page header and the article header)
             const scrollTopRelativeToDocument = window.pageYOffset;
             const articleContentStartOffset = articleContentSectionForProgress.offsetTop - HEADER_HEIGHT;
             let currentScrollInContent = scrollTopRelativeToDocument - articleContentStartOffset;
@@ -785,7 +788,7 @@
             let progress = 0;
             if (scrollableHeight > 0) {
                  progress = (currentScrollInContent / scrollableHeight) * 100;
-            } else if (currentScrollInContent >= 0 && contentHeight > 0) { // Content shorter than viewport
+            } else if (currentScrollInContent >= 0 && contentHeight > 0) { 
                 progress = 100;
             }
             
@@ -794,14 +797,13 @@
 
 
         // Active TOC Link
-        let tocLinks = []; // Will be populated after TOC injection
-        let sections = []; // Will be populated after content injection
+        let tocLinks = []; 
+        let sections = []; 
 
         function updateActiveTocLink() {
             if (!sections.length || !tocLinks.length) return;
 
             let currentSectionId = '';
-            // Adjust scroll position for fixed header and a small buffer
             const scrollPos = window.pageYOffset + HEADER_HEIGHT + 30; 
 
             for (let i = sections.length - 1; i >= 0; i--) {
@@ -815,7 +817,7 @@
                 link.classList.remove('active');
                 if (link.getAttribute('href') === '#' + currentSectionId) {
                     link.classList.add('active');
-                    if (navSidebar.classList.contains('open') && navSidebar.offsetWidth > 0 && navSidebar.offsetHeight > 0) { // Check if sidebar is visible
+                    if (navSidebar.classList.contains('open') && navSidebar.offsetWidth > 0 && navSidebar.offsetHeight > 0) { 
                          link.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
                     }
                 }
@@ -858,7 +860,7 @@
         
         function closeNavSidebar() {
             navSidebar.classList.remove('open');
-            if (window.innerWidth > 1200) { // Only adjust margin on larger screens
+            if (window.innerWidth > 1200) { 
                 mainContent.classList.remove('with-sidebar');
             }
         }
@@ -889,12 +891,7 @@
         function handleResize() {
             if (window.innerWidth <= 1200) {
                 mainContent.classList.remove('with-sidebar');
-                 if (navSidebar.classList.contains('open') && window.innerWidth > 768) {
-                    // Keep sidebar open if it was, but remove main content margin adjustment
-                } else if (navSidebar.classList.contains('open') && window.innerWidth <= 768) {
-                    // Sidebar likely full screen, no margin adjustment needed
-                }
-            } else { // Larger than 1200px
+            } else { 
                 if (navSidebar.classList.contains('open')) {
                      mainContent.classList.add('with-sidebar');
                 } else {
