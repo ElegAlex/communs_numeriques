@@ -164,10 +164,11 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('scroll', changeActiveLink);
         window.addEventListener('load', changeActiveLink); // Aussi au chargement
     } else {
-        // Pour les autres pages, juste matcher le lien exact
+        // Pour les autres pages, matcher le chemin ou le dossier articles
          navLinks.forEach(link => {
             const linkPath = new URL(link.href, window.location.origin).pathname;
-            if (linkPath === window.location.pathname) {
+            const isArticlesLink = linkPath === '/articles/index.html' && window.location.pathname.startsWith('/articles/');
+            if (linkPath === window.location.pathname || isArticlesLink) {
                 link.classList.add('active');
             } else {
                 link.classList.remove('active');
