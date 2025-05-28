@@ -4,57 +4,569 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>À Propos - Communs Numériques</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="description" content="À propos d'Alexandre BERGE, auteur du blog Communs Numériques et expert en transformation numérique du secteur public.">
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
     <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #2d3748;
+            background: #fafafa;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Reading Progress Bar */
+        #reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, #4299e1, #63b3ed);
+            z-index: 1001;
+            transition: width 0.1s ease;
+        }
+
+        /* Header */
+        #main-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #e2e8f0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        #main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #1a202c;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .logo:hover {
+            color: #4299e1;
+        }
+
+        .main-nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .main-nav a {
+            color: #718096;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 0;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .main-nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #4299e1;
+            transition: width 0.3s ease;
+        }
+
+        .main-nav a:hover {
+            color: #2d3748;
+        }
+
+        .main-nav a:hover::after {
+            width: 100%;
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #2d3748;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 0;
+            padding: 6rem 0;
+            background: linear-gradient(180deg, #ffffff 0%, #f7fafc 100%);
+        }
+
+        /* About Section */
+        .about-section {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1a202c;
+            text-align: center;
+            margin-bottom: 3rem;
+            line-height: 1.2;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            background: white;
+            padding: 3rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+        }
+
+        .about-text {
+            font-size: 1.125rem;
+            line-height: 1.7;
+            color: #4a5568;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+        }
+
+        .about-text p:last-child {
+            margin-bottom: 0;
+        }
+
+        .about-text a {
+            color: #4299e1;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .about-text a:hover {
+            color: #2b6cb0;
+            text-decoration: underline;
+        }
+
+        .about-image-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .about-image-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #4299e1, #63b3ed);
+            border-radius: 50%;
+            padding: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .about-image-container:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(66, 153, 225, 0.3);
+        }
+
+        .about-image-item {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid white;
+            transition: all 0.3s ease;
+        }
+
+        /* Professional Info */
+        .professional-info {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            border: 1px solid #e2e8f0;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        .professional-info h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2b6cb0;
+            margin-bottom: 1rem;
+        }
+
+        .professional-info p {
+            color: #718096;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .expertise-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            justify-content: center;
+        }
+
+        .expertise-tag {
+            background: rgba(66, 153, 225, 0.1);
+            color: #2b6cb0;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border: 1px solid rgba(66, 153, 225, 0.2);
+        }
+
+        /* Footer */
+        #main-footer {
+            background: #f7fafc;
+            border-top: 1px solid #e2e8f0;
+            color: #718096;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        #main-footer a {
+            color: #4299e1;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        #main-footer a:hover {
+            color: #2b6cb0;
+        }
+
+        /* Back to top button */
+        #back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background: white;
+            color: #4299e1;
+            border: 2px solid #e2e8f0;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        #back-to-top:hover {
+            background: #4299e1;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(66, 153, 225, 0.3);
+        }
+
+        #back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Animation classes */
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        .slide-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideInUp 0.6s ease forwards;
+        }
+
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-30px);
+            animation: slideInLeft 0.6s ease forwards;
+        }
+
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(30px);
+            animation: slideInRight 0.6s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Animation delays */
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-nav {
+                display: none;
+            }
+
+            .nav-toggle {
+                display: block;
+            }
+
+            main {
+                padding: 4rem 0;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding: 2rem;
+                text-align: center;
+            }
+
+            .about-image-container {
+                width: 150px;
+                height: 150px;
+            }
+
+            .about-text {
+                font-size: 1rem;
+                text-align: left;
+            }
+
+            .container {
+                padding: 0 1.5rem;
+            }
+
+            .expertise-tags {
+                justify-content: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .section-title {
+                font-size: 1.75rem;
+            }
+
+            .about-content {
+                padding: 1.5rem;
+            }
+
+            .about-image-container {
+                width: 120px;
+                height: 120px;
+            }
+        }
+
+        /* Smooth focus states for accessibility */
+        .about-text a:focus {
+            outline: 2px solid #4299e1;
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+    </style>
 </head>
 <body>
     <div id="reading-progress"></div>
+    
     <header id="main-header">
-    <div class="container">
-        <a href="./index.html#hero" class="logo">Communs Numériques</a>
-        <nav class="main-nav">
-            <ul>
-                <li><a href="./index.html#hero">Accueil</a></li>
-                <li><a href="./apropos.html">À propos</a></li>
-                <li><a href="./index.html#publications">Publications</a></li>
-                <li><a href="./articles/memoire-institutionnalisation-communs-numeriques.html">Mémoire</a></li>
-                <li><a href="./contact.html">Contact</a></li>
-            </ul>
-        </nav>
-        <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
-            <span class="hamburger"></span>
-        </button>
-    </div>
-</header>
+        <div class="container">
+            <a href="./index.html#hero" class="logo">Communs Numériques</a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="./index.html#hero">Accueil</a></li>
+                    <li><a href="./apropos.html">À propos</a></li>
+                    <li><a href="./index.html#publications">Publications</a></li>
+                    <li><a href="./articles/memoire-institutionnalisation-communs-numeriques.html">Mémoire</a></li>
+                    <li><a href="./contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+                <span class="hamburger">☰</span>
+            </button>
+        </div>
+    </header>
+
     <main>
-        <section id="about" class="animate-on-scroll fade-in">
-            <div class="container">
-                <h2 class="section-title text-center animate-on-scroll slide-in-up">
-                    À propos de l'auteur
-                </h2>
+        <div class="container">
+            <section class="about-section fade-in">
+                <h1 class="section-title slide-in-up">À propos de l'auteur</h1>
+                
                 <div class="about-content">
-                    <div class="about-text animate-on-scroll slide-in-left">
+                    <div class="about-text slide-in-left delay-1">
                         <p>Fort d'une expérience de plus de quinze ans comme manager au sein de divers organismes de Sécurité Sociale, mon parcours m'a offert une perspective unique sur les défis et les opportunités du secteur public. En 2020, j'ai pris le virage du management des systèmes d'information.</p>
-                        <p>Je suis Alexandre BERGE, passionné par l'impact de l'innovation publique et des technologies sur notre société. Ce blog est le prolongement de mon mémoire de recherche « <em><a href="articles/memoire-institutionnalisation-communs-numeriques.html">Les facteurs d'institutionnalisation des communs numériques dans l'administration</a></em> ». Que vous soyez décideur, chercheur, militant ou simple citoyen intéressé, j'espère que ces pages nourriront votre curiosité et vos propres initiatives.</p>
+                        
+                        <p>Je suis <strong>Alexandre BERGE</strong>, passionné par l'impact de l'innovation publique et des technologies sur notre société. Ce blog est le prolongement de mon mémoire de recherche « <em><a href="articles/memoire-institutionnalisation-communs-numeriques.html">Les facteurs d'institutionnalisation des communs numériques dans l'administration</a></em> ».</p>
+                        
+                        <p>Que vous soyez décideur, chercheur, militant ou simple citoyen intéressé, j'espère que ces pages nourriront votre curiosité et vos propres initiatives.</p>
                     </div>
-                    <div class="about-image-wrapper animate-on-scroll slide-in-right">
-                        <img src="images/berge-a-profil.png" alt="Portrait de A. BERGE, auteur du blog Communs Numériques" class="about-image-item" loading="lazy">
+                    
+                    <div class="about-image-wrapper slide-in-right delay-2">
+                        <div class="about-image-container">
+                            <img src="images/berge-a-profil.png" alt="Portrait d'Alexandre BERGE, auteur du blog Communs Numériques" class="about-image-item" loading="lazy">
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
+
+                <div class="professional-info slide-in-up delay-3">
+                    <h3>Expertise & Centres d'intérêt</h3>
+                    <p>Manager public spécialisé dans la transformation numérique et l'innovation collaborative</p>
+                    <div class="expertise-tags">
+                        <span class="expertise-tag">Communs numériques</span>
+                        <span class="expertise-tag">Transformation publique</span>
+                        <span class="expertise-tag">Systèmes d'information</span>
+                        <span class="expertise-tag">Innovation ouverte</span>
+                        <span class="expertise-tag">Gouvernance collaborative</span>
+                        <span class="expertise-tag">Sécurité sociale</span>
+                    </div>
+                </div>
+            </section>
+        </div>
     </main>
+
     <footer id="main-footer">
-    <div class="container">
-        <p>© <span id="current-year"></span> Alexandre BERGE. Contenu sous licence <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.fr" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>.</p>
-        <p><a href="./mentions-legales.html">Mentions Légales</a> | <a href="./politique-confidentialite.html">Politique de confidentialité</a></p>
-    </div>
-</footer>
+        <div class="container">
+            <p>© <span id="current-year">2025</span> Alexandre BERGE. Contenu sous licence <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.fr" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>.</p>
+            <p><a href="./mentions-legales.html">Mentions Légales</a> | <a href="./politique-confidentialite.html">Politique de confidentialité</a></p>
+        </div>
+    </footer>
+
     <button id="back-to-top" aria-label="Retour en haut">↑</button>
-    <script src="script.js"></script>
+
+    <script>
+        // Reading progress bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('reading-progress').style.width = scrolled + '%';
+        });
+
+        // Back to top button
+        const backToTop = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Header shadow on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('main-header');
+            if (window.pageYOffset > 0) {
+                header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                header.style.boxShadow = 'none';
+            }
+        });
+
+        // Mobile menu toggle
+        const navToggle = document.querySelector('.nav-toggle');
+        const mainNav = document.querySelector('.main-nav');
+
+        if (navToggle) {
+            navToggle.addEventListener('click', () => {
+                const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
+                navToggle.setAttribute('aria-expanded', !isExpanded);
+                mainNav.style.display = isExpanded ? 'none' : 'block';
+            });
+        }
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in, .slide-in-up, .slide-in-left, .slide-in-right').forEach(el => {
+            el.style.animationPlayState = 'paused';
+            observer.observe(el);
+        });
+
+        // Current year
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Keyboard navigation improvements
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab') {
+                document.body.classList.add('using-keyboard');
+            }
+        });
+
+        document.addEventListener('mousedown', () => {
+            document.body.classList.remove('using-keyboard');
+        });
+    </script>
 </body>
 </html>
