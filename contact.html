@@ -14,78 +14,740 @@
     <meta name="twitter:image" content="./images/berge-a-profil.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="icon" href="./images/favicon.ico" type="image/x-icon">
     <link rel="apple-touch-icon" href="./images/apple-touch-icon.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #2d3748;
+            background: #fafafa;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Reading Progress Bar */
+        #reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, #4299e1, #63b3ed);
+            z-index: 1001;
+            transition: width 0.1s ease;
+        }
+
+        /* Header */
+        #main-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #e2e8f0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        #main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #1a202c;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .logo:hover {
+            color: #4299e1;
+        }
+
+        .main-nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .main-nav a {
+            color: #718096;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 0;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .main-nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #4299e1;
+            transition: width 0.3s ease;
+        }
+
+        .main-nav a:hover {
+            color: #2d3748;
+        }
+
+        .main-nav a:hover::after {
+            width: 100%;
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #2d3748;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Main Content */
+        main {
+            padding: 6rem 0;
+            background: linear-gradient(180deg, #ffffff 0%, #f7fafc 100%);
+            min-height: calc(100vh - 200px);
+        }
+
+        /* Contact Section */
+        .contact-section {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .section-subtitle {
+            font-size: 1.125rem;
+            color: #718096;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Contact Form */
+        .contact-form {
+            background: white;
+            padding: 3rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+            margin-bottom: 3rem;
+            text-align: left;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #4299e1;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            background: #4299e1;
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);
+            width: 100%;
+        }
+
+        .cta-button:hover {
+            background: #2b6cb0;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(66, 153, 225, 0.4);
+        }
+
+        .cta-button:active {
+            transform: translateY(0);
+        }
+
+        /* Alternative Contact Methods */
+        .alternative-contact {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            border: 1px solid #e2e8f0;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .alternative-contact h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2b6cb0;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .alternative-contact p {
+            color: #718096;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Social Links */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background: white;
+            color: #4299e1;
+            border: 2px solid #e2e8f0;
+            border-radius: 50%;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .social-links a:hover {
+            background: #4299e1;
+            color: white;
+            border-color: #4299e1;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(66, 153, 225, 0.3);
+        }
+
+        .social-links svg {
+            width: 24px;
+            height: 24px;
+            transition: transform 0.3s ease;
+        }
+
+        .social-links a:hover svg {
+            transform: scale(1.1);
+        }
+
+        /* Contact Info Cards */
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .info-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            border-color: #cbd5e0;
+        }
+
+        .info-card-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #4299e1, #63b3ed);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: white;
+        }
+
+        .info-card h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-card p {
+            color: #718096;
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        #main-footer {
+            background: #f7fafc;
+            border-top: 1px solid #e2e8f0;
+            color: #718096;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        #main-footer a {
+            color: #4299e1;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        #main-footer a:hover {
+            color: #2b6cb0;
+        }
+
+        /* Back to top button */
+        #back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background: white;
+            color: #4299e1;
+            border: 2px solid #e2e8f0;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        #back-to-top:hover {
+            background: #4299e1;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(66, 153, 225, 0.3);
+        }
+
+        #back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Animation classes */
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        .slide-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideInUp 0.6s ease forwards;
+        }
+
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Animation delays */
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-nav {
+                display: none;
+            }
+
+            .nav-toggle {
+                display: block;
+            }
+
+            main {
+                padding: 4rem 0;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .contact-form {
+                padding: 2rem;
+            }
+
+            .alternative-contact {
+                padding: 1.5rem;
+            }
+
+            .social-links {
+                gap: 1rem;
+            }
+
+            .social-links a {
+                width: 50px;
+                height: 50px;
+            }
+
+            .social-links svg {
+                width: 20px;
+                height: 20px;
+            }
+
+            .container {
+                padding: 0 1.5rem;
+            }
+
+            .contact-info {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .section-title {
+                font-size: 1.75rem;
+            }
+
+            .contact-form {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Success message */
+        .success-message {
+            background: linear-gradient(135deg, #68d391, #48bb78);
+            color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+        }
+
+        /* Smooth focus states for accessibility */
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .cta-button:focus,
+        .social-links a:focus {
+            outline: 2px solid #4299e1;
+            outline-offset: 2px;
+        }
+    </style>
 </head>
 <body>
     <div id="reading-progress"></div>
 
     <header id="main-header">
-    <div class="container">
-        <a href="./index.html#hero" class="logo">Communs Numériques</a>
-        <nav class="main-nav">
-            <ul>
-                <li><a href="./index.html#hero">Accueil</a></li>
-                <li><a href="./index.html#about">À propos</a></li>
-                <li><a href="./index.html#publications">Publications</a></li>
-                <li><a href="./articles/memoire-institutionnalisation-communs-numeriques.html">Mémoire</a></li>
-                <li><a href="./contact.html">Contact</a></li>
-            </ul>
-        </nav>
-        <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
-            <span class="hamburger"></span>
-        </button>
-    </div>
-</header>
-
+        <div class="container">
+            <a href="./index.html#hero" class="logo">Communs Numériques</a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="./index.html#hero">Accueil</a></li>
+                    <li><a href="./apropos.html">À propos</a></li>
+                    <li><a href="./index.html#publications">Publications</a></li>
+                    <li><a href="./articles/memoire-institutionnalisation-communs-numeriques.html">Mémoire</a></li>
+                    <li><a href="./contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false">
+                <span class="hamburger">☰</span>
+            </button>
+        </div>
+    </header>
 
     <main>
-        <section id="contact" class="animate-on-scroll fade-in">
-            <div class="container text-center">
-                <h2 class="section-title animate-on-scroll slide-in-up">
-                    Restons en contact
-                </h2>
-                <p class="animate-on-scroll slide-in-up delay-1" style="max-width: 650px; margin-left:auto; margin-right:auto;">Une question, une suggestion, ou envie d'échanger sur les communs numériques ? N'hésitez pas à me contacter.</p>
-                <form name="contact" method="POST" data-netlify="true" class="contact-form animate-on-scroll slide-in-up delay-2">
+        <div class="container">
+            <section class="contact-section fade-in">
+                <h1 class="section-title slide-in-up">Restons en contact</h1>
+                <p class="section-subtitle slide-in-up delay-1">
+                    Une question, une suggestion, ou envie d'échanger sur les communs numériques ? N'hésitez pas à me contacter.
+                </p>
+
+                <div class="contact-info slide-in-up delay-2">
+                    <div class="info-card">
+                        <div class="info-card-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                <polyline points="22,6 12,13 2,6"/>
+                            </svg>
+                        </div>
+                        <h4>Formulaire de contact</h4>
+                        <p>Le moyen le plus direct pour m'écrire</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-card-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                                <rect x="2" y="9" width="4" height="12"/>
+                                <circle cx="4" cy="4" r="2"/>
+                            </svg>
+                        </div>
+                        <h4>Réseaux professionnels</h4>
+                        <p>Connectons-nous sur LinkedIn ou Mastodon</p>
+                    </div>
+                </div>
+
+                <form name="contact" method="POST" data-netlify="true" class="contact-form slide-in-up delay-3">
+                    <div class="success-message" id="success-message">
+                        Merci pour votre message ! Je vous répondrai dans les plus brefs délais.
+                    </div>
+                    
                     <input type="hidden" name="form-name" value="contact">
+                    
                     <div class="form-group">
-                        <label for="nom">Nom</label>
+                        <label for="nom">Nom *</label>
                         <input type="text" id="nom" name="nom" required>
                     </div>
+                    
                     <div class="form-group">
-                        <label for="email">Email</label>
+                        <label for="email">Email *</label>
                         <input type="email" id="email" name="email" required>
                     </div>
+                    
                     <div class="form-group">
-                        <label for="message">Message</label>
-                        <textarea id="message" name="message" rows="5" required></textarea>
+                        <label for="sujet">Sujet</label>
+                        <input type="text" id="sujet" name="sujet" placeholder="Ex: Question sur les communs numériques">
                     </div>
-                    <button type="submit" class="cta-button">Envoyer</button>
+                    
+                    <div class="form-group">
+                        <label for="message">Message *</label>
+                        <textarea id="message" name="message" rows="5" required placeholder="Votre message..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="cta-button">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                            <line x1="22" y1="2" x2="11" y2="13"/>
+                            <polygon points="22,2 15,22 11,13 2,9 22,2"/>
+                        </svg>
+                        Envoyer le message
+                    </button>
                 </form>
 
-                <div class="social-links animate-on-scroll fade-in-up delay-3">
-                    <a href="https://www.linkedin.com/in/bergealexandre/" aria-label="LinkedIn" title="LinkedIn">
-                        <svg aria-hidden="true" viewBox="0 0 24 24"><path fill="currentColor" d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-3.06v8.37h3.06v-4.57c0-1.22.39-2.51 1.85-2.51 1.43 0 1.41 1.68 1.41 2.51v4.57H18.5M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69.75 1.69 1.69 0 0 0 0 1.87A1.68 1.68 0 0 0 6.88 8.56m-1.56 2.07h3.12V19H5.32V10.63Z"/></svg>
-                    </a>
-                    <a href="https://mastodon.social/@communs_numeriques_fr" aria-label="Mastodon" title="Mastodon" rel="me">
-                        <svg aria-hidden="true" viewBox="0 0 24 24"><path fill="currentColor" d="M16.14 3.1c-1.71-.43-3.3-.61-4.87-.61s-3.16.18-4.87.61C4.87 3.64 4 4.55 4 6.13v3.64c0 5.14 2.73 7.91 8 7.91s8-2.77 8-7.91V6.13c0-1.58-.87-2.49-2.98-3.03zM9.5 10.34v2.58c0 1.39-.63 2.1-1.86 2.1s-1.86-.71-1.86-2.1v-2.58h3.72m5 0v2.58c0 1.39-.63 2.1-1.86 2.1s-1.86-.71-1.86-2.1v-2.58h3.72"/></svg>
-                    </a>
+                <div class="alternative-contact slide-in-up delay-4">
+                    <h3>Ou retrouvez-moi sur les réseaux</h3>
+                    <p>Pour suivre mes réflexions et échanger sur l'actualité des communs numériques</p>
+                    
+                    <div class="social-links">
+                        <a href="https://www.linkedin.com/in/bergealexandre/" aria-label="LinkedIn" title="Me contacter sur LinkedIn">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-3.06v8.37h3.06v-4.57c0-1.22.39-2.51 1.85-2.51 1.43 0 1.41 1.68 1.41 2.51v4.57H18.5M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69.75 1.69 1.69 0 0 0 0 1.87A1.68 1.68 0 0 0 6.88 8.56m-1.56 2.07h3.12V19H5.32V10.63Z"/>
+                            </svg>
+                        </a>
+                        <a href="https://mastodon.social/@communs_numeriques_fr" aria-label="Mastodon" title="Me suivre sur Mastodon" rel="me">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M16.14 3.1c-1.71-.43-3.3-.61-4.87-.61s-3.16.18-4.87.61C4.87 3.64 4 4.55 4 6.13v3.64c0 5.14 2.73 7.91 8 7.91s8-2.77 8-7.91V6.13c0-1.58-.87-2.49-2.98-3.03zM9.5 10.34v2.58c0 1.39-.63 2.1-1.86 2.1s-1.86-.71-1.86-2.1v-2.58h3.72m5 0v2.58c0 1.39-.63 2.1-1.86 2.1s-1.86-.71-1.86-2.1v-2.58h3.72"/>
+                            </svg>
+                        </a>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </div>
     </main>
 
     <footer id="main-footer">
-    <div class="container">
-        <p>© <span id="current-year"></span> Alexandre BERGE. Contenu sous licence <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.fr" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>.</p>
-        <p><a href="./mentions-legales.html">Mentions Légales</a> | <a href="./politique-confidentialite.html">Politique de confidentialité</a></p>
-    </div>
-</footer>
-
+        <div class="container">
+            <p>© <span id="current-year">2025</span> Alexandre BERGE. Contenu sous licence <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.fr" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>.</p>
+            <p><a href="./mentions-legales.html">Mentions Légales</a> | <a href="./politique-confidentialite.html">Politique de confidentialité</a></p>
+        </div>
+    </footer>
 
     <button id="back-to-top" aria-label="Retour en haut">↑</button>
-    <script src="./script.js"></script>
+
+    <script>
+        // Reading progress bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('reading-progress').style.width = scrolled + '%';
+        });
+
+        // Back to top button
+        const backToTop = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Header shadow on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('main-header');
+            if (window.pageYOffset > 0) {
+                header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                header.style.boxShadow = 'none';
+            }
+        });
+
+        // Mobile menu toggle
+        const navToggle = document.querySelector('.nav-toggle');
+        const mainNav = document.querySelector('.main-nav');
+
+        if (navToggle) {
+            navToggle.addEventListener('click', () => {
+                const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
+                navToggle.setAttribute('aria-expanded', !isExpanded);
+                mainNav.style.display = isExpanded ? 'none' : 'block';
+            });
+        }
+
+        // Form submission handling
+        const contactForm = document.querySelector('[name="contact"]');
+        const successMessage = document.getElementById('success-message');
+
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                // Don't prevent default - let Netlify handle it
+                // Just show success message after a delay
+                setTimeout(() => {
+                    successMessage.style.display = 'block';
+                    contactForm.reset();
+                    successMessage.scrollIntoView({ behavior: 'smooth' });
+                }, 1000);
+            });
+        }
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in, .slide-in-up, .fade-in-up').forEach(el => {
+            el.style.animationPlayState = 'paused';
+            observer.observe(el);
+        });
+
+        // Current year
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Form validation enhancements
+        const inputs = document.querySelectorAll('input, textarea');
+        inputs.forEach(input => {
+            input.addEventListener('invalid', function(e) {
+                e.target.style.borderColor = '#ef4444';
+            });
+            
+            input.addEventListener('input', function(e) {
+                if (e.target.validity.valid) {
+                    e.target.style.borderColor = '#e2e8f0';
+                }
+            });
+        });
+
+        // Keyboard navigation improvements
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab') {
+                document.body.classList.add('using-keyboard');
+            }
+        });
+
+        document.addEventListener('mousedown', () => {
+            document.body.classList.remove('using-keyboard');
+        });
+    </script>
 </body>
 </html>
