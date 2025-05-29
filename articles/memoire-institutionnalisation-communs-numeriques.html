@@ -17,7 +17,7 @@
             --success-color: #10b981;
             --warning-color: #f59e0b;
             --danger-color: #ef4444;
-            
+
             --bg-primary: #ffffff;
             --bg-secondary: #f8fafc;
             --bg-tertiary: #f1f5f9;
@@ -188,7 +188,7 @@
             color: white !important; /* Ensure text is white on active */
             border-left-color: var(--accent-color);
         }
-        
+
         /* TOC Nesting for different levels */
         .toc-list .toc-list { /* H3 under H2 */
             margin-left: 0.75rem;
@@ -208,7 +208,7 @@
             padding-left: 0.75rem;
         }
         .toc-list .toc-list .toc-list .toc-list .toc-link { font-size: 0.8rem; }
-        
+
         .toc-list .toc-list .toc-list .toc-list .toc-list { /* H6 under H5 */
             margin-left: 0.75rem;
             padding-left: 0.75rem;
@@ -350,29 +350,29 @@
             padding: 1.5rem;
             border-radius: 0.75rem;
             border-left: 4px solid var(--primary-color);
-            background: var(--bg-secondary); 
+            background: var(--bg-secondary);
         }
         .admonition p:first-child { margin-top: 0; }
         .admonition p:last-child { margin-bottom: 0; }
 
 
         .admonition.warning {
-            background: rgba(245, 158, 11, 0.1); 
+            background: rgba(245, 158, 11, 0.1);
             border-left-color: var(--warning-color);
         }
-        
-        .admonition.warning .admonition-title { 
+
+        .admonition.warning .admonition-title {
              color: var(--warning-color);
         }
 
         .admonition-title {
             font-family: 'Inter', sans-serif;
             font-weight: 600;
-            color: var(--primary-color); 
+            color: var(--primary-color);
             margin-bottom: 0.5rem;
-            display: block; 
+            display: block;
         }
-        
+
 
         /* Tables */
         .table-responsive-wrapper {
@@ -399,10 +399,10 @@
             text-align: left;
             border-bottom: 1px solid var(--border-color);
             font-size: 0.95rem;
-            font-family: 'Inter', sans-serif; 
+            font-family: 'Inter', sans-serif;
         }
         .styled-table td ul {
-            padding-left: 1rem; 
+            padding-left: 1rem;
             margin: 0.5rem 0;
         }
         .styled-table td ul li {
@@ -416,7 +416,7 @@
         .styled-table tbody tr:hover {
             background: var(--bg-tertiary);
         }
-        
+
         /* Mermaid diagrams container */
         .mermaid-diagram-container {
             background: var(--bg-secondary);
@@ -508,11 +508,11 @@
             .main-content.with-sidebar {
                 margin-left: 0;
             }
-            
+
             .nav-sidebar {
-                left: -350px; 
+                left: -350px;
             }
-             .nav-sidebar.open { 
+             .nav-sidebar.open {
                 left:0;
             }
         }
@@ -521,24 +521,24 @@
             .container {
                 padding: 1rem;
             }
-            
+
             .article-header h1 {
                 font-size: 2rem;
             }
-            
+
             .article-content-section {
                 font-size: 1rem;
             }
-            
+
             .article-content-section h2 {
                 font-size: 1.5rem;
             }
-            
+
             .reading-tools {
                 right: 1rem;
                 bottom: 1rem;
             }
-            
+
             .nav-sidebar {
                 width: 100%;
                 left: -100%;
@@ -568,7 +568,7 @@
             .reading-progress {
                 display: none !important;
             }
-            
+
             .main-content {
                 margin-top: 0 !important;
                 margin-left: 0 !important;
@@ -589,8 +589,8 @@
             .styled-table thead {
                 background-color: #eee !important;
                 color: black !important;
-                -webkit-print-color-adjust: exact; 
-                print-color-adjust: exact; 
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
             }
             .styled-table tbody tr:nth-child(even) {
                 background-color: #f9f9f9 !important;
@@ -612,7 +612,7 @@
              .admonition.warning .admonition-title {
                  color: #f59e0b !important;
              }
-             .mermaid-diagram-container { display: none; } 
+             .mermaid-diagram-container { display: none; }
         }
     </style>
 </head>
@@ -660,12 +660,12 @@
             </header>
 
             <article class="article-content-section">
-    
+
                 <blockquote class="admonition warning">
                     <p class="admonition-title">Attention</p>
                     <p>Ce mémoire est actuellement en cours de réalisation et les différentes parties qui le constituent sont susceptibles d'évoluer d'ici à sa finalisation.</p>
                 </blockquote>
-                            
+
             <article class="article-content-section" id="article-content-container">
                 <!-- Le contenu du mémoire sera injecté ici par JavaScript -->
             </article>
@@ -708,14 +708,14 @@
                     return false;
                 }
             })(),
-            
+
             getItem: function(key) {
                 if (this.available) {
                     return localStorage.getItem(key);
                 }
                 return null;
             },
-            
+
             setItem: function(key, value) {
                 if (this.available) {
                     localStorage.setItem(key, value);
@@ -740,7 +740,8 @@
         }
         updateThemeIcon(); // Call it once at load
 
-        themeToggle.addEventListener('click', async () => {
+
+        themeToggle.addEventListener('click', async () => { // Make async for mermaid update
             const currentDocTheme = document.documentElement.getAttribute('data-theme');
             const newDocTheme = currentDocTheme === 'dark' ? 'light' : 'dark';
             document.documentElement.setAttribute('data-theme', newDocTheme);
@@ -748,69 +749,80 @@
             updateThemeIcon();
 
             // Mettre à jour le thème Mermaid
-            mermaid.initialize({ 
-                startOnLoad: false,
-                theme: newDocTheme === 'dark' ? 'dark' : 'default'
-            });
-            
-            // Re-rendre les diagrammes Mermaid avec le nouveau thème
-            const diagrams = document.querySelectorAll('.mermaid');
-            if (diagrams.length > 0) {
-                mermaid.run({
-                    querySelector: '.mermaid'
+            if (typeof mermaid !== 'undefined') {
+                mermaid.initialize({
+                    startOnLoad: false,
+                    theme: newDocTheme === 'dark' ? 'dark' : 'default'
                 });
+
+                // Re-rendre les diagrammes Mermaid avec le nouveau thème
+                const diagrams = document.querySelectorAll('.mermaid');
+                if (diagrams.length > 0) {
+                    mermaid.run({
+                        querySelector: '.mermaid'
+                    });
+                }
             }
+            /*
+            // Dispatch event for Mermaid theme update - commenté car newDocTheme n'est pas dans le scope et l'event n'est pas utilisé
+            if (typeof mermaid !== 'undefined') {
+                const event = new CustomEvent('mermaidThemeUpdate', { detail: { theme: newDocTheme } });
+                themeToggle.dispatchEvent(event);
+            }
+            */
         });
+
 
         // Table of Contents Toggle
         const tocToggle = document.getElementById('toc-toggle');
         const navSidebar = document.getElementById('nav-sidebar');
         const mainContent = document.getElementById('main-content');
-        const HEADER_HEIGHT = 80; 
+        const HEADER_HEIGHT = 80;
 
         tocToggle.addEventListener('click', () => {
             navSidebar.classList.toggle('open');
-            if (window.innerWidth > 1200) { 
+            if (window.innerWidth > 1200) {
                 mainContent.classList.toggle('with-sidebar', navSidebar.classList.contains('open'));
             }
         });
 
         // Reading Progress
         const readingProgress = document.getElementById('reading-progress');
-        let articleContentSectionForProgress; 
+        let articleContentSectionForProgress;
 
         function updateReadingProgress() {
             if (!articleContentSectionForProgress) return;
 
             const contentHeight = articleContentSectionForProgress.offsetHeight;
             const articleHeaderHeight = document.querySelector('.article-header')?.offsetHeight || 0;
-            
+
             const viewportHeight = window.innerHeight - HEADER_HEIGHT;
             const scrollableHeight = contentHeight - viewportHeight;
-            
+
             const scrollTopRelativeToDocument = window.pageYOffset;
             const articleContentStartOffset = articleContentSectionForProgress.offsetTop - HEADER_HEIGHT;
             let currentScrollInContent = scrollTopRelativeToDocument - articleContentStartOffset;
-           
+
             let progress = 0;
             if (scrollableHeight > 0) {
                  progress = (currentScrollInContent / scrollableHeight) * 100;
-            } else if (currentScrollInContent >= 0 && contentHeight > 0) { 
+            } else if (currentScrollInContent >= 0 && contentHeight > 0) {
                 progress = 100;
             }
-            
+
             readingProgress.style.width = Math.min(Math.max(progress, 0), 100) + '%';
         }
 
+
         // Active TOC Link
-        let tocLinks = []; 
-        let sections = []; 
+        let tocLinks = [];
+        let sections = [];
 
         function updateActiveTocLink() {
             if (!sections.length || !tocLinks.length) return;
 
             let currentSectionId = '';
-            const scrollPos = window.pageYOffset + HEADER_HEIGHT + 30; 
+            const scrollPos = window.pageYOffset + HEADER_HEIGHT + 30;
 
             for (let i = sections.length - 1; i >= 0; i--) {
                 if (sections[i].offsetTop <= scrollPos) {
@@ -818,17 +830,18 @@
                     break;
                 }
             }
-            
+
             tocLinks.forEach(link => {
                 link.classList.remove('active');
                 if (link.getAttribute('href') === '#' + currentSectionId) {
                     link.classList.add('active');
-                    if (navSidebar.classList.contains('open') && navSidebar.offsetWidth > 0 && navSidebar.offsetHeight > 0) { 
+                    if (navSidebar.classList.contains('open') && navSidebar.offsetWidth > 0 && navSidebar.offsetHeight > 0) {
                          link.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
                     }
                 }
             });
         }
+
 
         // Back to Top
         const backToTop = document.getElementById('back-to-top');
@@ -840,6 +853,7 @@
                 backToTop.classList.add('hidden');
             }
         }
+
 
         backToTop.addEventListener('click', () => {
             window.scrollTo({
@@ -855,7 +869,7 @@
                     closeNavSidebar();
                 }
                 if (e.target.classList.contains('toc-link') || e.target.closest('.toc-link')) {
-                     if (window.innerWidth <= 768) { 
+                     if (window.innerWidth <= 768) {
                         closeNavSidebar();
                      }
                 }
@@ -864,7 +878,7 @@
 
         function closeNavSidebar() {
             navSidebar.classList.remove('open');
-            if (window.innerWidth > 1200) { 
+            if (window.innerWidth > 1200) {
                 mainContent.classList.remove('with-sidebar');
             }
         }
@@ -878,7 +892,7 @@
                     const targetElement = document.querySelector(targetId);
                     if (targetElement) {
                         const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
-                        const offsetPosition = elementPosition - HEADER_HEIGHT - 15; 
+                        const offsetPosition = elementPosition - HEADER_HEIGHT - 15;
 
                         window.scrollTo({
                             top: offsetPosition,
@@ -895,7 +909,7 @@
         function handleResize() {
             if (window.innerWidth <= 1200) {
                 mainContent.classList.remove('with-sidebar');
-            } else { 
+            } else {
                 if (navSidebar.classList.contains('open')) {
                      mainContent.classList.add('with-sidebar');
                 } else {
@@ -927,6 +941,7 @@
             toggleBackToTop();
         });
         window.addEventListener('resize', debouncedHandleResize);
+
 
         // --- Markdown to HTML Conversion Logic ---
         const markdownContent = `
@@ -990,6 +1005,7 @@ La troisième partie expose et discute les résultats empiriques. Elle caractér
 
 Ce mémoire ambitionne ainsi de contribuer à une meilleure compréhension des conditions nécessaires à l'intégration réussie des communs numériques dans l'administration publique. Au-delà de l'identification des facteurs d'institutionnalisation, il vise à éclairer les transformations plus larges que cette intégration implique pour la gouvernance publique à l'ère numérique, et à mettre en lumière les conditions organisationnelles et managériales spécifiques qui permettent à l'administration non seulement d'adopter des communs, mais aussi de co-construire et de soutenir activement leur développement, dépassant ainsi une simple posture de consommateur. En croisant les apports de la sociologie des organisations, de la théorie des communs et des sciences de l'information, cette recherche espère offrir des clés de lecture utiles.
 
+---
 
 # PARTIE I : L’administration publique face à l’impératif de performance numérique : potentiel et institutionnalisation des communs numériques
 
@@ -1022,7 +1038,6 @@ Les modèles managériaux de l’administration évoluent sous l’impact du num
 Face à ces limites, de nouveaux référentiels de gestion publique émergent. Dunleavy et al. (2006) ont ainsi théorisé la « Digital-Era Governance », caractérisée par la recentralisation autour de l’usager, la réintégration des services autrefois éclatés et l’exploitation stratégique des technologies numériques pour repenser les processus publics plutôt que simplement les automatiser [Dunleavy et al., 2006]. Concrètement, ce paradigme prône un État en réseau, capable de partager données et ressources entre administrations, et de délivrer des services intégrés centrés sur les besoins de l’usager plutôt que sur les structures internes. On assiste ainsi à un glissement d’une logique de « gestion par la performance », au sens NPM, avec le citoyen envisagé comme un client, vers une logique de « recherche de valeur publique », avec le citoyen considéré comme un coproducteur potentiel de services [Benington, 2007]. Les projets de transformation numérique réussis impliquent généralement un dépassement des cloisonnements bureaucratiques hérités du NPM, via une gouvernance plus transversale, agile et innovante [Lindgren et Van Veenstra, 2018].
 
 | Critère                        | New Public Management (NPM)                                     | Digital Era Governance (DEG) (Dunleavy et al., 2006)                   |
-| :----------------------------- | :-------------------------------------------------------------- | :---------------------------------------------------------------------- |
 | **Focus principal**            | Efficience interne, réduction des coûts, fragmentation         | Valeur publique, intégration des services, orientation usager/citoyen    |
 | **Rôle du citoyen**            | Client, consommateur de services                                | Co-producteur, citoyen engagé, partenaire                               |
 | **Approche technologique**     | Automatisation des processus existants, externalisation       | Transformation numérique, réingénierie des processus, État plateforme    |
@@ -1080,7 +1095,6 @@ Les conséquences de ces difficultés de capitalisation et de méthode se mesure
 En synthèse, les limites structurelles et fonctionnelles des systèmes d'information publics traditionnels, analysées dans les sections précédentes (1.1.2.1 à 1.1.2.3), peuvent être mises en regard des pistes que le paradigme des communs numériques, qui sera détaillé ultérieurement (section 1.2), pourrait offrir pour y remédier. Le tableau ci-après illustre cette mise en perspective.
 
 | Limite des SI Publics Traditionnels                               | Conséquences pour l'administration                                       | Piste/Potentiel offert par les Communs Numériques                      |
-| :---------------------------------------------------------------- | :----------------------------------------------------------------------- | :--------------------------------------------------------------------- |
 | **Interopérabilité insuffisante et silos persistants** (1.1.2.1) | Inefficacité, redondances, expérience usager fragmentée, surcoûts     | Standards ouverts, mutualisation des développements, plateformes partagées |
 | **Dépendance technologique et systèmes hérités** (1.1.2.2)      | Coûts élevés (vendor lock-in), rigidité, perte de maîtrise, risques de sécurité | Logiciels libres, modularité, réappropriation technologique, souveraineté |
 | **Manque de capitalisation logicielle et inertie des méthodes** (1.1.2.3) | Duplication des efforts, perte de connaissances, faible agilité        | Partage de code source, communautés de pratique, développement itératif  |
@@ -1128,7 +1142,6 @@ Enfin, des travaux récents sur la souveraineté numérique elle-même recommand
 
 En somme, la souveraineté numérique dans le secteur public ne relève plus uniquement d’une prérogative étatique verticale, mais résulte désormais d’un écosystème complexe de gouvernance imbriquée. Les niveaux national, local et supranational cherchent à harmoniser leurs stratégies, tandis que les communs numériques offrent des vecteurs concrets pour associer une pluralité d’acteurs à la gestion des ressources numériques stratégiques. Cette recomposition multi-niveaux, documentée par la littérature récente, constitue ainsi un cadre analytique essentiel pour appréhender les transformations numériques des administrations publiques, sans anticiper sur les résultats opérationnels qui seront explorés dans les parties empiriques et la discussion de ce mémoire.
 
-
 ## 1.2. Le paradigme des communs numériques : fondements, mécanismes et pertinence pour l’action publique
 
 La notion de communs numériques s’inscrit dans une longue tradition de ressources partagées gérées collectivement, renouvelée par l’ère du numérique. Cette section propose d’en examiner les fondements théoriques et conceptuels, d’analyser les mécanismes de production collaborative et les modèles de gouvernance propres aux communs numériques, puis d’évaluer leur pertinence stratégique pour l’action publique. Il s’agit de comprendre comment des communautés peuvent co-produire et gérer durablement des ressources informationnelles, et en quoi ce paradigme des communs numériques constitue un levier d’innovation et de souveraineté pour les administrations publiques. Quelques transitions permettront de relier ces sous-parties, afin de présenter un panorama cohérent et maîtrisé du sujet.
@@ -1160,7 +1173,6 @@ Ce cadre conceptuel s’est construit d’abord à partir de ressources tangible
 Le tableau suivant met en exergue les distinctions fondamentales entre les communs matériels traditionnels et les communs numériques, soulignant les enjeux spécifiques posés par la nature immatérielle de ces derniers.
 
 | Caractéristique              | Communs Matériels (ex: Pâturage, Pêcherie)                 | Communs Numériques (ex: Logiciel Libre, Base de Données Ouverte) |
-| ---------------------------- | ---------------------------------------------------------- | ---------------------------------------------------------------- |
 | **Nature de la ressource**   | Tangible, finie                                            | Immatérielle, informationnelle                                   |
 | **Rivalité**                 | Haute (l'usage par un réduit la disponibilité pour autrui) | Basse / Nulle (l'usage par un n'empêche pas l'usage par autrui)  |
 | **Excluabilité**             | Difficile/coûteuse d'exclure les non-contributeurs         | Possible artificiellement (DRM, licences restrictives)           |
@@ -1182,7 +1194,7 @@ Au-delà des fondements théoriques, la vitalité des communs numériques repose
 
 L’émergence d’Internet et des technologies du web a permis de déployer à grande échelle de nouveaux modes de production collaborative, reposant sur la contribution volontaire de multiples acteurs distribués. Yochai Benkler a conceptualisé ce phénomène sous le nom de "commons-based peer production” (production entre pairs fondée sur les communs) [Benkler, 2006]. Il s’agit d’un mode d’organisation où des individus, souvent bénévoles, s’auto-coordonnent pour produire des biens informationnels qu’aucune entreprise ni administration n’aurait pu créer aussi efficacement seule. Ce paradigme de la production entre pairs se distingue à la fois du marché classique, où la production est guidée par des prix et réalisée par des firmes en concurrence, et de la production planifiée hiérarchiquement,entreprise intégrée ou action publique. Il repose sur la motivation intrinsèque des contributeurs (passion, altruisme, intérêt scientifique, désir de réputation, etc.), sur la libre participation de chacun en fonction de ses compétences et sur le partage ouvert des résultats [Benkler, 2006]. Des exemples emblématiques illustrent la puissance de ce modèle comme l’encyclopédie en ligne Wikipédia, rédigée par des centaines de milliers de bénévoles à travers le monde, ou le système d’exploitation GNU/Linux, développé par une communauté mondiale de programmeurs volontaires, témoignent qu’une coordination décentralisée peut aboutir à des réalisations d’une qualité et d’une ampleur comparables, voire supérieures, à celles obtenues par des approches traditionnelles [Benkler, 2006].
 
-Plus généralement, la mise en réseau des connaissances et des individus transforme la manière dont sont produits certains biens publics informationnels. La "sagesse des foules” et l’intelligence collective peuvent être mobilisées via des plateformes collaboratives, des forums, des dépôts de code partagés ou des bases de données ouvertes. Dans un commun numérique, chaque participant peut apporter sa pierre, corriger une erreur, ajouter une information, développer une fonctionnalité, traduire un contenu, etc. Ce modèle du bazar, pour reprendre la métaphore d’Eric Raymond, se caractérise par un développement itératif, ouvert et fortement concurrentiel d’idées. « Given enough eyeballs, all bugs are shallow », résumait Raymond (1999) pour vanter l’avantage du logiciel libre ouvert aux contributions externes. En effet, plus la communauté de contributeurs est large et diverse, plus la probabilité est grande de détecter et résoudre rapidement les problèmes, d’innover et d’améliorer en continu la ressource commune. La contrepartie de cette richesse contributive est la nécessité de coordonner les efforts et de garantir la cohérence de l’ensemble. C’est tout l’enjeu des mécanismes de gouvernance que nous abordons plus loin. Préalablement, notons que cette production collaborative s’appuie sur des outils techniques et juridiques spécifiques qui la rendent possible et pérenne.
+Plus généralement, la mise en réseau des connaissances et des individus transforme la manière dont sont produits certains biens publics informationnels. La "sagesse des foules” et l’intelligence collective peuvent être mobilisées via des plateformes collaboratives, des forums, des dépôts de code partagés ou des bases de données ouvertes. Dans un commun numérique, chaque participant peut apporter sa pierre, corriger une erreur, ajouter une information, développer une fonctionnalité, traduire un contenu, etc. Ce modèle du bazar, pour reprendre la métaphore d’Eric Raymond, se caractérise par un développement itératif, ouvert et fortement concurrentiel d’idées. « Given enough eyeballs, all bugs are shallow », résumait Raymond (1999) pour vanter l’avantage du logiciel libre ouvert aux contributions externes. En effet, plus la communauté de contributeurs est large et diverse, plus la probabilité est grande de détecter et résoudre rapidement les problèmes, d’innovover et d’améliorer en continu la ressource commune. La contrepartie de cette richesse contributive est la nécessité de coordonner les efforts et de garantir la cohérence de l’ensemble. C’est tout l’enjeu des mécanismes de gouvernance que nous abordons plus loin. Préalablement, notons que cette production collaborative s’appuie sur des outils techniques et juridiques spécifiques qui la rendent possible et pérenne.
 
 #### 1.2.2.2. Licences ouvertes, transparence et outils collaboratifs : les leviers de la contribution
 
@@ -1264,20 +1276,19 @@ Au stade ultime de sédimentation et naturalisation, une pratique institutionnal
 
 Le schéma ci-dessous illustre de manière synthétique les étapes clés de ce processus d'institutionnalisation, depuis l'émergence d'une innovation jusqu'à son ancrage comme une évidence partagée.
 
-```mermaid
+\`\`\`mermaid
 graph LR
     A[Innovation / Pratique Émergente] --> B(Habitualisation / Routinisation);
     B --> C(Objectivation);
     C --> D{Légitimation};
     D -- Piliers Régulatif, Normatif, Culturel-Cognitif --> E(Sédimentation / Naturalisation);
     E --> F["Taken for granted"];
-```
-
+\`\`\`
 **Figure 1 : Processus d'Institutionnalisation d'une Pratique**
 
 Ce modèle séquentiel, bien que schématique, met en lumière la progression par laquelle une nouvelle pratique, telle que le recours aux communs numériques, peut passer du statut d'expérimentation à celui de norme intégrée et incontestée au sein de l'administration. Armé de cette définition, il devient clair que l'institutionnalisation des communs numériques dans l'administration est un processus bien plus profond que leur simple adoption technique. La question se pose alors de savoir pourquoi un tel ancrage est particulièrement vital pour eux.
 
-##### 1.3.1.2. La nécessité de l'institutionnalisation pour la durabilité et la pérennisation des communs numériques au sein du secteur public
+##### 1.3.1.2. La nécessité de l'institutionnalisation pour la durabilité et la pérennité des communs numériques au sein du secteur public
 
 Dans le contexte du secteur public, où les priorités politiques peuvent changer, les budgets fluctuer et les champions de projets partir, l'institutionnalisation est cruciale pour que les communs numériques dépassent le stade de l'expérimentation éphémère ou de l'initiative isolée. Sans un ancrage solide, ils risquent de rester des pilotes sans lendemain, des jardins à la française entretenus par quelques passionnés mais vulnérables au moindre coup de vent budgétaire ou politique.
 La durabilité des communs numériques, comme le soulignent Franquesa et Navarro (2017) et Curto-Millet et al. (2022), ne repose pas uniquement sur la qualité technique de la ressource, mais fondamentalement sur la vitalité de sa communauté et la robustesse de sa gouvernance. L'institutionnalisation au sein de l'administration peut fournir un cadre stable, des ressources pérennes (humaines, financières, infrastructurelles) et une reconnaissance officielle qui sont autant d'incitations pour la communauté à s'investir sur le long terme.
@@ -1301,7 +1312,6 @@ La Théorie Néo-Institutionnelle (TNI) soutient que les organisations, au-delà
 DiMaggio et Powell (1983) distinguent trois mécanismes d'isomorphisme qui expliquent cette tendance à l'homogénéisation. Le tableau ci-dessous présente ces mécanismes et illustre leur application potentielle à l'institutionnalisation des communs numériques au sein de l'administration publique.
 
 | Mécanisme d'Isomorphisme | Définition (DiMaggio & Powell, 1983)                                                                                                | Exemple d'application à l'institutionnalisation des communs numériques dans l'administration                                                                                                            |
-| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Coercitif**            | Pressions formelles (lois, règlements) et informelles (attentes fortes)                                                             | Politiques publiques imposant l'usage de logiciels libres ou l'ouverture des données (ex: Loi pour une République Numérique).                                                                           |
 | **Mimétique**            | Imitation d'organisations perçues comme performantes/légitimes en situation d'incertitude                                           | Une administration adopte un commun numérique après avoir observé son succès ou son déploiement dans une autre entité publique jugée exemplaire.                                                        |
 | **Normatif**             | Influence de la professionnalisation (diffusion de normes, standards, bonnes pratiques par les experts et les corps professionnels) | Les directeurs des systèmes d'information (DSI), formés aux bénéfices des communs, ou les associations promouvant le logiciel libre, diffusent ces pratiques au sein de leurs organisations et réseaux. |
@@ -1318,16 +1328,15 @@ Un concept central est celui d'entrepreneur institutionnel [Ben Slimane, 2019], 
 Lawrence et Suddaby (2006) ont identifié un large répertoire de pratiques de travail institutionnel, que l'on peut regrouper en trois grandes catégories que sont le travail de création, de maintien et de disruption des institutions. Le tableau suivant illustre ces formes de travail et propose des exemples d'actions concrètes par lesquelles les acteurs peuvent œuvrer à l'institutionnalisation des communs numériques au sein de la sphère publique.
 
 | Type de Travail Institutionnel (Lawrence & Suddaby, 2006) | Objectif Général                                                                              | Exemples d'actions pour l'institutionnalisation des communs numériques publics                                                                                                                             |
-| --------------------------------------------------------- | --------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Travail de Création**                                   | Établir de nouvelles règles, normes, pratiques                                                | Plaidoyer pour les communs numériques, élaboration de cadres juridiques et politiques favorables, création de projets pilotes, théorisation des bénéfices et de la valeur publique.                        |
 | **Travail de Maintien**                                   | Préserver et renforcer les institutions (ici, les communs établis ou en voie d'établissement) | Animation de communautés de pratique, formation des agents publics, défense des communs contre les menaces (ex: tentatives de fermeture), intégration dans les routines organisationnelles et budgétaires. |
 | **Travail de Disruption**                                 | Affaiblir ou démanteler des institutions concurrentes ou des obstacles                        | Critique des modèles propriétaires et du "vendor lock-in", promotion d'alternatives ouvertes, déconstruction des mythes bureaucratiques ou des résistances culturelles au partage.                         |
 **Tableau 5 : Formes de Travail Institutionnel (TTI) et leur application à l'institutionnalisation des communs numériques publics**
 
-Ce cadre met en évidence que l'institutionnalisation des communs numériques n'est pas un processus passif ou automatique, mais le fruit d'efforts délibérés de la part d'acteurs engagés. Le travail de création d'institutions vise à établir de nouvelles règles, normes ou pratiques. Cela inclut des activités comme le plaidoyer (convaincre de la valeur des communs), la théorisation (développer des arguments et des modèles pour justifier les communs), l'éducation (former aux principes et outils des communs), la construction de réseaux d'alliés, ou l'exemplification (mettre en avant des réussites pour encourager l'imitation).  
-Le travail de maintien d'institutions vise à préserver et renforcer les institutions existantes. Cela comprend la surveillance de la conformité, la reproduction des normes par la socialisation et la formation, la défense des institutions contre les menaces externes ou internes, ou encore l'ancrage des institutions dans des routines et des identités.  
-Le travail de disruption d'institutions vise à affaiblir ou à démanteler des institutions existantes pour faire place à de nouvelles. Cela peut impliquer de discréditer les pratiques établies (critiquer la dépendance aux logiciels propriétaires), de mobiliser des oppositions, ou de créer des alternatives viables.  
-Shulz (2024) utilise cette perspective pour analyser le travail de réforme des agents publics qui, de l'intérieur, cherchent à transformer l'État en s'appuyant souvent sur les logiques et les outils des communs numériques.  
+Ce cadre met en évidence que l'institutionnalisation des communs numériques n'est pas un processus passif ou automatique, mais le fruit d'efforts délibérés de la part d'acteurs engagés. Le travail de création d'institutions vise à établir de nouvelles règles, normes ou pratiques. Cela inclut des activités comme le plaidoyer (convaincre de la valeur des communs), la théorisation (développer des arguments et des modèles pour justifier les communs), l'éducation (former aux principes et outils des communs), la construction de réseaux d'alliés, ou l'exemplification (mettre en avant des réussites pour encourager l'imitation).
+Le travail de maintien d'institutions vise à préserver et renforcer les institutions existantes. Cela comprend la surveillance de la conformité, la reproduction des normes par la socialisation et la formation, la défense des institutions contre les menaces externes ou internes, ou encore l'ancrage des institutions dans des routines et des identités.
+Le travail de disruption d'institutions vise à affaiblir ou à démanteler des institutions existantes pour faire place à de nouvelles. Cela peut impliquer de discréditer les pratiques établies (critiquer la dépendance aux logiciels propriétaires), de mobiliser des oppositions, ou de créer des alternatives viables.
+Shulz (2024) utilise cette perspective pour analyser le travail de réforme des agents publics qui, de l'intérieur, cherchent à transformer l'État en s'appuyant souvent sur les logiques et les outils des communs numériques.
 La TTI offre un regard dynamique et centré sur les acteurs, complémentaire à l'approche plus structurale de la TNI. Elle permet de comprendre comment l'institutionnalisation des communs est le résultat d'efforts concrets, de stratégies et parfois de luttes. Une manière d'approfondir cette analyse est de considérer la gouvernance interne des communs eux-mêmes comme une forme de travail institutionnel.
 
 ##### 1.3.2.3. Articulation des principes de gouvernance des communs comme forme de travail institutionnel de maintien
@@ -1344,7 +1353,6 @@ Dans cette perspective, la mise en œuvre de ces principes peut être interprét
 L'articulation entre les principes d'Ostrom et ces formes de travail institutionnel révèle que chaque principe appelle des pratiques concrètes de maintien. Le tableau ci-dessous illustre ces correspondances, enrichies d'exemples issus de communs numériques emblématiques, et met en lumière comment la gouvernance ostromienne s'incarne dans des efforts continus de maintien institutionnel.
 
 | Principe d'Ostrom (1990)                                                                       | Formes de Travail Institutionnel de Maintien (Lawrence & Suddaby, 2006)                                                                                                               | Exemples concrets dans les communs numériques                                                                                                                                                                                                        |
-| ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **1. Frontières clairement définies** (des usagers et de la ressource)                         | • **Enabling work** (structurer l'accès, clarifier les rôles et droits)<br>• **Policing** (contrôler les accès, décourager les usages non conformes)                                  | OpenStreetMap exige la création d'un compte et l'acceptation de la licence ODbL ; Wikipédia : compte utilisateur et adhésion implicite aux règles éditoriales.                                                                                       |
 | **2. Règles d'appropriation et de provision adaptées aux conditions locales**                  | • **Embedding & Routinizing** (intégrer les normes spécifiques au contexte)<br>• **Enabling work** (adapter les règles aux besoins locaux et à l'évolution de la ressource)           | Projets logiciels libres (ex: Debian, Apache) avec des chartes de contribution et des processus de décision spécifiques ; OpenStreetMap : gestion locale des spécificités cartographiques par les chapitres nationaux.                               |
 | **3. Dispositifs de choix collectif** (participation des usagers à la modification des règles) | • **Enabling work** (mettre en place des instances participatives de décision)<br>• **Mythologizing** (valoriser la légitimité de la gouvernance partagée)                            | Wikipédia : pages de discussion, votes communautaires pour les règles et l'élection des administrateurs ; Projets libres : processus de revue collaborative du code (merge requests), comités techniques élus.                                       |
@@ -1387,7 +1395,6 @@ La disponibilité de ressources humaines formées et dédiées est essentielle. 
 Le tableau suivant synthétise ces grandes catégories de facteurs d'institutionnalisation, issues de la littérature, qui structureront l'analyse empirique des cas étudiés dans ce mémoire.
 
 | Catégorie de Facteurs                                         | Exemples de facteurs spécifiques (issus de la littérature)                                                                                                                                                                                                                                                                                                   |
-| ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **1. Facteurs Contextuels et Stratégiques**                   | - Volonté politique affirmée et continue<br>- Cadres légaux et réglementaires incitatifs (ex: Loi Rép. Num.)<br>- Politiques d'achat public favorables ; alignement stratégique avec les priorités publiques (souveraineté, innovation...)<br>- Influence du champ organisationnel (pressions isomorphiques)                                                 |
 | **2. Facteurs Organisationnels, Culturels et Communautaires** | - Leadership interne et portage par des champions<br>- Culture administrative (ouverture contre résistance au changement, silos)<br>- Compétences internes (techniques, juridiques, managériales)<br>- Dispositifs de gestion du changement ; structures dédiées (exemple : OSPO)<br>- Vitalité, gouvernance et confiance au sein de la communauté du commun |
 | **3. Facteurs de Ressources et Capacitaires**                 | - Modèles de financement pérennes et adéquats<br>- Ressources humaines dédiées et formées<br>- Qualité technique intrinsèque du commun (robustesse, sécurité, interopérabilité)<br>- Documentation et support<br>- Infrastructure technique de soutien                                                                                                       |
@@ -1417,6 +1424,7 @@ Cette question principale pourra être déclinée en sous-questions de recherche
 
 Cette revue de littérature a permis de délimiter le champ de recherche, de définir les concepts clés, de mobiliser les cadres théoriques pertinents et de formuler une question de recherche précise, étayée par l'identification d'une lacune dans les connaissances existantes. La Partie II du mémoire présentera la méthodologie retenue pour répondre à cette question, avant que la Partie III ne déploie l'analyse des résultats empiriques issus des études de cas.
 
+---
 
 ## **PARTIE II : Cadre méthodologique de la recherche**
 
@@ -1551,52 +1559,53 @@ Enfin, le domaine des communs numériques et des politiques publiques associées
 
 En conclusion, cette architecture méthodologique, alliant rigueur et flexibilité, est conçue pour produire une compréhension riche, nuancée et solidement étayée des facteurs d'institutionnalisation des communs numériques au sein de l'administration publique. Elle ouvre la voie à la présentation et à la discussion des résultats empiriques qui feront l'objet de la troisième partie de ce mémoire.
 
-
+---
 # Attention : cette section sera largement reprise avant la version finale
 
 ## PARTIE III : ANALYSE DES RÉSULTATS EMPIRIQUES ET DISCUSSION
 
-1.  3.1. Caractérisation des Initiatives et de Leurs Contextes
-    1.  3.1.1. Présentation Comparée des Cas Étudiés
-        1.  3.1.1.1. Nature et typologie des communs numériques observés
-        2.  3.1.1.2. Profil des organisations porteuses et cultures administratives
-        3.  3.1.1.3. Objectifs visés, maturité et trajectoires des initiatives
-    2.  3.1.2. Analyse des Configurations de Gouvernance et Écosystèmes d'Acteurs
-        1.  3.1.2.1. Modèles de gouvernance (principes d'Ostrom adaptés, licences, processus)
-        2.  3.1.2.2. Gestion des contributions et des écosystèmes
-        3.  3.1.2.3. Cartographie des parties prenantes et logiques d'action (PLI)
-    3.  3.1.3. Genèse des Initiatives et Facteurs Contextuels Initiaux
-        1.  3.1.3.1. Déclencheurs des initiatives (besoins, volonté politique, opportunités)
-        2.  3.1.3.2. Rôle des acteurs pionniers (champions, entrepreneurs institutionnels)
-        3.  3.1.3.3. Influence du climat politique, de la culture administrative et des ressources initiales
+### 3.1. Caractérisation des Initiatives et de Leurs Contextes
+#### 3.1.1. Présentation Comparée des Cas Étudiés
+##### 3.1.1.1. Nature et typologie des communs numériques observés
+##### 3.1.1.2. Profil des organisations porteuses et cultures administratives
+##### 3.1.1.3. Objectifs visés, maturité et trajectoires des initiatives
+#### 3.1.2. Analyse des Configurations de Gouvernance et Écosystèmes d'Acteurs
+##### 3.1.2.1. Modèles de gouvernance (principes d'Ostrom adaptés, licences, processus)
+##### 3.1.2.2. Gestion des contributions et des écosystèmes
+##### 3.1.2.3. Cartographie des parties prenantes et logiques d'action (PLI)
+#### 3.1.3. Genèse des Initiatives et Facteurs Contextuels Initiaux
+##### 3.1.3.1. Déclencheurs des initiatives (besoins, volonté politique, opportunités)
+##### 3.1.3.2. Rôle des acteurs pionniers (champions, entrepreneurs institutionnels)
+##### 3.1.3.3. Influence du climat politique, de la culture administrative et des ressources initiales
 
-2.  3.2. Analyse des Dynamiques d'Institutionnalisation
-    1.  3.2.1. Processus et Trajectoires Observés
-        1.  3.2.1.1. Phases typiques (idée -> expérimentation -> adoption -> intégration -> légitimation)
-        2.  3.2.1.2. Moments critiques et points de bascule (politiques, crises, succès/échecs)
-        3.  3.2.1.3. Analyse des trajectoires de non-institutionnalisation (abandons, échecs)
-    2.  3.2.2. Identification des Facteurs d'Influence et Résistances
-        1.  3.2.2.1. Facteurs Politiques, Stratégiques, Juridiques et Réglementaires
-        2.  3.2.2.2. Facteurs Organisationnels, Culturels et de Ressources (Humaines/Économiques)
-        3.  3.2.2.3. Facteurs Techniques et Communautaires/Relationnels
-    3.  3.2.3. Analyse des Stratégies et Leviers (Mobilisés ou Absents)
-        1.  3.2.3.1. Travail Institutionnel des Acteurs (création, maintien, disruption)
-        2.  3.2.3.2. Stratégies de Légitimation et Construction Discursive
-        3.  3.2.3.3. Développement des Capacités et Animation des Communautés/Réseaux
+### 3.2. Analyse des Dynamiques d'Institutionnalisation
+#### 3.2.1. Processus et Trajectoires Observés
+##### 3.2.1.1. Phases typiques (idée -> expérimentation -> adoption -> intégration -> légitimation)
+##### 3.2.1.2. Moments critiques et points de bascule (politiques, crises, succès/échecs)
+##### 3.2.1.3. Analyse des trajectoires de non-institutionnalisation (abandons, échecs)
+#### 3.2.2. Identification des Facteurs d'Influence et Résistances
+##### 3.2.2.1. Facteurs Politiques, Stratégiques, Juridiques et Réglementaires
+##### 3.2.2.2. Facteurs Organisationnels, Culturels et de Ressources (Humaines/Économiques)
+##### 3.2.2.3. Facteurs Techniques et Communautaires/Relationnels
+#### 3.2.3. Analyse des Stratégies et Leviers (Mobilisés ou Absents)
+##### 3.2.3.1. Travail Institutionnel des Acteurs (création, maintien, disruption)
+##### 3.2.3.2. Stratégies de Légitimation et Construction Discursive
+##### 3.2.3.3. Développement des Capacités et Animation des Communautés/Réseaux
 
-3.  3.3. Discussion des Résultats et Implications
-    1.  3.3.1. Conséquences et Contribution à la Valeur Publique
-        1.  3.3.1.1. Impacts sur la performance et le fonctionnement de l'administration
-        2.  3.3.1.2. Contribution multidimensionnelle à la valeur publique (innovation, souveraineté, etc.)
-        3.  3.3.1.3. Analyse des coûts évités et de la valeur immatérielle
-    2.  3.3.2. Discussion au Regard du Cadre Théorique
-        1.  3.3.2.1. Confrontation avec la Théorie Néo-Institutionnelle (TNI)
-        2.  3.3.2.2. Confrontation avec la Théorie du Travail Institutionnel (TTI)
-        3.  3.3.2.3. Apports d'Ostrom et intégration des concepts clés (PLI, Ambidextrie, etc.)
-    3.  3.3.3. Préconisations Managériales et Stratégiques
-        1.  3.3.3.1. Recommandations pour les décideurs politiques
-        2.  3.3.3.2. Recommandations pour les managers publics (DSI, cadres)
-        3.  3.3.3.3. Recommandations pour les porteurs de projets et communautés
+### 3.3. Discussion des Résultats et Implications
+#### 3.3.1. Conséquences et Contribution à la Valeur Publique
+##### 3.3.1.1. Impacts sur la performance et le fonctionnement de l'administration
+##### 3.3.1.2. Contribution multidimensionnelle à la valeur publique (innovation, souveraineté, etc.)
+##### 3.3.1.3. Analyse des coûts évités et de la valeur immatérielle
+#### 3.3.2. Discussion au Regard du Cadre Théorique
+##### 3.3.2.1. Confrontation avec la Théorie Néo-Institutionnelle (TNI)
+##### 3.3.2.2. Confrontation avec la Théorie du Travail Institutionnel (TTI)
+##### 3.3.2.3. Apports d'Ostrom et intégration des concepts clés (PLI, Ambidextrie, etc.)
+#### 3.3.3. Préconisations Managériales et Stratégiques
+##### 3.3.3.1. Recommandations pour les décideurs politiques
+##### 3.3.3.2. Recommandations pour les managers publics (DSI, cadres)
+##### 3.3.3.3. Recommandations pour les porteurs de projets et communautés
+`;
 
         function slugify(text) {
             if (!text) return '';
@@ -1612,40 +1621,53 @@ En conclusion, cette architecture méthodologique, alliant rigueur et flexibilit
             const lines = markdown.trim().split('\n');
             let htmlOutput = '';
             let tocHtml = '';
-            
+
             const tocStructure = [];
+            let currentTocLevel = 0;
             let listLevel = 0;
             let inList = false;
             let inTable = false;
             let tableHeader = [];
             let tableAlignments = [];
+            let tableRows = [];
 
             function getHeadingText(line, levelMarker) {
                 let text = line.substring(levelMarker.length).trim();
+                // Remove ** for slug, but keep for display
                 if (text.startsWith('**') && text.endsWith('**')) {
                     return text.substring(2, text.length - 2);
                 }
+                // Handle cases like "1.1. Section" or "PARTIE I :"
+                if (text.match(/^(\d+(\.\d+)*\.?|\w+\s\w+\s?:)\s+/)) {
+                     return text; // Keep prefix for display
+                }
                 return text;
             }
-            
+
             function getCleanHeadingTextForSlug(line, levelMarker) {
                 let text = line.substring(levelMarker.length).trim();
                 if (text.startsWith('**') && text.endsWith('**')) {
                     text = text.substring(2, text.length - 2);
                 }
+                 // Remove prefixes like "1.1. " or "PARTIE I : " for cleaner slugs
                 text = text.replace(/^(\d+(\.\d+)*\.?\s*?[:\-\s]*?|\w+\s\w+\s*?[:\-\s]*?)\s*/, '');
                 return text;
             }
 
+
             function appendToToc(level, text, id) {
                 let displayTitle = text;
+                // Special handling for PARTIE titles to make them more concise in TOC
                 if (displayTitle.toUpperCase().startsWith("PARTIE ")) {
-                    const aTitle = displayTitle.split(':')[0];
-                    const bTitle = displayTitle.split(':')[1];
+                    const aTitle = displayTitle.split(':')[0]; // "PARTIE I"
+                     const bTitle = displayTitle.split(':')[1];
                     if (bTitle && bTitle.length > 50) {
-                        displayTitle = aTitle + ": " + bTitle.substring(0,50).trim() + "...";
+                         displayTitle = aTitle + ": " + bTitle.substring(0,50).trim() + "...";
+                    } else {
+                        displayTitle = text;
                     }
                 }
+
 
                 while (tocStructure.length > level) {
                     tocStructure.pop();
@@ -1655,11 +1677,11 @@ En conclusion, cette architecture méthodologique, alliant rigueur et flexibilit
                     tocStructure.push(true);
                     tocHtml += (tocStructure.length > 1 ? '<ul class="toc-list">' : '');
                 }
-                tocHtml += `<li><a class="toc-link" href="#${id}">${displayTitle.replace(/<[^>]*>?/gm, '')}</a>`;
+                tocHtml += `<li><a class="toc-link" href="#${id}">${displayTitle.replace(/<[^>]*>?/gm, '')}</a>`; // Remove any HTML tags for display
             }
-            
+
             function closeAllTocLevels() {
-                while (tocStructure.length > 0) {
+                 while (tocStructure.length > 0) {
                     tocStructure.pop();
                     tocHtml += '</ul></li>';
                 }
@@ -1672,13 +1694,14 @@ En conclusion, cette architecture méthodologique, alliant rigueur et flexibilit
                     listLevel = 0;
                 }
             }
-            
+
             function closeTableIfNeeded() {
                 if (inTable) {
                     htmlOutput += '</tbody></table></div>';
                     inTable = false;
                     tableHeader = [];
                     tableAlignments = [];
+                    tableRows = [];
                 }
             }
 
@@ -1686,50 +1709,51 @@ En conclusion, cette architecture méthodologique, alliant rigueur et flexibilit
                 let line = lines[i];
 
                 // Handle Headings
-                if (line.startsWith('# ')) {
+                if (line.startsWith('# ')) { // H1 in MD, treat as H2 for "PARTIE"
                     closeListIfNeeded(); closeTableIfNeeded();
                     const text = getHeadingText(line, '# ');
                     const cleanTextForSlug = getCleanHeadingTextForSlug(line, '# ');
                     const id = slugify(cleanTextForSlug) || `partie-${i}`;
                     htmlOutput += `<h2 id="${id}">${text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</h2>`;
-                    appendToToc(0, text, id);
-                } else if (line.startsWith('## ')) {
+                    appendToToc(0, text, id); // Level 0 for TOC root
+                } else if (line.startsWith('## ')) { // H2 in MD
                     closeListIfNeeded(); closeTableIfNeeded();
                     const text = getHeadingText(line, '## ');
                     const cleanTextForSlug = getCleanHeadingTextForSlug(line, '## ');
                     const id = slugify(cleanTextForSlug) || `section-${i}`;
                     htmlOutput += `<h3 id="${id}">${text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</h3>`;
                     appendToToc(1, text, id);
-                } else if (line.startsWith('### ')) {
+                } else if (line.startsWith('### ')) { // H3 in MD
                     closeListIfNeeded(); closeTableIfNeeded();
                     const text = getHeadingText(line, '### ');
                     const cleanTextForSlug = getCleanHeadingTextForSlug(line, '### ');
                     const id = slugify(cleanTextForSlug) || `subsection-${i}`;
                     htmlOutput += `<h4 id="${id}">${text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</h4>`;
                     appendToToc(2, text, id);
-                } else if (line.startsWith('#### ')) {
+                } else if (line.startsWith('#### ')) { // H4 in MD
                     closeListIfNeeded(); closeTableIfNeeded();
                     const text = getHeadingText(line, '#### ');
                     const cleanTextForSlug = getCleanHeadingTextForSlug(line, '#### ');
                     const id = slugify(cleanTextForSlug) || `subsubsection-${i}`;
                     htmlOutput += `<h5 id="${id}">${text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</h5>`;
                     appendToToc(3, text, id);
-                } else if (line.startsWith('##### ')) {
+                } else if (line.startsWith('##### ')) { // H5 in MD
                     closeListIfNeeded(); closeTableIfNeeded();
                     const text = getHeadingText(line, '##### ');
                     const cleanTextForSlug = getCleanHeadingTextForSlug(line, '##### ');
                     const id = slugify(cleanTextForSlug) || `minisubsection-${i}`;
                     htmlOutput += `<h6 id="${id}">${text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</h6>`;
                     appendToToc(4, text, id);
-                } else if (line.startsWith('###### ')) {
-                    closeListIfNeeded(); closeTableIfNeeded();
+                } else if (line.startsWith('###### ')) { // H6 in MD
+                     closeListIfNeeded(); closeTableIfNeeded();
                     const text = getHeadingText(line, '###### ');
                     const cleanTextForSlug = getCleanHeadingTextForSlug(line, '###### ');
                     const id = slugify(cleanTextForSlug) || `tinysubsection-${i}`;
+                    // Assuming H6 is max in content, but still use h6 tag
                     htmlOutput += `<h6 id="${id}"><em>${text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</em></h6>`;
-                    appendToToc(5, text, id);
+                    appendToToc(5, text, id); // Max TOC depth in CSS
                 }
-                // Handle Mermaid diagrams - CORRECTION ICI
+                // REMOVED THE INCORRECTLY NESTED DOMContentLoaded LISTENER FROM HERE
                 else if (line.trim() === '```mermaid') {
                     closeListIfNeeded(); closeTableIfNeeded();
                     htmlOutput += '<div class="mermaid-diagram-container"><div class="mermaid">';
@@ -1741,54 +1765,59 @@ En conclusion, cette architecture méthodologique, alliant rigueur et flexibilit
                     htmlOutput += '</div></div>';
                     i = j; // Skip mermaid block
                 }
-                else if (line.startsWith('> **Attention**') || line.startsWith('> Attention')) {
+                else if (line.startsWith('> **Attention**') || line.startsWith('> Attention')) { // Admonition start
                     closeListIfNeeded(); closeTableIfNeeded();
                     htmlOutput += '<blockquote class="admonition warning">';
                     const title = line.substring(line.indexOf('Attention'));
                     htmlOutput += `<p class="admonition-title">${title}</p>`;
+                    // Check if next lines are part of the blockquote
                     let j = i + 1;
                     while(j < lines.length && lines[j].startsWith('> ')) {
                         htmlOutput += `<p>${lines[j].substring(2).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</p>`;
                         j++;
                     }
                     htmlOutput += '</blockquote>';
-                    i = j - 1;
+                    i = j - 1; // Move pointer
                 }
+                // Handle blockquote for "Attention: cette section sera largement reprise..."
                 else if (line.startsWith('# Attention : cette section sera largement reprise')) {
                     closeListIfNeeded(); closeTableIfNeeded();
                     htmlOutput += '<blockquote class="admonition warning">';
                     htmlOutput += '<p class="admonition-title">Attention</p>';
-                    htmlOutput += `<p>${line.substring(2)}</p>`;
+                    htmlOutput += `<p>${line.substring(2)}</p>`; // Keep the heading style if needed, or just the text
                     htmlOutput += '</blockquote>';
                 }
-                // Handle Tables
+                 // Handle Tables
                 else if (line.trim().startsWith('|') && line.trim().endsWith('|')) {
                     closeListIfNeeded();
                     if (!inTable) {
                         htmlOutput += '<div class="table-responsive-wrapper"><table class="styled-table">';
                         inTable = true;
+                        // Header row
                         tableHeader = line.trim().slice(1, -1).split('|').map(s => s.trim().replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'));
                         htmlOutput += '<thead><tr>';
                         tableHeader.forEach(h => htmlOutput += `<th>${h}</th>`);
                         htmlOutput += '</tr></thead><tbody>';
 
+                        // Check for alignment row
                         if (lines[i+1] && lines[i+1].trim().match(/^\|(:?-+:?\|)+$/)) {
-                            tableAlignments = lines[i+1].trim().slice(1, -1).split('|').map(s => {
+                             tableAlignments = lines[i+1].trim().slice(1, -1).split('|').map(s => {
                                 const trimmed = s.trim();
                                 if (trimmed.startsWith(':') && trimmed.endsWith(':')) return 'center';
                                 if (trimmed.startsWith(':')) return 'left';
                                 if (trimmed.endsWith(':')) return 'right';
-                                return 'left';
+                                return 'left'; // default
                             });
-                            i++;
+                            i++; // consume alignment row
                         }
-                    } else {
+                    } else { // Data row
                         const rowData = line.trim().slice(1, -1).split('|').map(s => s.trim().replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'));
                         htmlOutput += '<tr>';
                         rowData.forEach((cell, k) => {
                             let style = '';
                             if(tableAlignments[k]) style = ` style="text-align: ${tableAlignments[k]}"`;
-                            if (cell.includes('<br>- ')) {
+                            // Basic list handling within cells
+                            if (cell.includes('<br>- ')) { // Multi-line list items in a cell
                                 const items = cell.split('<br>- ').map(item => item.trim()).filter(item => item);
                                 if (items.length > 0) {
                                     cell = '<ul>' + items.map(item => `<li>${item}</li>`).join('') + '</ul>';
@@ -1803,7 +1832,7 @@ En conclusion, cette architecture méthodologique, alliant rigueur et flexibilit
                 else if (line.startsWith('- ') || line.startsWith('* ')) {
                     closeTableIfNeeded();
                     if (!inList || listLevel !== 1) {
-                        closeListIfNeeded();
+                        closeListIfNeeded(); // Close if changing type or starting new
                         htmlOutput += '<ul>';
                         inList = true;
                         listLevel = 1;
@@ -1821,45 +1850,48 @@ En conclusion, cette architecture méthodologique, alliant rigueur et flexibilit
                 }
                 // Horizontal Rule
                 else if (line.trim() === '---') {
-                    closeListIfNeeded(); closeTableIfNeeded();
+                     closeListIfNeeded(); closeTableIfNeeded();
                     htmlOutput += '<hr class="section-divider">';
                 }
                 // Paragraphs
                 else if (line.trim() !== '') {
                     closeListIfNeeded(); closeTableIfNeeded();
                     htmlOutput += `<p>${line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</p>`;
-                } else {
+                } else { // Empty line potentially ends a list or table
                     closeListIfNeeded();
+                    // Tables are closed when a non-table line is encountered or at the end.
+                    // If the next line is not a table row, close the table.
                     if (inTable && !(lines[i+1] && lines[i+1].trim().startsWith('|') && lines[i+1].trim().endsWith('|'))) {
                         closeTableIfNeeded();
                     }
                 }
             }
-            closeListIfNeeded();
-            closeTableIfNeeded();
-            closeAllTocLevels();
+            closeListIfNeeded(); // Ensure any open list is closed at the end
+            closeTableIfNeeded(); // Ensure any open table is closed
+            closeAllTocLevels(); // Close all TOC levels
 
             return { htmlOutput, tocHtml };
         }
 
         // --- Initialization ---
         document.addEventListener('DOMContentLoaded', () => {
-            // AJOUTEZ L'INITIALISATION MERMAID AU DÉBUT :
-            mermaid.initialize({ 
-                startOnLoad: false,
-                theme: document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
-            });
-            
+            if (typeof mermaid !== 'undefined') {
+                mermaid.initialize({
+                    startOnLoad: false,
+                    theme: document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+                });
+            }
+
             const { htmlOutput, tocHtml } = parseMarkdown(markdownContent);
-            
+
             const articleContainer = document.getElementById('article-content-container');
             if (articleContainer) {
                 articleContainer.innerHTML = htmlOutput;
-                
-                // RENDRE LES DIAGRAMMES MERMAID APRÈS INSERTION DU HTML :
-                mermaid.run({
-                    querySelector: '.mermaid'
-                });
+                if (typeof mermaid !== 'undefined') {
+                    mermaid.run({
+                        querySelector: '.mermaid'
+                    });
+                }
             }
 
             const tocContainer = document.getElementById('toc-list-container');
@@ -1871,23 +1903,23 @@ En conclusion, cette architecture méthodologique, alliant rigueur et flexibilit
             articleContentSectionForProgress = document.getElementById('article-content-container');
             tocLinks = Array.from(document.querySelectorAll('#toc-list-container .toc-link'));
             sections = Array.from(document.querySelectorAll('#article-content-container h2[id], #article-content-container h3[id], #article-content-container h4[id], #article-content-container h5[id], #article-content-container h6[id]'));
-            
+
             initializeTocLinkSmoothScroll();
 
             // Initial calls after content is loaded
             updateReadingProgress();
             updateActiveTocLink();
             toggleBackToTop();
-            handleResize();
-            
+            handleResize(); // Initial resize check
+
             // Initial sidebar state for desktop
             if (window.innerWidth > 1200) {
-                if (!navSidebar.classList.contains('open')) {
+                 if (!navSidebar.classList.contains('open')) { // Open it if not already (e.g. if closed by user and page reloaded)
                     navSidebar.classList.add('open');
                 }
                 mainContent.classList.add('with-sidebar');
             } else {
-                mainContent.classList.remove('with-sidebar');
+                mainContent.classList.remove('with-sidebar'); // Ensure no margin if not desktop
             }
         });
 
