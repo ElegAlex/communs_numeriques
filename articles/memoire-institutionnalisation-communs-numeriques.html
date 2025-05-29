@@ -421,15 +421,28 @@
         .mermaid-diagram-container {
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
-            padding: 1rem;
+            padding: 1rem; /* Padding pour l'esthétique */
             margin: 2rem 0;
             border-radius: 0.5rem;
-            overflow-x: auto; /* For wide diagrams */
-            text-align: center; /* Center the diagram */
+            overflow-x: auto; /* Important pour les diagrammes larges après mise à l'échelle */
+            text-align: center; /* Centre le .mermaid si plus petit que le container */
         }
+
         .mermaid {
-            text-align: left; /* Reset text-align for the diagram code if needed */
-            display: inline-block; /* Allows centering */
+            display: inline-block; /* Nécessaire pour que transform-origin fonctionne bien et pour le centrage */
+            transform-origin: top left; /* Point d'origine de la mise à l'échelle */
+            transform: scale(1.2); /* Ajustez cette valeur (ex: 1.0, 1.1, 1.3, 1.5) */
+            /* Pour s'assurer que l'espace est suffisant après la mise à l'échelle,
+               on pourrait avoir besoin d'ajuster la taille du conteneur .mermaid si le scale est grand.
+               Cependant, avec overflow-x sur le parent, ça devrait gérer. */
+            margin: 10px 0; /* Ajoute un peu de marge pour éviter que ça colle aux bords après scale */
+        }
+        
+        /* S'assurer que le SVG à l'intérieur du .mermaid est responsive APRÈS le scale */
+        /* Ce n'est peut-être pas nécessaire si le scale suffit, mais peut aider */
+        .mermaid svg {
+            max-width: 100%; /* Empêche le SVG de devenir plus large que son conteneur .mermaid */
+            height: auto; /* Maintient le ratio d'aspect */
         }
 
 
@@ -545,6 +558,9 @@
             }
             .nav-sidebar.open {
                 left:0;
+            }
+            .mermaid {
+                 transform: scale(1.0); /* Réduire ou annuler le scale sur petit écran si besoin */
             }
         }
 
@@ -753,23 +769,21 @@
                 mermaid.initialize({
                     startOnLoad: false,
                     theme: newDocTheme === 'dark' ? 'dark' : 'default'
+                    // Pas de themeVariables ici, on gère le scale via CSS
                 });
 
                 // Re-rendre les diagrammes Mermaid avec le nouveau thème
                 const diagrams = document.querySelectorAll('.mermaid');
                 if (diagrams.length > 0) {
+                    // Il est possible que mermaid.run() ne re-scale pas.
+                    // Si le scale CSS ne s'applique pas dynamiquement,
+                    // il faudra forcer un reflow ou une ré-insertion du diagramme.
+                    // Pour l'instant, on suppose que le CSS pour .mermaid est suffisant.
                     mermaid.run({
                         querySelector: '.mermaid'
                     });
                 }
             }
-            /*
-            // Dispatch event for Mermaid theme update - commenté car newDocTheme n'est pas dans le scope et l'event n'est pas utilisé
-            if (typeof mermaid !== 'undefined') {
-                const event = new CustomEvent('mermaidThemeUpdate', { detail: { theme: newDocTheme } });
-                themeToggle.dispatchEvent(event);
-            }
-            */
         });
 
 
@@ -1140,7 +1154,7 @@ En parallèle, des initiatives ascendantes issues de la société civile démont
 
 Enfin, des travaux récents sur la souveraineté numérique elle-même recommandent d’intégrer explicitement ces logiques multi-niveaux. Fratini et al. (2024), notamment, invitent à adopter une perspective socio-technique selon laquelle la souveraineté numérique se construit autant par les choix des États que par l’agentivité des utilisateurs et des communautés impliquées. Leur étude des politiques de localisation des données (« data localization ») montre que le recours aux cadres juridiques nationaux pour maîtriser les flux de données est souvent le produit d’interactions complexes entre imaginaires politiques, infrastructures techniques et demandes sociales, les frontières nationales servant symboliquement à instaurer un climat de confiance collective.
 
-En somme, la souveraineté numérique dans le secteur public ne relève plus uniquement d’une prérogative étatique verticale, mais résulte désormais d’un écosystème complexe de gouvernance imbriquée. Les niveaux national, local et supranational cherchent à harmoniser leurs stratégies, tandis que les communs numériques offrent des vecteurs concrets pour associer une pluralité d’acteurs à la gestion des ressources numériques stratégiques. Cette recomposition multi-niveaux, documentée par la littérature récente, constitue ainsi un cadre analytique essentiel pour appréhender les transformations numériques des administrations publiques, sans anticiper sur les résultats opérationnels qui seront explorés dans les parties empiriques et la discussion de ce mémoire.
+En somme, la souveraineté numérique dans le secteur public ne relève plus uniquement d’une prérogative étatique verticale, mais résulte désormais d’un écosystème complexe de gouvernance imbriquée. Les niveaux national, local et supranational cherchent à harmoniser leurs stratégies, tandis que les communs numériques offrent des vecteurs concrets pour associer une pluralité d’acteurs à la gestion des ressources numériques stratégiques. Cette recomposition multi-niveaux, documentée par la littérature recente, constitue ainsi un cadre analytique essentiel pour appréhender les transformations numériques des administrations publiques, sans anticiper sur les résultats opérationnels qui seront explorés dans les parties empiriques et la discussion de ce mémoire.
 
 ## 1.2. Le paradigme des communs numériques : fondements, mécanismes et pertinence pour l’action publique
 
@@ -1753,7 +1767,6 @@ En conclusion, cette architecture méthodologique, alliant rigueur et flexibilit
                     htmlOutput += `<h6 id="${id}"><em>${text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</em></h6>`;
                     appendToToc(5, text, id); // Max TOC depth in CSS
                 }
-                // REMOVED THE INCORRECTLY NESTED DOMContentLoaded LISTENER FROM HERE
                 else if (line.trim() === '```mermaid') {
                     closeListIfNeeded(); closeTableIfNeeded();
                     htmlOutput += '<div class="mermaid-diagram-container"><div class="mermaid">';
@@ -1879,6 +1892,7 @@ En conclusion, cette architecture méthodologique, alliant rigueur et flexibilit
                 mermaid.initialize({
                     startOnLoad: false,
                     theme: document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+                    // Pas de themeVariables ici, on gère le scale via CSS pour l'option 2
                 });
             }
 
