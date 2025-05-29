@@ -748,6 +748,21 @@
             storage.setItem('theme', newDocTheme);
             updateThemeIcon();
 
+            // Mettre à jour le thème Mermaid
+            mermaid.initialize({ 
+                startOnLoad: false,
+                theme: newDocTheme === 'dark' ? 'dark' : 'default'
+            });
+            
+            // Re-rendre les diagrammes Mermaid avec le nouveau thème
+            const diagrams = document.querySelectorAll('.mermaid');
+            if (diagrams.length > 0) {
+                mermaid.run({
+                    querySelector: '.mermaid'
+                });
+            }
+        });
+
             // Dispatch event for Mermaid theme update
             if (typeof mermaid !== 'undefined') {
                 const event = new CustomEvent('mermaidThemeUpdate', { detail: { theme: newDocTheme } });
@@ -1736,15 +1751,45 @@ En conclusion, cette architecture méthodologique, alliant rigueur et flexibilit
                     appendToToc(5, text, id); // Max TOC depth in CSS
                 }
                 // Handle Admonition (very basic)
+                document.addEventListener('DOMContentLoaded', () => {
+                    // AJOUTEZ CES LIGNES AU DÉBUT :
+                    mermaid.initialize({ 
+                        startOnLoad: false,
+                        theme: document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+                    });
+                    
+                    // Votre code existant continue ici :
+                    const { htmlOutput, tocHtml } = parseMarkdown(markdownContent);
+                    
+                    const articleContainer = document.getElementById('article-content-container');
+                    if (articleContainer) {
+                        articleContainer.innerHTML = htmlOutput;
+                        
+                        // AJOUTEZ CES LIGNES APRÈS l'insertion du HTML :
+                        mermaid.run({
+                            querySelector: '.mermaid'
+                        });
+                    }
+                
+                    const tocContainer = document.getElementById('toc-list-container');
+                    if (tocContainer) {
+                        tocContainer.innerHTML = tocHtml;
+                    }
+                
+                    // Reste de votre code existant...
+                    articleContentSectionForProgress = document.getElementById('article-content-container');
+                    // etc...
+                });
+
                 else if (line.trim() === '```mermaid') {
                     closeListIfNeeded(); closeTableIfNeeded();
-                    htmlOutput += '<div class="mermaid-diagram-container"><pre><code>';
+                    htmlOutput += '<div class="mermaid-diagram-container"><div class="mermaid">';
                     let j = i + 1;
                     while (j < lines.length && lines[j].trim() !== '```') {
-                        htmlOutput += lines[j].replace(/</g, '&lt;').replace(/>/g, '&gt;') + '\n';
+                        htmlOutput += lines[j] + '\n';
                         j++;
                     }
-                    htmlOutput += '</code></pre></div>';
+                    htmlOutput += '</div></div>';
                     i = j; // Skip mermaid block
                 }
                 else if (line.startsWith('> **Attention**') || line.startsWith('> Attention')) { // Admonition start
