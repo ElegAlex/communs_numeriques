@@ -1,236 +1,935 @@
-// Storage Helper (fallback for sandboxed environments)
-const storage = {
-    available: (() => {
-        try {
-            localStorage.setItem('test', 'test');
-            localStorage.removeItem('test');
-            return true;
-        } catch(e) {
-            return false;
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mémoire : Les facteurs d'institutionnalisation des communs numériques dans l'administration - Communs Numériques</title>
+    <meta name="description" content="Mémoire de recherche sur les facteurs d'institutionnalisation des communs numériques dans l'administration publique.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #64748b;
+            --accent-color: #0ea5e9;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --text-primary: #1e293b;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
         }
-    })(),
-    
-    getItem: function(key) {
-        if (this.available) {
-            return localStorage.getItem(key);
+
+        [data-theme="dark"] {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.4);
         }
-        return null;
-    },
-    
-    setItem: function(key, value) {
-        if (this.available) {
-            localStorage.setItem(key, value);
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-    }
-};
 
-// Theme Toggle
-const themeToggle = document.getElementById('theme-toggle');
-const currentTheme = storage.getItem('theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-document.documentElement.setAttribute('data-theme', currentTheme);
-
-const sunIcon = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>`;
-const moonIcon = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
-
-function updateThemeIcon() {
-    if (document.documentElement.getAttribute('data-theme') === 'dark') {
-        themeToggle.innerHTML = sunIcon;
-    } else {
-        themeToggle.innerHTML = moonIcon;
-    }
-}
-updateThemeIcon(); // Call it once at load
-
-themeToggle.addEventListener('click', async () => {
-    const currentDocTheme = document.documentElement.getAttribute('data-theme');
-    const newDocTheme = currentDocTheme === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', newDocTheme);
-    storage.setItem('theme', newDocTheme);
-    updateThemeIcon();
-
-    // Mettre à jour le thème Mermaid
-    mermaid.initialize({ 
-        startOnLoad: false,
-        theme: newDocTheme === 'dark' ? 'dark' : 'default'
-    });
-    
-    // Re-rendre les diagrammes Mermaid avec le nouveau thème
-    const diagrams = document.querySelectorAll('.mermaid');
-    if (diagrams.length > 0) {
-        mermaid.run({
-            querySelector: '.mermaid'
-        });
-    }
-});
-
-// Table of Contents Toggle
-const tocToggle = document.getElementById('toc-toggle');
-const navSidebar = document.getElementById('nav-sidebar');
-const mainContent = document.getElementById('main-content');
-const HEADER_HEIGHT = 80; 
-
-tocToggle.addEventListener('click', () => {
-    navSidebar.classList.toggle('open');
-    if (window.innerWidth > 1200) { 
-        mainContent.classList.toggle('with-sidebar', navSidebar.classList.contains('open'));
-    }
-});
-
-// Reading Progress
-const readingProgress = document.getElementById('reading-progress');
-let articleContentSectionForProgress; 
-
-function updateReadingProgress() {
-    if (!articleContentSectionForProgress) return;
-
-    const contentHeight = articleContentSectionForProgress.offsetHeight;
-    const articleHeaderHeight = document.querySelector('.article-header')?.offsetHeight || 0;
-    
-    const viewportHeight = window.innerHeight - HEADER_HEIGHT;
-    const scrollableHeight = contentHeight - viewportHeight;
-    
-    const scrollTopRelativeToDocument = window.pageYOffset;
-    const articleContentStartOffset = articleContentSectionForProgress.offsetTop - HEADER_HEIGHT;
-    let currentScrollInContent = scrollTopRelativeToDocument - articleContentStartOffset;
-   
-    let progress = 0;
-    if (scrollableHeight > 0) {
-         progress = (currentScrollInContent / scrollableHeight) * 100;
-    } else if (currentScrollInContent >= 0 && contentHeight > 0) { 
-        progress = 100;
-    }
-    
-    readingProgress.style.width = Math.min(Math.max(progress, 0), 100) + '%';
-}
-
-// Active TOC Link
-let tocLinks = []; 
-let sections = []; 
-
-function updateActiveTocLink() {
-    if (!sections.length || !tocLinks.length) return;
-
-    let currentSectionId = '';
-    const scrollPos = window.pageYOffset + HEADER_HEIGHT + 30; 
-
-    for (let i = sections.length - 1; i >= 0; i--) {
-        if (sections[i].offsetTop <= scrollPos) {
-            currentSectionId = sections[i].id;
-            break;
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            transition: all 0.3s ease;
         }
-    }
-    
-    tocLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === '#' + currentSectionId) {
-            link.classList.add('active');
-            if (navSidebar.classList.contains('open') && navSidebar.offsetWidth > 0 && navSidebar.offsetHeight > 0) { 
-                 link.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+
+        /* Reading Progress Bar */
+        .reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            z-index: 1000;
+            transition: width 0.1s ease;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        [data-theme="dark"] .header {
+            background: rgba(15, 23, 42, 0.95);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .theme-toggle, .toc-toggle {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-toggle:hover, .toc-toggle:hover {
+            background: var(--bg-tertiary);
+            transform: translateY(-1px);
+        }
+
+        /* Navigation Sidebar */
+        .nav-sidebar {
+            position: fixed;
+            top: 80px; /* Adjust if header height changes */
+            left: -350px;
+            width: 350px;
+            height: calc(100vh - 80px); /* Adjust if header height changes */
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            overflow-y: auto;
+            z-index: 998;
+            transition: left 0.3s ease;
+            padding: 1.5rem;
+        }
+
+        .nav-sidebar.open {
+            left: 0;
+        }
+
+        .nav-sidebar h2 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .toc-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .toc-list li {
+            margin: 0.25rem 0;
+        }
+
+        .toc-link {
+            display: block;
+            padding: 0.5rem 0.75rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            line-height: 1.4;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .toc-link:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            transform: translateX(4px);
+        }
+
+        .toc-link.active {
+            background: var(--primary-color);
+            color: white !important; /* Ensure text is white on active */
+            border-left-color: var(--accent-color);
+        }
+        
+        /* TOC Nesting for different levels */
+        .toc-list .toc-list { /* H3 under H2 */
+            margin-left: 0.75rem;
+            padding-left: 0.75rem;
+            border-left: 1px solid var(--border-color);
+        }
+        .toc-list .toc-list .toc-link { font-size: 0.85rem; }
+
+        .toc-list .toc-list .toc-list { /* H4 under H3 */
+            margin-left: 0.75rem;
+            padding-left: 0.75rem;
+        }
+        .toc-list .toc-list .toc-list .toc-link { font-size: 0.825rem; }
+
+        .toc-list .toc-list .toc-list .toc-list { /* H5 under H4 */
+            margin-left: 0.75rem;
+            padding-left: 0.75rem;
+        }
+        .toc-list .toc-list .toc-list .toc-list .toc-link { font-size: 0.8rem; }
+        
+        .toc-list .toc-list .toc-list .toc-list .toc-list { /* H6 under H5 */
+            margin-left: 0.75rem;
+            padding-left: 0.75rem;
+        }
+        .toc-list .toc-list .toc-list .toc-list .toc-list .toc-link { font-size: 0.775rem; }
+
+
+        /* Main Content */
+        .main-content {
+            margin-top: 80px; /* Adjust if header height changes */
+            transition: margin-left 0.3s ease;
+            min-height: calc(100vh - 80px); /* Adjust if header height changes */
+        }
+
+        .main-content.with-sidebar {
+            margin-left: 350px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Article Styling */
+        .article-header {
+            text-align: center;
+            padding: 3rem 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 3rem;
+        }
+
+        .article-header h1 {
+            font-family: 'Crimson Text', Georgia, serif;
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .article-abstract {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            border-left: 4px solid var(--warning-color);
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        /* Typography */
+        .article-content-section {
+            font-family: 'Crimson Text', Georgia, serif;
+            font-size: 1.125rem;
+            line-height: 1.8;
+            color: var(--text-primary);
+        }
+
+        .article-content-section h2 {
+            font-family: 'Inter', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 3rem 0 1.5rem 0;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--primary-color);
+            position: relative;
+        }
+
+        .article-content-section h2::before {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: var(--accent-color);
+        }
+
+        .article-content-section h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 2.5rem 0 1rem 0;
+        }
+
+        .article-content-section h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 2rem 0 0.75rem 0;
+        }
+
+        .article-content-section h5 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin: 1.5rem 0 0.5rem 0;
+        }
+
+        .article-content-section h6 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin: 1rem 0 0.5rem 0;
+        }
+
+        .article-content-section p {
+            margin: 1.25rem 0;
+            text-align: justify;
+        }
+
+        .article-content-section ul, .article-content-section ol {
+            margin: 1rem 0;
+            padding-left: 2rem;
+        }
+
+        .article-content-section li {
+            margin: 0.5rem 0;
+        }
+
+        /* Section Dividers */
+        .section-divider {
+            margin: 4rem 0;
+            border: none;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+        }
+
+        /* Admonitions */
+        .admonition {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            border-left: 4px solid var(--primary-color);
+            background: var(--bg-secondary); 
+        }
+        .admonition p:first-child { margin-top: 0; }
+        .admonition p:last-child { margin-bottom: 0; }
+
+
+        .admonition.warning {
+            background: rgba(245, 158, 11, 0.1); 
+            border-left-color: var(--warning-color);
+        }
+        
+        .admonition.warning .admonition-title { 
+             color: var(--warning-color);
+        }
+
+        .admonition-title {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            color: var(--primary-color); 
+            margin-bottom: 0.5rem;
+            display: block; 
+        }
+        
+
+        /* Tables */
+        .table-responsive-wrapper {
+            overflow-x: auto;
+            margin: 2rem 0;
+            border-radius: 0.75rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+        }
+
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-primary);
+        }
+
+        .styled-table thead {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .styled-table th, .styled-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif; 
+        }
+        .styled-table td ul {
+            padding-left: 1rem; 
+            margin: 0.5rem 0;
+        }
+        .styled-table td ul li {
+            margin: 0.25rem 0;
+        }
+
+        .styled-table tbody tr:nth-child(even) {
+            background: var(--bg-secondary);
+        }
+
+        .styled-table tbody tr:hover {
+            background: var(--bg-tertiary);
+        }
+        
+        /* Mermaid diagrams container */
+        .mermaid-diagram-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            margin: 2rem 0;
+            border-radius: 0.5rem;
+            overflow-x: auto; /* For wide diagrams */
+            text-align: center; /* Center the diagram */
+        }
+        .mermaid {
+            text-align: left; /* Reset text-align for the diagram code if needed */
+            display: inline-block; /* Allows centering */
+        }
+
+
+        /* Citation Info */
+        .citation-info {
+            background: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: 0.75rem;
+            margin: 3rem 0;
+            border: 1px solid var(--border-color);
+        }
+
+        .citation-info h3 {
+            font-family: 'Inter', sans-serif;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .cta-button-secondary {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .cta-button-secondary:hover {
+            background: var(--accent-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Reading Tools */
+        .reading-tools {
+            position: fixed;
+            right: 2rem;
+            bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            z-index: 997;
+        }
+
+        .tool-button {
+            width: 48px;
+            height: 48px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.2s ease;
+        }
+
+        .tool-button:hover {
+            background: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .tool-button.hidden {
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .main-content.with-sidebar {
+                margin-left: 0;
+            }
+            
+            .nav-sidebar {
+                left: -350px; 
+            }
+             .nav-sidebar.open { 
+                left:0;
             }
         }
-    });
-}
 
-// Back to Top
-const backToTop = document.getElementById('back-to-top');
-
-function toggleBackToTop() {
-    if (window.pageYOffset > 300) {
-        backToTop.classList.remove('hidden');
-    } else {
-        backToTop.classList.add('hidden');
-    }
-}
-
-backToTop.addEventListener('click', () => {
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-    });
-});
-
-// Close sidebar when clicking outside or on a link
-document.addEventListener('click', (e) => {
-    if (navSidebar.classList.contains('open')) {
-        if (!navSidebar.contains(e.target) && !tocToggle.contains(e.target)) {
-            closeNavSidebar();
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .article-header h1 {
+                font-size: 2rem;
+            }
+            
+            .article-content-section {
+                font-size: 1rem;
+            }
+            
+            .article-content-section h2 {
+                font-size: 1.5rem;
+            }
+            
+            .reading-tools {
+                right: 1rem;
+                bottom: 1rem;
+            }
+            
+            .nav-sidebar {
+                width: 100%;
+                left: -100%;
+            }
+            .nav-sidebar.open {
+                left:0;
+            }
         }
-        if (e.target.classList.contains('toc-link') || e.target.closest('.toc-link')) {
-             if (window.innerWidth <= 768) { 
-                closeNavSidebar();
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Focus styles for accessibility */
+        .toc-link:focus,
+        .tool-button:focus {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+        /* Print styles */
+        @media print {
+            .header,
+            .nav-sidebar,
+            .reading-tools,
+            .reading-progress {
+                display: none !important;
+            }
+            
+            .main-content {
+                margin-top: 0 !important;
+                margin-left: 0 !important;
+            }
+            body {
+                background: white;
+                color: black;
+            }
+            .article-content-section h2, .article-content-section h3, .article-content-section h4, .article-content-section h5, .article-content-section h6 {
+                color: black;
+            }
+             .article-content-section h2 {
+                border-bottom-color: #ccc;
+            }
+            .article-content-section h2::before {
+                 background: #666;
+            }
+            .styled-table thead {
+                background-color: #eee !important;
+                color: black !important;
+                -webkit-print-color-adjust: exact; 
+                print-color-adjust: exact; 
+            }
+            .styled-table tbody tr:nth-child(even) {
+                background-color: #f9f9f9 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .admonition {
+                border-left-color: #ccc !important;
+                background-color: #f9f9f9 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+             .admonition.warning {
+                border-left-color: #f59e0b !important;
              }
+            .admonition-title {
+                color: black !important;
+            }
+             .admonition.warning .admonition-title {
+                 color: #f59e0b !important;
+             }
+             .mermaid-diagram-container { display: none; } 
         }
-    }
-});
+    </style>
+</head>
+<body>
+    <div class="reading-progress" id="reading-progress"></div>
 
-function closeNavSidebar() {
-    navSidebar.classList.remove('open');
-    if (window.innerWidth > 1200) { 
-        mainContent.classList.remove('with-sidebar');
-    }
-}
+    <header class="header">
+        <div class="header-content">
+            <a href="../index.html#hero" class="logo">Communs Numériques</a>
+            <div class="header-controls">
+                <button class="theme-toggle" id="theme-toggle" aria-label="Basculer le thème">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"/>
+                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                    </svg>
+                </button>
+                <button class="toc-toggle" id="toc-toggle" aria-label="Table des matières">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="8" y1="6" x2="21" y2="6"/>
+                        <line x1="8" y1="12" x2="21" y2="12"/>
+                        <line x1="8" y1="18" x2="21" y2="18"/>
+                        <line x1="3" y1="6" x2="3.01" y2="6"/>
+                        <line x1="3" y1="12" x2="3.01" y2="12"/>
+                        <line x1="3" y1="18" x2="3.01" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
 
-// Smooth scroll for anchor links from TOC
-function initializeTocLinkSmoothScroll() {
-    document.querySelectorAll('#toc-list-container .toc-link[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-                const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
-                const offsetPosition = elementPosition - HEADER_HEIGHT - 15; 
+    <nav class="nav-sidebar" id="nav-sidebar">
+        <h2>Table des Matières</h2>
+        <ul class="toc-list" id="toc-list-container">
+            <!-- La table des matières sera injectée ici par JavaScript -->
+        </ul>
+    </nav>
 
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
+    <main class="main-content" id="main-content">
+        <div class="container">
+            <header class="article-header">
+                <h1>Mémoire : Les facteurs d'institutionnalisation des communs numériques dans l'administration</h1>
+                <div class="article-abstract">
+                    <strong>Résumé :</strong> Ce mémoire explore les facteurs déterminants de l'institutionnalisation des communs numériques au sein de l'administration publique. Face aux impératifs de transformation numérique et aux limites des approches conventionnelles, les communs numériques émergent comme une alternative prometteuse. Toutefois, leur ancrage durable soulève des défis complexes. En mobilisant la théorie néo-institutionnelle, la théorie du travail institutionnel et les principes d'Ostrom, cette recherche analyse, à travers une étude de cas multiples, les dynamiques contextuelles, organisationnelles et stratégiques qui favorisent ou entravent l'intégration pérenne de ces initiatives collaboratives dans les pratiques administratives.
+                </div>
+            </header>
+
+            <article class="article-content-section">
+    
+                <blockquote class="admonition warning">
+                    <p class="admonition-title">Attention</p>
+                    <p>Ce mémoire est actuellement en cours de réalisation et les différentes parties qui le constituent sont susceptibles d'évoluer d'ici à sa finalisation.</p>
+                </blockquote>
+                            
+            <article class="article-content-section" id="article-content-container">
+                <!-- Le contenu du mémoire sera injecté ici par JavaScript -->
+            </article>
+
+             <div class="citation-info">
+                <h3>Comment citer ce travail :</h3>
+                <p>
+                    Alexandre BERGE. (Année en cours). <em>Les facteurs d'institutionnalisation des communs numériques dans l'administration</em>. Version web. Disponible sur : https://communs-numeriques.fr/articles/memoire-institutionnalisation-communs-numeriques
+                </p>
+
+                <h3>Version complète (PDF) :</h3>
+                <p>
+                    Pour une lecture approfondie, l'intégralité des références et les annexes, vous pouvez télécharger la version PDF du mémoire (prochainement disponible) :
+                    <a href="#" class="cta-button-secondary" onclick="alert('La version PDF sera bientôt disponible.'); return false;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px; vertical-align: text-bottom;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        Télécharger le mémoire (PDF) - Bientôt
+                    </a>
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <div class="reading-tools">
+        <button class="tool-button hidden" id="back-to-top" aria-label="Retour en haut" title="Retour en haut">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="18 15 12 9 6 15"/>
+            </svg>
+        </button>
+    </div>
+
+    <script>
+        // Storage Helper (fallback for sandboxed environments)
+        const storage = {
+            available: (() => {
+                try {
+                    localStorage.setItem('test', 'test');
+                    localStorage.removeItem('test');
+                    return true;
+                } catch(e) {
+                    return false;
+                }
+            })(),
+            
+            getItem: function(key) {
+                if (this.available) {
+                    return localStorage.getItem(key);
+                }
+                return null;
+            },
+            
+            setItem: function(key, value) {
+                if (this.available) {
+                    localStorage.setItem(key, value);
+                }
+            }
+        };
+
+        // Theme Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const currentTheme = storage.getItem('theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', currentTheme);
+
+        const sunIcon = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>`;
+        const moonIcon = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
+
+        function updateThemeIcon() {
+            if (document.documentElement.getAttribute('data-theme') === 'dark') {
+                themeToggle.innerHTML = sunIcon;
+            } else {
+                themeToggle.innerHTML = moonIcon;
+            }
+        }
+        updateThemeIcon(); // Call it once at load
+
+        themeToggle.addEventListener('click', async () => {
+            const currentDocTheme = document.documentElement.getAttribute('data-theme');
+            const newDocTheme = currentDocTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newDocTheme);
+            storage.setItem('theme', newDocTheme);
+            updateThemeIcon();
+
+            // Mettre à jour le thème Mermaid
+            mermaid.initialize({ 
+                startOnLoad: false,
+                theme: newDocTheme === 'dark' ? 'dark' : 'default'
+            });
+            
+            // Re-rendre les diagrammes Mermaid avec le nouveau thème
+            const diagrams = document.querySelectorAll('.mermaid');
+            if (diagrams.length > 0) {
+                mermaid.run({
+                    querySelector: '.mermaid'
                 });
-                 if (window.innerWidth <= 768 && navSidebar.classList.contains('open')) {
+            }
+        });
+
+        // Table of Contents Toggle
+        const tocToggle = document.getElementById('toc-toggle');
+        const navSidebar = document.getElementById('nav-sidebar');
+        const mainContent = document.getElementById('main-content');
+        const HEADER_HEIGHT = 80; 
+
+        tocToggle.addEventListener('click', () => {
+            navSidebar.classList.toggle('open');
+            if (window.innerWidth > 1200) { 
+                mainContent.classList.toggle('with-sidebar', navSidebar.classList.contains('open'));
+            }
+        });
+
+        // Reading Progress
+        const readingProgress = document.getElementById('reading-progress');
+        let articleContentSectionForProgress; 
+
+        function updateReadingProgress() {
+            if (!articleContentSectionForProgress) return;
+
+            const contentHeight = articleContentSectionForProgress.offsetHeight;
+            const articleHeaderHeight = document.querySelector('.article-header')?.offsetHeight || 0;
+            
+            const viewportHeight = window.innerHeight - HEADER_HEIGHT;
+            const scrollableHeight = contentHeight - viewportHeight;
+            
+            const scrollTopRelativeToDocument = window.pageYOffset;
+            const articleContentStartOffset = articleContentSectionForProgress.offsetTop - HEADER_HEIGHT;
+            let currentScrollInContent = scrollTopRelativeToDocument - articleContentStartOffset;
+           
+            let progress = 0;
+            if (scrollableHeight > 0) {
+                 progress = (currentScrollInContent / scrollableHeight) * 100;
+            } else if (currentScrollInContent >= 0 && contentHeight > 0) { 
+                progress = 100;
+            }
+            
+            readingProgress.style.width = Math.min(Math.max(progress, 0), 100) + '%';
+        }
+
+        // Active TOC Link
+        let tocLinks = []; 
+        let sections = []; 
+
+        function updateActiveTocLink() {
+            if (!sections.length || !tocLinks.length) return;
+
+            let currentSectionId = '';
+            const scrollPos = window.pageYOffset + HEADER_HEIGHT + 30; 
+
+            for (let i = sections.length - 1; i >= 0; i--) {
+                if (sections[i].offsetTop <= scrollPos) {
+                    currentSectionId = sections[i].id;
+                    break;
+                }
+            }
+            
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + currentSectionId) {
+                    link.classList.add('active');
+                    if (navSidebar.classList.contains('open') && navSidebar.offsetWidth > 0 && navSidebar.offsetHeight > 0) { 
+                         link.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+                    }
+                }
+            });
+        }
+
+        // Back to Top
+        const backToTop = document.getElementById('back-to-top');
+
+        function toggleBackToTop() {
+            if (window.pageYOffset > 300) {
+                backToTop.classList.remove('hidden');
+            } else {
+                backToTop.classList.add('hidden');
+            }
+        }
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Close sidebar when clicking outside or on a link
+        document.addEventListener('click', (e) => {
+            if (navSidebar.classList.contains('open')) {
+                if (!navSidebar.contains(e.target) && !tocToggle.contains(e.target)) {
                     closeNavSidebar();
+                }
+                if (e.target.classList.contains('toc-link') || e.target.closest('.toc-link')) {
+                     if (window.innerWidth <= 768) { 
+                        closeNavSidebar();
+                     }
                 }
             }
         });
-    });
-}
 
-function handleResize() {
-    if (window.innerWidth <= 1200) {
-        mainContent.classList.remove('with-sidebar');
-    } else { 
-        if (navSidebar.classList.contains('open')) {
-             mainContent.classList.add('with-sidebar');
-        } else {
-            mainContent.classList.remove('with-sidebar');
+        function closeNavSidebar() {
+            navSidebar.classList.remove('open');
+            if (window.innerWidth > 1200) { 
+                mainContent.classList.remove('with-sidebar');
+            }
         }
-    }
-}
 
-// Debounce function
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
+        // Smooth scroll for anchor links from TOC
+        function initializeTocLinkSmoothScroll() {
+            document.querySelectorAll('#toc-list-container .toc-link[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                        const offsetPosition = elementPosition - HEADER_HEIGHT - 15; 
 
-const debouncedUpdateReadingProgress = debounce(updateReadingProgress, 50);
-const debouncedUpdateActiveTocLink = debounce(updateActiveTocLink, 50);
-const debouncedHandleResize = debounce(handleResize, 100);
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                         if (window.innerWidth <= 768 && navSidebar.classList.contains('open')) {
+                            closeNavSidebar();
+                        }
+                    }
+                });
+            });
+        }
 
-window.addEventListener('scroll', () => {
-    debouncedUpdateReadingProgress();
-    debouncedUpdateActiveTocLink();
-    toggleBackToTop();
-});
-window.addEventListener('resize', debouncedHandleResize);
+        function handleResize() {
+            if (window.innerWidth <= 1200) {
+                mainContent.classList.remove('with-sidebar');
+            } else { 
+                if (navSidebar.classList.contains('open')) {
+                     mainContent.classList.add('with-sidebar');
+                } else {
+                    mainContent.classList.remove('with-sidebar');
+                }
+            }
+        }
 
-// --- Markdown to HTML Conversion Logic ---
-const markdownContent = `
+        // Debounce function
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        const debouncedUpdateReadingProgress = debounce(updateReadingProgress, 50);
+        const debouncedUpdateActiveTocLink = debounce(updateActiveTocLink, 50);
+        const debouncedHandleResize = debounce(handleResize, 100);
+
+        window.addEventListener('scroll', () => {
+            debouncedUpdateReadingProgress();
+            debouncedUpdateActiveTocLink();
+            toggleBackToTop();
+        });
+        window.addEventListener('resize', debouncedHandleResize);
+
+        // --- Markdown to HTML Conversion Logic ---
+        const markdownContent = `
 ## **Introduction**
 
 La transformation numérique de l'administration publique s'impose aujourd'hui comme un impératif, porteur de promesses autant que de tensions. Cette mutation profonde, loin d'être une simple adaptation technologique, interroge les fondements mêmes de l'action publique et de ses modalités de gouvernance. Dans ce contexte de bouleversements, le paradigme des communs numériques émerge comme une voie alternative prometteuse, bien que sa définition et ses implications pratiques fassent encore l'objet de débats et d'interprétations variées au sein même de la sphère publique, susceptible de renouveler les approches traditionnelles de gestion des systèmes d'information publics. Pourtant, malgré leur potentiel transformateur reconnu, l'intégration durable de ces communs dans les structures administratives demeure un défi complexe, soulevant la question cruciale de leur institutionnalisation.
@@ -295,307 +994,310 @@ Pour répondre à cette problématique, ce mémoire s'articule en trois parties 
 La première partie établit le cadre conceptuel nécessaire à l'analyse. Elle examine d'abord ce qu'implique la recherche de performance numérique dans l'administration publique, en analysant les impératifs de modernisation, les limites des systèmes actuels et les spécificités du contexte administratif français. Elle explore ensuite le paradigme des communs numériques, depuis ses fondements théoriques jusqu'à sa pertinence pour le secteur public. Enfin, elle approfondit le concept d'institutionnalisation en mobilisant les théories néo-institutionnelles et du travail institutionnel, articulées avec les principes de gouvernance des communs d'Ostrom.
 `;
 
-function slugify(text) {
-    if (!text) return '';
-    return text.toString().toLowerCase()
-        .replace(/\s+/g, '-')
-        .replace(/[^\w-]+/g, '')
-        .replace(/--+/g, '-')
-        .replace(/^-+/, '')
-        .replace(/-+$/, '');
-}
-
-function parseMarkdown(markdown) {
-    const lines = markdown.trim().split('\n');
-    let htmlOutput = '';
-    let tocHtml = '';
-    
-    const tocStructure = [];
-    let listLevel = 0;
-    let inList = false;
-    let inTable = false;
-    let tableHeader = [];
-    let tableAlignments = [];
-
-    function getHeadingText(line, levelMarker) {
-        let text = line.substring(levelMarker.length).trim();
-        if (text.startsWith('**') && text.endsWith('**')) {
-            return text.substring(2, text.length - 2);
-        }
-        return text;
-    }
-    
-    function getCleanHeadingTextForSlug(line, levelMarker) {
-        let text = line.substring(levelMarker.length).trim();
-        if (text.startsWith('**') && text.endsWith('**')) {
-            text = text.substring(2, text.length - 2);
-        }
-        text = text.replace(/^(\d+(\.\d+)*\.?\s*?[:\-\s]*?|\w+\s\w+\s*?[:\-\s]*?)\s*/, '');
-        return text;
-    }
-
-    function appendToToc(level, text, id) {
-        let displayTitle = text;
-        if (displayTitle.toUpperCase().startsWith("PARTIE ")) {
-            const aTitle = displayTitle.split(':')[0];
-            const bTitle = displayTitle.split(':')[1];
-            if (bTitle && bTitle.length > 50) {
-                displayTitle = aTitle + ": " + bTitle.substring(0,50).trim() + "...";
-            }
+        function slugify(text) {
+            if (!text) return '';
+            return text.toString().toLowerCase()
+                .replace(/\s+/g, '-')
+                .replace(/[^\w-]+/g, '')
+                .replace(/--+/g, '-')
+                .replace(/^-+/, '')
+                .replace(/-+$/, '');
         }
 
-        while (tocStructure.length > level) {
-            tocStructure.pop();
-            tocHtml += '</ul></li>';
-        }
-        while (tocStructure.length < level) {
-            tocStructure.push(true);
-            tocHtml += (tocStructure.length > 1 ? '<ul class="toc-list">' : '');
-        }
-        tocHtml += `<li><a class="toc-link" href="#${id}">${displayTitle.replace(/<[^>]*>?/gm, '')}</a>`;
-    }
-    
-    function closeAllTocLevels() {
-        while (tocStructure.length > 0) {
-            tocStructure.pop();
-            tocHtml += '</ul></li>';
-        }
-    }
+        function parseMarkdown(markdown) {
+            const lines = markdown.trim().split('\n');
+            let htmlOutput = '';
+            let tocHtml = '';
+            
+            const tocStructure = [];
+            let listLevel = 0;
+            let inList = false;
+            let inTable = false;
+            let tableHeader = [];
+            let tableAlignments = [];
 
-    function closeListIfNeeded() {
-        if (inList) {
-            htmlOutput += (listLevel === 1 ? '</ul>' : '</ol>');
-            inList = false;
-            listLevel = 0;
-        }
-    }
-    
-    function closeTableIfNeeded() {
-        if (inTable) {
-            htmlOutput += '</tbody></table></div>';
-            inTable = false;
-            tableHeader = [];
-            tableAlignments = [];
-        }
-    }
-
-    for (let i = 0; i < lines.length; i++) {
-        let line = lines[i];
-
-        // Handle Headings
-        if (line.startsWith('# ')) {
-            closeListIfNeeded(); closeTableIfNeeded();
-            const text = getHeadingText(line, '# ');
-            const cleanTextForSlug = getCleanHeadingTextForSlug(line, '# ');
-            const id = slugify(cleanTextForSlug) || `partie-${i}`;
-            htmlOutput += `<h2 id="${id}">${text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</h2>`;
-            appendToToc(0, text, id);
-        } else if (line.startsWith('## ')) {
-            closeListIfNeeded(); closeTableIfNeeded();
-            const text = getHeadingText(line, '## ');
-            const cleanTextForSlug = getCleanHeadingTextForSlug(line, '## ');
-            const id = slugify(cleanTextForSlug) || `section-${i}`;
-            htmlOutput += `<h3 id="${id}">${text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</h3>`;
-            appendToToc(1, text, id);
-        } else if (line.startsWith('### ')) {
-            closeListIfNeeded(); closeTableIfNeeded();
-            const text = getHeadingText(line, '### ');
-            const cleanTextForSlug = getCleanHeadingTextForSlug(line, '### ');
-            const id = slugify(cleanTextForSlug) || `subsection-${i}`;
-            htmlOutput += `<h4 id="${id}">${text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</h4>`;
-            appendToToc(2, text, id);
-        } else if (line.startsWith('#### ')) {
-            closeListIfNeeded(); closeTableIfNeeded();
-            const text = getHeadingText(line, '#### ');
-            const cleanTextForSlug = getCleanHeadingTextForSlug(line, '#### ');
-            const id = slugify(cleanTextForSlug) || `subsubsection-${i}`;
-            htmlOutput += `<h5 id="${id}">${text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</h5>`;
-            appendToToc(3, text, id);
-        } else if (line.startsWith('##### ')) {
-            closeListIfNeeded(); closeTableIfNeeded();
-            const text = getHeadingText(line, '##### ');
-            const cleanTextForSlug = getCleanHeadingTextForSlug(line, '##### ');
-            const id = slugify(cleanTextForSlug) || `minisubsection-${i}`;
-            htmlOutput += `<h6 id="${id}">${text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</h6>`;
-            appendToToc(4, text, id);
-        } else if (line.startsWith('###### ')) {
-            closeListIfNeeded(); closeTableIfNeeded();
-            const text = getHeadingText(line, '###### ');
-            const cleanTextForSlug = getCleanHeadingTextForSlug(line, '###### ');
-            const id = slugify(cleanTextForSlug) || `tinysubsection-${i}`;
-            htmlOutput += `<h6 id="${id}"><em>${text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</em></h6>`;
-            appendToToc(5, text, id);
-        }
-        // Handle Mermaid diagrams - CORRECTION ICI
-        else if (line.trim() === '```mermaid') {
-            closeListIfNeeded(); closeTableIfNeeded();
-            htmlOutput += '<div class="mermaid-diagram-container"><div class="mermaid">';
-            let j = i + 1;
-            while (j < lines.length && lines[j].trim() !== '```') {
-                htmlOutput += lines[j] + '\n';
-                j++;
-            }
-            htmlOutput += '</div></div>';
-            i = j; // Skip mermaid block
-        }
-        else if (line.startsWith('> **Attention**') || line.startsWith('> Attention')) {
-            closeListIfNeeded(); closeTableIfNeeded();
-            htmlOutput += '<blockquote class="admonition warning">';
-            const title = line.substring(line.indexOf('Attention'));
-            htmlOutput += `<p class="admonition-title">${title}</p>`;
-            let j = i + 1;
-            while(j < lines.length && lines[j].startsWith('> ')) {
-                htmlOutput += `<p>${lines[j].substring(2).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</p>`;
-                j++;
-            }
-            htmlOutput += '</blockquote>';
-            i = j - 1;
-        }
-        else if (line.startsWith('# Attention : cette section sera largement reprise')) {
-            closeListIfNeeded(); closeTableIfNeeded();
-            htmlOutput += '<blockquote class="admonition warning">';
-            htmlOutput += '<p class="admonition-title">Attention</p>';
-            htmlOutput += `<p>${line.substring(2)}</p>`;
-            htmlOutput += '</blockquote>';
-        }
-        // Handle Tables
-        else if (line.trim().startsWith('|') && line.trim().endsWith('|')) {
-            closeListIfNeeded();
-            if (!inTable) {
-                htmlOutput += '<div class="table-responsive-wrapper"><table class="styled-table">';
-                inTable = true;
-                tableHeader = line.trim().slice(1, -1).split('|').map(s => s.trim().replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'));
-                htmlOutput += '<thead><tr>';
-                tableHeader.forEach(h => htmlOutput += `<th>${h}</th>`);
-                htmlOutput += '</tr></thead><tbody>';
-
-                if (lines[i+1] && lines[i+1].trim().match(/^\|(:?-+:?\|)+$/)) {
-                    tableAlignments = lines[i+1].trim().slice(1, -1).split('|').map(s => {
-                        const trimmed = s.trim();
-                        if (trimmed.startsWith(':') && trimmed.endsWith(':')) return 'center';
-                        if (trimmed.startsWith(':')) return 'left';
-                        if (trimmed.endsWith(':')) return 'right';
-                        return 'left';
-                    });
-                    i++;
+            function getHeadingText(line, levelMarker) {
+                let text = line.substring(levelMarker.length).trim();
+                if (text.startsWith('**') && text.endsWith('**')) {
+                    return text.substring(2, text.length - 2);
                 }
-            } else {
-                const rowData = line.trim().slice(1, -1).split('|').map(s => s.trim().replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'));
-                htmlOutput += '<tr>';
-                rowData.forEach((cell, k) => {
-                    let style = '';
-                    if(tableAlignments[k]) style = ` style="text-align: ${tableAlignments[k]}"`;
-                    if (cell.includes('<br>- ')) {
-                        const items = cell.split('<br>- ').map(item => item.trim()).filter(item => item);
-                        if (items.length > 0) {
-                            cell = '<ul>' + items.map(item => `<li>${item}</li>`).join('') + '</ul>';
-                        }
+                return text;
+            }
+            
+            function getCleanHeadingTextForSlug(line, levelMarker) {
+                let text = line.substring(levelMarker.length).trim();
+                if (text.startsWith('**') && text.endsWith('**')) {
+                    text = text.substring(2, text.length - 2);
+                }
+                text = text.replace(/^(\d+(\.\d+)*\.?\s*?[:\-\s]*?|\w+\s\w+\s*?[:\-\s]*?)\s*/, '');
+                return text;
+            }
+
+            function appendToToc(level, text, id) {
+                let displayTitle = text;
+                if (displayTitle.toUpperCase().startsWith("PARTIE ")) {
+                    const aTitle = displayTitle.split(':')[0];
+                    const bTitle = displayTitle.split(':')[1];
+                    if (bTitle && bTitle.length > 50) {
+                        displayTitle = aTitle + ": " + bTitle.substring(0,50).trim() + "...";
                     }
-                    htmlOutput += `<td${style}>${cell}</td>`;
-                });
-                htmlOutput += '</tr>';
+                }
+
+                while (tocStructure.length > level) {
+                    tocStructure.pop();
+                    tocHtml += '</ul></li>';
+                }
+                while (tocStructure.length < level) {
+                    tocStructure.push(true);
+                    tocHtml += (tocStructure.length > 1 ? '<ul class="toc-list">' : '');
+                }
+                tocHtml += `<li><a class="toc-link" href="#${id}">${displayTitle.replace(/<[^>]*>?/gm, '')}</a>`;
             }
-        }
-        // Handle lists
-        else if (line.startsWith('- ') || line.startsWith('* ')) {
-            closeTableIfNeeded();
-            if (!inList || listLevel !== 1) {
-                closeListIfNeeded();
-                htmlOutput += '<ul>';
-                inList = true;
-                listLevel = 1;
+            
+            function closeAllTocLevels() {
+                while (tocStructure.length > 0) {
+                    tocStructure.pop();
+                    tocHtml += '</ul></li>';
+                }
             }
-            htmlOutput += `<li>${line.substring(2).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</li>`;
-        } else if (line.match(/^\d+\.\s/)) {
-            closeTableIfNeeded();
-            if (!inList || listLevel !== 2) {
-                closeListIfNeeded();
-                htmlOutput += '<ol>';
-                inList = true;
-                listLevel = 2;
+
+            function closeListIfNeeded() {
+                if (inList) {
+                    htmlOutput += (listLevel === 1 ? '</ul>' : '</ol>');
+                    inList = false;
+                    listLevel = 0;
+                }
             }
-            htmlOutput += `<li>${line.substring(line.indexOf('.') + 2).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</li>`;
-        }
-        // Horizontal Rule
-        else if (line.trim() === '---') {
-            closeListIfNeeded(); closeTableIfNeeded();
-            htmlOutput += '<hr class="section-divider">';
-        }
-        // Paragraphs
-        else if (line.trim() !== '') {
-            closeListIfNeeded(); closeTableIfNeeded();
-            htmlOutput += `<p>${line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</p>`;
-        } else {
+            
+            function closeTableIfNeeded() {
+                if (inTable) {
+                    htmlOutput += '</tbody></table></div>';
+                    inTable = false;
+                    tableHeader = [];
+                    tableAlignments = [];
+                }
+            }
+
+            for (let i = 0; i < lines.length; i++) {
+                let line = lines[i];
+
+                // Handle Headings
+                if (line.startsWith('# ')) {
+                    closeListIfNeeded(); closeTableIfNeeded();
+                    const text = getHeadingText(line, '# ');
+                    const cleanTextForSlug = getCleanHeadingTextForSlug(line, '# ');
+                    const id = slugify(cleanTextForSlug) || `partie-${i}`;
+                    htmlOutput += `<h2 id="${id}">${text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</h2>`;
+                    appendToToc(0, text, id);
+                } else if (line.startsWith('## ')) {
+                    closeListIfNeeded(); closeTableIfNeeded();
+                    const text = getHeadingText(line, '## ');
+                    const cleanTextForSlug = getCleanHeadingTextForSlug(line, '## ');
+                    const id = slugify(cleanTextForSlug) || `section-${i}`;
+                    htmlOutput += `<h3 id="${id}">${text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</h3>`;
+                    appendToToc(1, text, id);
+                } else if (line.startsWith('### ')) {
+                    closeListIfNeeded(); closeTableIfNeeded();
+                    const text = getHeadingText(line, '### ');
+                    const cleanTextForSlug = getCleanHeadingTextForSlug(line, '### ');
+                    const id = slugify(cleanTextForSlug) || `subsection-${i}`;
+                    htmlOutput += `<h4 id="${id}">${text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</h4>`;
+                    appendToToc(2, text, id);
+                } else if (line.startsWith('#### ')) {
+                    closeListIfNeeded(); closeTableIfNeeded();
+                    const text = getHeadingText(line, '#### ');
+                    const cleanTextForSlug = getCleanHeadingTextForSlug(line, '#### ');
+                    const id = slugify(cleanTextForSlug) || `subsubsection-${i}`;
+                    htmlOutput += `<h5 id="${id}">${text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</h5>`;
+                    appendToToc(3, text, id);
+                } else if (line.startsWith('##### ')) {
+                    closeListIfNeeded(); closeTableIfNeeded();
+                    const text = getHeadingText(line, '##### ');
+                    const cleanTextForSlug = getCleanHeadingTextForSlug(line, '##### ');
+                    const id = slugify(cleanTextForSlug) || `minisubsection-${i}`;
+                    htmlOutput += `<h6 id="${id}">${text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</h6>`;
+                    appendToToc(4, text, id);
+                } else if (line.startsWith('###### ')) {
+                    closeListIfNeeded(); closeTableIfNeeded();
+                    const text = getHeadingText(line, '###### ');
+                    const cleanTextForSlug = getCleanHeadingTextForSlug(line, '###### ');
+                    const id = slugify(cleanTextForSlug) || `tinysubsection-${i}`;
+                    htmlOutput += `<h6 id="${id}"><em>${text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</em></h6>`;
+                    appendToToc(5, text, id);
+                }
+                // Handle Mermaid diagrams - CORRECTION ICI
+                else if (line.trim() === '```mermaid') {
+                    closeListIfNeeded(); closeTableIfNeeded();
+                    htmlOutput += '<div class="mermaid-diagram-container"><div class="mermaid">';
+                    let j = i + 1;
+                    while (j < lines.length && lines[j].trim() !== '```') {
+                        htmlOutput += lines[j] + '\n';
+                        j++;
+                    }
+                    htmlOutput += '</div></div>';
+                    i = j; // Skip mermaid block
+                }
+                else if (line.startsWith('> **Attention**') || line.startsWith('> Attention')) {
+                    closeListIfNeeded(); closeTableIfNeeded();
+                    htmlOutput += '<blockquote class="admonition warning">';
+                    const title = line.substring(line.indexOf('Attention'));
+                    htmlOutput += `<p class="admonition-title">${title}</p>`;
+                    let j = i + 1;
+                    while(j < lines.length && lines[j].startsWith('> ')) {
+                        htmlOutput += `<p>${lines[j].substring(2).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</p>`;
+                        j++;
+                    }
+                    htmlOutput += '</blockquote>';
+                    i = j - 1;
+                }
+                else if (line.startsWith('# Attention : cette section sera largement reprise')) {
+                    closeListIfNeeded(); closeTableIfNeeded();
+                    htmlOutput += '<blockquote class="admonition warning">';
+                    htmlOutput += '<p class="admonition-title">Attention</p>';
+                    htmlOutput += `<p>${line.substring(2)}</p>`;
+                    htmlOutput += '</blockquote>';
+                }
+                // Handle Tables
+                else if (line.trim().startsWith('|') && line.trim().endsWith('|')) {
+                    closeListIfNeeded();
+                    if (!inTable) {
+                        htmlOutput += '<div class="table-responsive-wrapper"><table class="styled-table">';
+                        inTable = true;
+                        tableHeader = line.trim().slice(1, -1).split('|').map(s => s.trim().replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'));
+                        htmlOutput += '<thead><tr>';
+                        tableHeader.forEach(h => htmlOutput += `<th>${h}</th>`);
+                        htmlOutput += '</tr></thead><tbody>';
+
+                        if (lines[i+1] && lines[i+1].trim().match(/^\|(:?-+:?\|)+$/)) {
+                            tableAlignments = lines[i+1].trim().slice(1, -1).split('|').map(s => {
+                                const trimmed = s.trim();
+                                if (trimmed.startsWith(':') && trimmed.endsWith(':')) return 'center';
+                                if (trimmed.startsWith(':')) return 'left';
+                                if (trimmed.endsWith(':')) return 'right';
+                                return 'left';
+                            });
+                            i++;
+                        }
+                    } else {
+                        const rowData = line.trim().slice(1, -1).split('|').map(s => s.trim().replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'));
+                        htmlOutput += '<tr>';
+                        rowData.forEach((cell, k) => {
+                            let style = '';
+                            if(tableAlignments[k]) style = ` style="text-align: ${tableAlignments[k]}"`;
+                            if (cell.includes('<br>- ')) {
+                                const items = cell.split('<br>- ').map(item => item.trim()).filter(item => item);
+                                if (items.length > 0) {
+                                    cell = '<ul>' + items.map(item => `<li>${item}</li>`).join('') + '</ul>';
+                                }
+                            }
+                            htmlOutput += `<td${style}>${cell}</td>`;
+                        });
+                        htmlOutput += '</tr>';
+                    }
+                }
+                // Handle lists
+                else if (line.startsWith('- ') || line.startsWith('* ')) {
+                    closeTableIfNeeded();
+                    if (!inList || listLevel !== 1) {
+                        closeListIfNeeded();
+                        htmlOutput += '<ul>';
+                        inList = true;
+                        listLevel = 1;
+                    }
+                    htmlOutput += `<li>${line.substring(2).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</li>`;
+                } else if (line.match(/^\d+\.\s/)) {
+                    closeTableIfNeeded();
+                    if (!inList || listLevel !== 2) {
+                        closeListIfNeeded();
+                        htmlOutput += '<ol>';
+                        inList = true;
+                        listLevel = 2;
+                    }
+                    htmlOutput += `<li>${line.substring(line.indexOf('.') + 2).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</li>`;
+                }
+                // Horizontal Rule
+                else if (line.trim() === '---') {
+                    closeListIfNeeded(); closeTableIfNeeded();
+                    htmlOutput += '<hr class="section-divider">';
+                }
+                // Paragraphs
+                else if (line.trim() !== '') {
+                    closeListIfNeeded(); closeTableIfNeeded();
+                    htmlOutput += `<p>${line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</p>`;
+                } else {
+                    closeListIfNeeded();
+                    if (inTable && !(lines[i+1] && lines[i+1].trim().startsWith('|') && lines[i+1].trim().endsWith('|'))) {
+                        closeTableIfNeeded();
+                    }
+                }
+            }
             closeListIfNeeded();
-            if (inTable && !(lines[i+1] && lines[i+1].trim().startsWith('|') && lines[i+1].trim().endsWith('|'))) {
-                closeTableIfNeeded();
+            closeTableIfNeeded();
+            closeAllTocLevels();
+
+            return { htmlOutput, tocHtml };
+        }
+
+        // --- Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // AJOUTEZ L'INITIALISATION MERMAID AU DÉBUT :
+            mermaid.initialize({ 
+                startOnLoad: false,
+                theme: document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+            });
+            
+            const { htmlOutput, tocHtml } = parseMarkdown(markdownContent);
+            
+            const articleContainer = document.getElementById('article-content-container');
+            if (articleContainer) {
+                articleContainer.innerHTML = htmlOutput;
+                
+                // RENDRE LES DIAGRAMMES MERMAID APRÈS INSERTION DU HTML :
+                mermaid.run({
+                    querySelector: '.mermaid'
+                });
             }
-        }
-    }
-    closeListIfNeeded();
-    closeTableIfNeeded();
-    closeAllTocLevels();
 
-    return { htmlOutput, tocHtml };
-}
+            const tocContainer = document.getElementById('toc-list-container');
+            if (tocContainer) {
+                tocContainer.innerHTML = tocHtml;
+            }
 
-// --- Initialization ---
-document.addEventListener('DOMContentLoaded', () => {
-    // AJOUTEZ L'INITIALISATION MERMAID AU DÉBUT :
-    mermaid.initialize({ 
-        startOnLoad: false,
-        theme: document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
-    });
-    
-    const { htmlOutput, tocHtml } = parseMarkdown(markdownContent);
-    
-    const articleContainer = document.getElementById('article-content-container');
-    if (articleContainer) {
-        articleContainer.innerHTML = htmlOutput;
-        
-        // RENDRE LES DIAGRAMMES MERMAID APRÈS INSERTION DU HTML :
-        mermaid.run({
-            querySelector: '.mermaid'
+            // Re-initialize elements dependent on dynamic content
+            articleContentSectionForProgress = document.getElementById('article-content-container');
+            tocLinks = Array.from(document.querySelectorAll('#toc-list-container .toc-link'));
+            sections = Array.from(document.querySelectorAll('#article-content-container h2[id], #article-content-container h3[id], #article-content-container h4[id], #article-content-container h5[id], #article-content-container h6[id]'));
+            
+            initializeTocLinkSmoothScroll();
+
+            // Initial calls after content is loaded
+            updateReadingProgress();
+            updateActiveTocLink();
+            toggleBackToTop();
+            handleResize();
+            
+            // Initial sidebar state for desktop
+            if (window.innerWidth > 1200) {
+                if (!navSidebar.classList.contains('open')) {
+                    navSidebar.classList.add('open');
+                }
+                mainContent.classList.add('with-sidebar');
+            } else {
+                mainContent.classList.remove('with-sidebar');
+            }
         });
-    }
 
-    const tocContainer = document.getElementById('toc-list-container');
-    if (tocContainer) {
-        tocContainer.innerHTML = tocHtml;
-    }
-
-    // Re-initialize elements dependent on dynamic content
-    articleContentSectionForProgress = document.getElementById('article-content-container');
-    tocLinks = Array.from(document.querySelectorAll('#toc-list-container .toc-link'));
-    sections = Array.from(document.querySelectorAll('#article-content-container h2[id], #article-content-container h3[id], #article-content-container h4[id], #article-content-container h5[id], #article-content-container h6[id]'));
-    
-    initializeTocLinkSmoothScroll();
-
-    // Initial calls after content is loaded
-    updateReadingProgress();
-    updateActiveTocLink();
-    toggleBackToTop();
-    handleResize();
-    
-    // Initial sidebar state for desktop
-    if (window.innerWidth > 1200) {
-        if (!navSidebar.classList.contains('open')) {
-            navSidebar.classList.add('open');
-        }
-        mainContent.classList.add('with-sidebar');
-    } else {
-        mainContent.classList.remove('with-sidebar');
-    }
-});
-
-// Keyboard shortcuts
-document.addEventListener('keydown', (e) => {
-    if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'T' || e.key === 't')) {
-        e.preventDefault();
-        themeToggle.click();
-    }
-    if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'O' || e.key === 'o')) {
-        e.preventDefault();
-        tocToggle.click();
-    }
-});
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'T' || e.key === 't')) {
+                e.preventDefault();
+                themeToggle.click();
+            }
+            if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'O' || e.key === 'o')) {
+                e.preventDefault();
+                tocToggle.click();
+            }
+        });
+    </script>
+</body>
+</html>
